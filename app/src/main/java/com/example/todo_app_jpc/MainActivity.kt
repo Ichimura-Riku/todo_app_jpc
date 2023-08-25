@@ -6,14 +6,18 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Arrangement
+
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.List
+import androidx.compose.material.icons.rounded.Add
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -28,7 +32,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+import kotlinx.coroutines.awaitAll
 
 class MainActivity : ComponentActivity() {
     @ExperimentalMaterial3Api
@@ -83,6 +89,41 @@ fun MyAppView() {
                     colors = topAppBarColors,
                 )
             },
+            bottomBar = {
+                BottomAppBar {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+
+                    ) {
+                        Row {
+                            IconButton(onClick = { /* doSomething() */ }) {
+                                Icon(
+                                    painterResource(id = R.drawable.round_format_list_bulleted_24),
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                            IconButton(onClick = { /* doSomething() */ }) {
+                                Icon(
+                                    painterResource(id = R.drawable.round_swap_vert_24),
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                            IconButton(onClick = { /* doSomething() */ }) {
+                                Icon(
+                                    painterResource(id = R.drawable.round_more_horiz_24),
+                                    contentDescription = "Localized description"
+                                )
+                            }
+                        }
+                        FloatingActionButton(onClick = { /*TODO*/ },
+                            modifier = Modifier.padding(10.dp)) {
+                            Icon(Icons.Rounded.Add, "localized description")
+                        }
+                    }
+                }
+            },
             content = {
                 Surface(
                     modifier = Modifier,
@@ -97,19 +138,7 @@ fun MyAppView() {
                     }
                 }
             },
-            bottomBar = {
-                BottomAppBar {
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painterResource(id = R.drawable.round_format_list_bulleted_24), contentDescription = "Localized description")
-                    }
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painterResource(id = R.drawable.round_swap_vert_24), contentDescription = "Localized description")
-                    }
-                    IconButton(onClick = { /* doSomething() */ }) {
-                        Icon(painterResource(id = R.drawable.round_more_horiz_24), contentDescription = "Localized description")
-                    }
-                }
-            }
+
         )
     }
 }
