@@ -1,4 +1,5 @@
 package com.example.todo_app_jpc
+
 import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
@@ -28,7 +29,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             Todo_app_jpcTheme {
-                Scf()
+                MyAppView()
             }
         }
     }
@@ -36,9 +37,10 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Column (modifier = modifier,
+    Column(
+        modifier = modifier,
 
-        ){
+        ) {
         Text(
             text = "Hello $name!",
             modifier = modifier,
@@ -51,8 +53,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @ExperimentalMaterial3Api
 @Composable
-fun Scf(){
-    val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors (
+fun MyAppView() {
+    val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background
 
     )
@@ -97,7 +99,7 @@ fun Scf(){
 @Composable
 fun ScfPreview() {
     Todo_app_jpcTheme {
-        Scf()
+        MyAppView()
     }
 }
 
