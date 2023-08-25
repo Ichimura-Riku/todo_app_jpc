@@ -1,3 +1,5 @@
+@file:OptIn(InternalComposeUiApi::class)
+
 package com.example.todo_app_jpc
 
 import android.annotation.SuppressLint
@@ -11,6 +13,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -24,15 +27,25 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCompositionContext
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.InternalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.textInputServiceFactory
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 import kotlinx.coroutines.awaitAll
 
@@ -41,6 +54,7 @@ class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             Todo_app_jpcTheme {
                 MyAppView()
@@ -49,8 +63,10 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@ExperimentalMaterial3Api
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
+    var text by rememberSaveable { mutableStateOf("") }
     Column(
         modifier = modifier,
 
@@ -61,6 +77,8 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
             color = MaterialTheme.colorScheme.onPrimaryContainer
 
         )
+        TextField(value = text, onValueChange = { text = it })
+
     }
 }
 
@@ -70,14 +88,12 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 fun MyAppView() {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background
-
     )
     Todo_app_jpcTheme {
-
-
         Scaffold(
             topBar = {
                 TopAppBar(
+                    modifier = Modifier.statusBarsPadding(),
                     title = {
                         Text(
                             text = "top app bar",
@@ -90,7 +106,9 @@ fun MyAppView() {
                 )
             },
             bottomBar = {
-                BottomAppBar {
+                BottomAppBar(
+                    modifier = Modifier.statusBarsPadding()
+                ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
                         horizontalArrangement = Arrangement.SpaceBetween,
@@ -117,8 +135,9 @@ fun MyAppView() {
                                 )
                             }
                         }
-                        FloatingActionButton(onClick = { /*TODO*/ },
-                            modifier = Modifier.padding(10.dp)) {
+                        FloatingActionButton(
+                            onClick = { /*TODO*/ }, modifier = Modifier.padding(10.dp)
+                        ) {
                             Icon(Icons.Rounded.Add, "localized description")
                         }
                     }
@@ -126,8 +145,7 @@ fun MyAppView() {
             },
             content = {
                 Surface(
-                    modifier = Modifier,
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier, color = MaterialTheme.colorScheme.background
                 ) {
                     Column(
                         modifier = Modifier.fillMaxSize(),
@@ -138,11 +156,9 @@ fun MyAppView() {
                     }
                 }
             },
-
         )
     }
 }
-
 
 
 @ExperimentalMaterial3Api
