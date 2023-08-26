@@ -4,3 +4,5 @@
 - dynamic color
 - jetpack compose
 - Hilt
+## 技術選定
+kaptとkspではkspの方が早いらしいのでこれを使います
