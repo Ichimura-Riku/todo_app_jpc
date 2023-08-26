@@ -3,8 +3,8 @@ package com.example.todo_app_jpc.Room
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "TodoTable")
-data class TodoTable (
+@Entity(tableName = "Todo")
+data class Todo (
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
     val title: String,
