@@ -46,6 +46,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.example.todo_app_jpc.compose.MyAppView
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 import kotlinx.coroutines.awaitAll
 
@@ -62,111 +63,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@ExperimentalMaterial3Api
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    var text by rememberSaveable { mutableStateOf("") }
-    Column(
-        modifier = modifier,
-
-        ) {
-        Text(
-            text = "Hello $name!",
-            modifier = modifier,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
-
-        )
-        TextField(value = text, onValueChange = { text = it })
-
-    }
-}
-
-@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@ExperimentalMaterial3Api
-@Composable
-fun MyAppView() {
-    val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background
-    )
-    Todo_app_jpcTheme {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    modifier = Modifier.statusBarsPadding(),
-                    title = {
-                        Text(
-                            text = "top app bar",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    },
-                    colors = topAppBarColors,
-                )
-            },
-            bottomBar = {
-                BottomAppBar(
-                    modifier = Modifier.statusBarsPadding()
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-
-                    ) {
-                        Row {
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_format_list_bulleted_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_swap_vert_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_more_horiz_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
-                        }
-                        FloatingActionButton(
-                            onClick = { /*TODO*/ }, modifier = Modifier.padding(10.dp)
-                        ) {
-                            Icon(Icons.Rounded.Add, "localized description")
-                        }
-                    }
-                }
-            },
-            content = {
-                Surface(
-                    modifier = Modifier, color = MaterialTheme.colorScheme.background
-                ) {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.Center
-                    ) {
-                        Greeting("Android")
-                    }
-                }
-            },
-        )
-    }
-}
-
-
-@ExperimentalMaterial3Api
-@Preview(showBackground = true)
-@Composable
-fun ScfPreview() {
-    Todo_app_jpcTheme {
-        MyAppView()
-    }
-}
-
