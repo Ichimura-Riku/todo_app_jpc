@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.compose
+package com.example.todo_app_jpc.ui.home
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement

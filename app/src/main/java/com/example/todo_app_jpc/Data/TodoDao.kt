@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.Room
+package com.example.todo_app_jpc.Data
 
 import androidx.room.Dao
 import androidx.room.Delete
