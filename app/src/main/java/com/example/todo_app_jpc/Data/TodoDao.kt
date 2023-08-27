@@ -22,6 +22,6 @@ interface TodoDao {
     @Query("SELECT * from todo ORDER BY deadLine")
     fun getAllTodo(): Flow<List<Todo>>
 
-    @Query("SELECT * from items WHERE id = :id")
+    @Query("SELECT * from todo WHERE id = :id")
     fun getTodoById(id: Int): Flow<Todo?>
 }
