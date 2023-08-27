@@ -27,7 +27,7 @@ class TodoEntiryViewModel(private val todoRepository: TodoRepository) : ViewMode
             todoRepository.insertTodo(todoUiState.todoDetails.toTodo())
         }
     }
-
+    // 書くカラムが空かどうかを判定する
     private fun validateInput(uiState: TodoDetails = todoUiState.todoDetails): Boolean {
         return with(uiState) {
             title.isNotBlank() && content.isNotBlank() && date.isNotBlank() && deadLine.isNotBlank() && isAttention.isNotBlank() && category.isNotBlank() && isFinished.isNotBlank() && priority.isNotBlank()
