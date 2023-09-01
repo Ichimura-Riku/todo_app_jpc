@@ -1,20 +1,17 @@
 package com.example.todo_app_jpc.ui.todo
 
-import android.content.ClipData.Item
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import androidx.room.Insert
-import androidx.room.PrimaryKey
 import com.example.todo_app_jpc.Data.Todo
 import com.example.todo_app_jpc.Data.TodoRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-class TodoEntiryViewModel(private val todoRepository: TodoRepository) : ViewModel() {
+class TodoEntryViewModel(private val todoRepository: TodoRepository) : ViewModel() {
     var todoUiState by mutableStateOf(TodoUiState())
 
     fun updateUiState(todoDetails: TodoDetails) {
