@@ -15,7 +15,7 @@ import com.example.todo_app_jpc.ui.home.MyAppView
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 
 class MainActivity : ComponentActivity() {
-    @ExperimentalMaterial3Api
+    @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
