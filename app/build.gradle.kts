@@ -53,8 +53,10 @@ android {
 }
 
 dependencies {
+    implementation("androidx.navigation:navigation-runtime-ktx:2.7.1")
     val room_version = "2.5.0"
     val compose_runtime_version = "1.3.3"
+    val nav_version = "2.7.1"
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
     implementation("androidx.activity:activity-compose:1.7.0")
@@ -133,4 +135,6 @@ dependencies {
 
     // optional - Test helpers for Lifecycle runtime
     testImplementation ("androidx.lifecycle:lifecycle-runtime-testing:$lifecycle_version")
+
+    implementation("androidx.navigation:navigation-compose:$nav_version")
 }
