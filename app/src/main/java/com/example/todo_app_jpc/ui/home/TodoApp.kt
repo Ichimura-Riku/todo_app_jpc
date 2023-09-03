@@ -124,10 +124,37 @@ fun MyAppView() {
                     }
                 }
             },
+//            content = {
+//
+//                val viewModel: TodoEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+//                val coroutineScope = rememberCoroutineScope()
+//                Surface(
+//                    modifier = Modifier, color = MaterialTheme.colorScheme.background
+//                ) {
+//                    Column(
+//                        modifier = Modifier.fillMaxSize(),
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.Center
+//                    ) {
+//                        TodoEntryBody(
+//                            todoUiState = viewModel.todoUiState,
+//                            onTodoValueChange = viewModel::updateUiState,
+//                            onSaveClick = {
+//                                // Note: If the user rotates the screen very fast, the operation may get cancelled
+//                                // and the item may not be saved in the Database. This is because when config
+//                                // change occurs, the Activity will be recreated and the rememberCoroutineScope will
+//                                // be cancelled - since the scope is bound to composition.
+//                                coroutineScope.launch {
+//                                    viewModel.saveTodo()
+////                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
+////                                    navigateBack()
+//                                }
+//                            },
+//                        )
+//                    }
+//                }
+//            },
             content = {
-
-                val viewModel: TodoEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
-                val coroutineScope = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier, color = MaterialTheme.colorScheme.background
                 ) {
@@ -136,24 +163,10 @@ fun MyAppView() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        TodoEntryBody(
-                            todoUiState = viewModel.todoUiState,
-                            onTodoValueChange = viewModel::updateUiState,
-                            onSaveClick = {
-                                // Note: If the user rotates the screen very fast, the operation may get cancelled
-                                // and the item may not be saved in the Database. This is because when config
-                                // change occurs, the Activity will be recreated and the rememberCoroutineScope will
-                                // be cancelled - since the scope is bound to composition.
-                                coroutineScope.launch {
-                                    viewModel.saveTodo()
-//                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
-//                                    navigateBack()
-                                }
-                            },
-                        )
+                        Greeting("Android")
                     }
                 }
-            },
+            }
         )
     }
 }
