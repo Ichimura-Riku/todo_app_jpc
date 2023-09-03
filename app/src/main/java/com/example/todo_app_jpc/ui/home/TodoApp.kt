@@ -24,6 +24,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -32,11 +33,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
+import com.example.todo_app_jpc.ui.AppViewModelProvider
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+import com.example.todo_app_jpc.ui.todo.TodoEntryBody
+import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
+import kotlinx.coroutines.launch
 
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Greeting(name: String, modifier: Modifier = Modifier) {
     var text by rememberSaveable { mutableStateOf("") }
@@ -56,7 +63,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 }
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppView() {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -118,6 +125,9 @@ fun MyAppView() {
                 }
             },
             content = {
+
+                val viewModel: TodoEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+                val coroutineScope = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier, color = MaterialTheme.colorScheme.background
                 ) {
@@ -126,7 +136,21 @@ fun MyAppView() {
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center
                     ) {
-                        Greeting("Android")
+                        TodoEntryBody(
+                            todoUiState = viewModel.todoUiState,
+                            onTodoValueChange = viewModel::updateUiState,
+                            onSaveClick = {
+                                // Note: If the user rotates the screen very fast, the operation may get cancelled
+                                // and the item may not be saved in the Database. This is because when config
+                                // change occurs, the Activity will be recreated and the rememberCoroutineScope will
+                                // be cancelled - since the scope is bound to composition.
+                                coroutineScope.launch {
+                                    viewModel.saveTodo()
+//                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
+//                                    navigateBack()
+                                }
+                            },
+                        )
                     }
                 }
             },
@@ -135,7 +159,7 @@ fun MyAppView() {
 }
 
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun ScfPreview() {
