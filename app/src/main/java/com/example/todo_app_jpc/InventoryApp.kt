@@ -2,6 +2,7 @@ package com.example.todo_app_jpc
 
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.layout.fillMaxSize
 
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
@@ -9,6 +10,8 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
@@ -68,6 +71,11 @@ fun InventoryAppPreview() {
 //            true,
 //            Modifier,
 //        )
-        InventoryApp()
+        Surface(
+            modifier = Modifier.fillMaxSize(),
+            color = MaterialTheme.colorScheme.background
+        ) {
+            InventoryApp()
+        }
     }
 }
