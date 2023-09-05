@@ -2,6 +2,7 @@ package com.example.todo_app_jpc.ItemData
 
 import android.content.Context
 
+
 /**
  * App container for Dependency injection.
  */
@@ -12,7 +13,7 @@ interface AppContainer {
 /**
  * [AppContainer] implementation that provides instance of [OfflineItemsRepository]
  */
-class AppDataContainer(private val context: Context) : AppContainer {
+class AppDataContainer(private val context: Context) : AppContainer{
     /**
      * Implementation for [ItemsRepository]
      */

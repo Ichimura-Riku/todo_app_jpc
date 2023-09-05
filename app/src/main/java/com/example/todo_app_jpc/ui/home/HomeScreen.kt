@@ -41,13 +41,6 @@ import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.ui.AppViewModelProvider
 import com.example.todo_app_jpc.ui.item.formatedPrice
 import com.example.todo_app_jpc.ui.navigation.NavigationDestination
-//import com.example.inventory.InventoryTopAppBar
-//import com.example.inventory.R
-//import com.example.inventory.data.Item
-//import com.example.inventory.ui.AppViewModelProvider
-//import com.example.inventory.ui.item.formatedPrice
-//import com.example.inventory.ui.navigation.NavigationDestination
-//import com.example.inventory.ui.theme.Todo_app_jpcTheme
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 
 object HomeDestination : NavigationDestination {

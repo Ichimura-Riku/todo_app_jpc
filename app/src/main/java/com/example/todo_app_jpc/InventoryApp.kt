@@ -2,6 +2,7 @@ package com.example.todo_app_jpc
 
 
 import android.annotation.SuppressLint
+
 import androidx.compose.material.icons.Icons.Filled
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -13,13 +14,11 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.todo_app_jpc.ui.navigation.InventoryNavHost
-
-//import androidx.navigation.compose.rememberNavController
-
-//import com.example.inventory.ui.navigation.InventoryNavHost
+import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 
 /**
  * Top level composable that represents screens for the application.
@@ -57,4 +56,18 @@ fun InventoryTopAppBar(
             }
         }
     )
+}
+
+
+@Preview(showBackground = true)
+@Composable
+fun InventoryAppPreview() {
+    Todo_app_jpcTheme {
+//        InventoryTopAppBar(
+//            "aaa",
+//            true,
+//            Modifier,
+//        )
+        InventoryApp()
+    }
 }

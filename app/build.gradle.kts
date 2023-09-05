@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("com.google.dagger.hilt.android")
+//    id("com.google.dagger.hilt.android")
     id("com.google.devtools.ksp")
 }
 
@@ -54,6 +54,7 @@ android {
 
 dependencies {
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
     val room_version = "2.5.0"
     val compose_runtime_version = "1.3.3"
     val nav_version = "2.7.1"
@@ -64,8 +65,8 @@ dependencies {
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("com.google.dagger:hilt-android:2.44")
-    ksp("com.google.dagger:hilt-android-compiler:2.44")
+//    implementation("com.google.dagger:hilt-android:2.44")
+//    ksp("com.google.dagger:hilt-android-compiler:2.44")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

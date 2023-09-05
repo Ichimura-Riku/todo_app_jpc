@@ -1,4 +1,4 @@
-@file:OptIn(InternalComposeUiApi::class)
+
 
 package com.example.todo_app_jpc
 
@@ -7,13 +7,20 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 
+import androidx.compose.foundation.layout.fillMaxSize
+
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.ui.InternalComposeUiApi
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+
+import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.todo_app_jpc.ui.home.MyAppView
+
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 
+
+//@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -22,7 +29,14 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             Todo_app_jpcTheme {
-                MyAppView()
+//                MyAppView()
+//                InventoryApp()
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+                    InventoryApp()
+                }
             }
         }
     }

@@ -82,9 +82,9 @@ import com.example.todo_app_jpc.ui.item.ItemEditViewModel
 //import com.example.inventory.ui.item.ItemEntryViewModel
 import com.example.todo_app_jpc.ui.item.ItemEntryViewModel
 
-/**
- * Provides Factory to create instance of ViewModel for the entire Inventory app
- */
+///**
+// * Provides Factory to create instance of ViewModel for the entire Inventory app
+// */
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         // Initializer for ItemEditViewModel
@@ -114,9 +114,9 @@ object AppViewModelProvider {
     }
 }
 
-/**
- * Extension function to queries for [Application] object and returns an instance of
- * [InventoryApplication].
- */
+///**
+// * Extension function to queries for [Application] object and returns an instance of
+// * [InventoryApplication].
+// */
 fun CreationExtras.inventoryApplication(): MainApplication =
     (this[AndroidViewModelFactory.APPLICATION_KEY] as MainApplication)
