@@ -53,7 +53,7 @@ class ItemEditViewModel(
         itemUiState =
             ItemUiState(itemDetails = itemDetails, isEntryValid = validateInput(itemDetails))
     }
-
+// viewModel内のsaveItemの条件分岐で使用、必要な情報が全て入力されているかの確認
     private fun validateInput(uiState: ItemDetails = itemUiState.itemDetails): Boolean {
         return with(uiState) {
             name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
