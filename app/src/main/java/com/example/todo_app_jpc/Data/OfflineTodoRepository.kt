@@ -12,4 +12,6 @@ class OfflineTodosRepository(private val todoDao: TodoDao) : TodoRepository{
     override suspend fun deleteTodo(todo: Todo) = todoDao.delete(todo)
 
     override suspend fun updateTodo(todo: Todo) = todoDao.update(todo)
+
+    override suspend fun getAttentionTodo(): Flow<List<Todo?>>  = todoDao.getAttentionTodo()
 }

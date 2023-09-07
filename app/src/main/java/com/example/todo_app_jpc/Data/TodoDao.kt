@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TodoDao {
+//    競合が発生した時、その処理を無視するように指定
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(todo: Todo)
 
@@ -22,6 +23,9 @@ interface TodoDao {
     @Query("SELECT * from todo ORDER BY deadLine")
     fun getAllTodo(): Flow<List<Todo>>
 
-    @Query("SELECT * from todo WHERE id = :id")
-    fun getTodoById(id: Int): Flow<Todo?>
+    @Query("SELECT * from todo WHERE id = :category")
+    fun getTodoByCategory(category: String): Flow<List<Todo?>>
+
+    @Query("SELECT * FROM todo WHERE isAttention = 1")
+    fun getAttentionTodo(): Flow<List<Todo?>>
 }

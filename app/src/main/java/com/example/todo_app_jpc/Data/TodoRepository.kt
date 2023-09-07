@@ -27,4 +27,6 @@ interface TodoRepository {
      * Update Todo in the data source
      */
     suspend fun updateTodo(todo: Todo)
+
+    suspend fun getAttentionTodo(): Flow<List<Todo?>>
 }
