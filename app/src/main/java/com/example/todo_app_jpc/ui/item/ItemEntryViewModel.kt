@@ -8,11 +8,12 @@ import androidx.lifecycle.ViewModel
 import com.example.todo_app_jpc.ItemData.Item
 import com.example.todo_app_jpc.ItemData.ItemsRepository
 import java.text.NumberFormat
+import javax.inject.Inject
 
 /**
  * ViewModel to validate and insert items in the Room database.
  */
-class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
+class ItemEntryViewModel @Inject constructor(private val itemsRepository: ItemsRepository) : ViewModel() {
 
     /**
      * Holds current item ui state
