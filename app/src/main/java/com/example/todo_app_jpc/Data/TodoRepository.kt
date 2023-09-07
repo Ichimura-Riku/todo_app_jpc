@@ -11,7 +11,7 @@ interface TodoRepository {
     /**
      * Retrieve an Todo from the given data source that matches with the [id].
      */
-    fun getTodoStream(id: Int): Flow<Todo?>
+//    fun getTodoStream(id: Int): Flow<Todo?>
 
     /**
      * Insert Todo in the data source
