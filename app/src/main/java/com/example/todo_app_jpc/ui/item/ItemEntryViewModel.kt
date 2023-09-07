@@ -7,12 +7,15 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.todo_app_jpc.ItemData.Item
 import com.example.todo_app_jpc.ItemData.ItemsRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import java.text.NumberFormat
+import javax.inject.Inject
 
 /**
  * ViewModel to validate and insert items in the Room database.
  */
-class ItemEntryViewModel(private val itemsRepository: ItemsRepository) : ViewModel() {
+@HiltViewModel
+class ItemEntryViewModel @Inject constructor (private val itemsRepository: ItemsRepository) : ViewModel() {
 
     /**
      * Holds current item ui state

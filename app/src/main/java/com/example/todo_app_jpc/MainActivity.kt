@@ -17,11 +17,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
 import com.example.todo_app_jpc.ui.home.MyAppView
-
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+import dagger.hilt.android.AndroidEntryPoint
 
 
-//@AndroidEntryPoint
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")

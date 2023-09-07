@@ -17,6 +17,7 @@ import com.example.todo_app_jpc.ui.item.ItemEntryViewModel
 ///**
 // * Provides Factory to create instance of ViewModel for the entire Inventory app
 // */
+//hiltに移行したらこれいらない
 object AppViewModelProvider {
     val Factory = viewModelFactory {
         // Initializer for ItemEditViewModel
