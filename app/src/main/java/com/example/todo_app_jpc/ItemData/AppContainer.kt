@@ -28,25 +28,25 @@ class AppDataContainer(private val context: Context) : AppContainer{
     }
 }
 
-@Module
-@InstallIn(SingletonComponent::class)
-class Modules {
+//@Module
+//@InstallIn(SingletonComponent::class)
+//class Modules {
+////    @Provides
+////    @Singleton
+////    fun provideItemRepository(context: Context): ItemsRepository {
+////        return OfflineItemsRepository(InventoryDatabase.getDatabase(context).itemDao())
+////    }
+//
 //    @Provides
 //    @Singleton
-//    fun provideItemRepository(context: Context): ItemsRepository {
-//        return OfflineItemsRepository(InventoryDatabase.getDatabase(context).itemDao())
+//    fun provideContext(application: Application): Context {
+//        return application.applicationContext
 //    }
-
-    @Provides
-    @Singleton
-    fun provideContext(application: Application): Context {
-        return application.applicationContext
-    }
-
-
-    @Provides
-    @Singleton
-    fun provideItemsRepository(provideContext: Context): ItemsRepository {
-        return OfflineItemsRepository(InventoryDatabase.getDatabase(provideContext).itemDao())
-    }
-}
+//
+//
+//    @Provides
+//    @Singleton
+//    fun provideItemsRepository(provideContext: Context): ItemsRepository {
+//        return OfflineItemsRepository(InventoryDatabase.getDatabase(provideContext).itemDao())
+//    }
+//}
