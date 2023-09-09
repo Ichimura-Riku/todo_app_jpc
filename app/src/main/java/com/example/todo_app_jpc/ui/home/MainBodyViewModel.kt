@@ -2,9 +2,8 @@ package com.example.todo_app_jpc.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todo_app_jpc.Data.Todo
-import com.example.todo_app_jpc.Data.TodoRepository
-import com.example.todo_app_jpc.ItemData.Item
+import com.example.todo_app_jpc.data.Todo
+import com.example.todo_app_jpc.data.TodoRepository
 import com.example.todo_app_jpc.ItemData.ItemsRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow

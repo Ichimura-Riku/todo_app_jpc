@@ -5,7 +5,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,7 +28,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -44,16 +42,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.todo_app_jpc.Data.Todo
-import com.example.todo_app_jpc.ItemData.Item
 import com.example.todo_app_jpc.R
+import com.example.todo_app_jpc.data.Todo
 import com.example.todo_app_jpc.ui.AppViewModelProvider
-import com.example.todo_app_jpc.ui.item.formatedPrice
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 import com.example.todo_app_jpc.ui.todo.TodoEntryBody
 import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
+import com.example.todo_app_jpc.ui.todo.TodoState
 import kotlinx.coroutines.launch
 
 
@@ -215,15 +211,15 @@ fun MyAppView() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         TodoEntryBody(
-                            todoUiState = viewModel.todoUiState,
-                            onTodoValueChange = viewModel::updateUiState,
+                            todoState = viewModel.todoUiState,
+                            onTodoValueChange = viewModel::updateTodoState,
                             onSaveClick = {
                                 // Note: If the user rotates the screen very fast, the operation may get cancelled
                                 // and the item may not be saved in the Database. This is because when config
                                 // change occurs, the Activity will be recreated and the rememberCoroutineScope will
                                 // be cancelled - since the scope is bound to composition.
                                 coroutineScope.launch {
-                                    viewModel.saveTodo()
+                                    viewModel.adventTodo()
 //                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
 //                                    navigateBack()
                                 }

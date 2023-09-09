@@ -13,7 +13,6 @@ object TodoAppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             TodoEntryViewModel(
-                this.createSavedStateHandle(),
                 todoApplication().todoContainer.todoRepository
             )
         }
