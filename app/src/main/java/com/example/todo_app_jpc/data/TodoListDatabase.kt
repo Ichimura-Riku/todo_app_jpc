@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.Data
+package com.example.todo_app_jpc.data
 
 import android.content.Context
 import androidx.room.Database
@@ -18,6 +18,7 @@ abstract class TodoListDatabase : RoomDatabase() {
             // if the Instance is not null, return it, otherwise create a new database instance.
             return Instance ?: synchronized(this) {
                 Room.databaseBuilder(context, TodoListDatabase::class.java, "todo_database")
+                    .fallbackToDestructiveMigration()
                     .build()
                     .also { Instance = it }
             }

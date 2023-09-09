@@ -1,88 +1,139 @@
 package com.example.todo_app_jpc.ui.todo
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.todo_app_jpc.Data.Todo
-import com.example.todo_app_jpc.Data.TodoRepository
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
+import com.example.todo_app_jpc.data.Todo
+import com.example.todo_app_jpc.data.TodoRepository
 
-class TodoEntryViewModel(private val todoRepository: TodoRepository) : ViewModel() {
-    var todoUiState by mutableStateOf(TodoUiState())
+//class TodoEntryViewModel(
+//    private val todoRepository: TodoRepository) : ViewModel() {
+//    var todoUiState by mutableStateOf(TodoUiState())
+//
+//    fun updateUiState(todoDetails: TodoDetails) {
+//        todoUiState =
+//            TodoUiState(todoDetails = todoDetails, isEntryValid = validateInput(todoDetails))
+//    }
+//
+//    suspend fun saveTodo(){
+//        if (validateInput()) {
+//            todoRepository.insertTodo(todoUiState.todoDetails.toTodo())
+//        }
+//    }
+//    // 書くカラムが空かどうかを判定する
+//    private fun validateInput(uiState: TodoDetails = todoUiState.todoDetails): Boolean {
+//        return with(uiState) {
+//            title.isNotBlank() && content.isNotBlank() && date.isNotBlank() && deadLine.isNotBlank() && isAttention.isNotBlank() && category.isNotBlank() && isFinished.isNotBlank() && priority.isNotBlank()
+//        }
+//    }
+//
+//}
+//
+//data class TodoUiState(
+//    val todoDetails: TodoDetails = TodoDetails(),
+//    val isEntryValid: Boolean = false
+//)
+//
+//data class TodoDetails(
+//    val id: Int = 0,
+//    val title: String = "",
+//    val content: String = "",
+//    val date: String = "",
+//    val deadLine: String = "",
+//    val isAttention: String = "false",
+//    val category: String = "",
+//    val isFinished: String = "false",
+//    val priority: String = "",
+//)
+//
+//// database -> VM
+//fun TodoDetails.toTodo(): Todo = Todo(
+//    id = id,
+//    title = title,
+//    content = content,
+//    date = date,
+//    deadLine = deadLine,
+//    isAttention = isAttention.toBooleanStrict(),
+//    category = category,
+//    isFinished = isFinished.toBooleanStrict(),
+//    priority = priority,
+//)
+//
+//// TODO: parseが必要な値を定義する
+//@RequiresApi(Build.VERSION_CODES.O)
+//fun Todo.formatedDate(): LocalDateTime{
+//    return LocalDateTime.parse(deadLine, DateTimeFormatter.ISO_DATE)
+//}
+//
+//fun Todo.toTodoUiState(isEntryValid: Boolean = false): TodoUiState = TodoUiState(
+//    todoDetails = this.toTodoDetails(),
+//    isEntryValid = isEntryValid
+//)
+//
+//// VM -> database
+//fun Todo.toTodoDetails(): TodoDetails = TodoDetails(
+//    id = id,
+//    title = title,
+//    content = content,
+//    date = date,
+//    deadLine = deadLine,
+//    isAttention = isAttention.toString(),
+//    category = category,
+//    isFinished = isFinished.toString(),
+//    priority = priority,
+//)
 
-    fun updateUiState(todoDetails: TodoDetails) {
-        todoUiState =
-            TodoUiState(todoDetails = todoDetails, isEntryValid = validateInput(todoDetails))
+class TodoEntryViewModel (private val todoRepository: TodoRepository): ViewModel(){
+    var todoUiState by mutableStateOf(TodoState())
+        private set
+    fun updateTodoState(todoState: TodoState){
+        todoUiState = TodoState()
     }
 
-    suspend fun saveTodo(){
-        if (validateInput()) {
-            todoRepository.insertTodo(todoUiState.todoDetails.toTodo())
-        }
+    suspend fun adventTodo() {
+        todoRepository.insertTodo(todoUiState.toTodo())
     }
-    // 書くカラムが空かどうかを判定する
-    private fun validateInput(uiState: TodoDetails = todoUiState.todoDetails): Boolean {
-        return with(uiState) {
-            title.isNotBlank() && content.isNotBlank() && date.isNotBlank() && deadLine.isNotBlank() && isAttention.isNotBlank() && category.isNotBlank() && isFinished.isNotBlank() && priority.isNotBlank()
-        }
-    }
+
 
 }
 
-data class TodoUiState(
-    val todoDetails: TodoDetails = TodoDetails(),
-    val isEntryValid: Boolean = false
-)
-
-data class TodoDetails(
+data class TodoState(
     val id: Int = 0,
     val title: String = "",
     val content: String = "",
     val date: String = "",
     val deadLine: String = "",
-    val isAttention: String = "false",
-    val category: String = "",
-    val isFinished: String = "false",
-    val priority: String = "",
-)
-
-// database -> VM
-fun TodoDetails.toTodo(): Todo = Todo(
+    val isAttention: Int = 0,
+    val category: String = "myTask",
+    val isFinished: Int = 0,
+    val priority: String = "low",
+){
+//    あえて違う実装にしてみる
+    fun toTodo(): Todo = Todo(
     id = id,
     title = title,
     content = content,
+//    多分日時系は型変換する必要がある
     date = date,
     deadLine = deadLine,
-    isAttention = isAttention.toBooleanStrict(),
+    isAttention = isAttention,
     category = category,
-    isFinished = isFinished.toBooleanStrict(),
+    isFinished = isFinished,
     priority = priority,
-)
-
-// TODO: parseが必要な値を定義する
-@RequiresApi(Build.VERSION_CODES.O)
-fun Todo.formatedDate(): LocalDateTime{
-    return LocalDateTime.parse(deadLine, DateTimeFormatter.ISO_DATE)
+    )
 }
 
-fun Todo.toTodoUiState(isEntryValid: Boolean = false): TodoUiState = TodoUiState(
-    todoDetails = this.toTodoDetails(),
-    isEntryValid = isEntryValid
-)
-
-// VM -> database
-fun Todo.toTodoDetails(): TodoDetails = TodoDetails(
+fun Todo.toTodoState(): TodoState = TodoState(
     id = id,
     title = title,
     content = content,
+//    多分日時系は型変換する必要がある
     date = date,
     deadLine = deadLine,
-    isAttention = isAttention.toString(),
+    isAttention = isAttention,
     category = category,
-    isFinished = isFinished.toString(),
+    isFinished = isFinished,
     priority = priority,
 )
+

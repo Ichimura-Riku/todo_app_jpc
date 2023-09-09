@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.Data
+package com.example.todo_app_jpc.data
 
 import kotlinx.coroutines.flow.Flow
 
@@ -16,17 +16,17 @@ interface TodoRepository {
     /**
      * Insert Todo in the data source
      */
-    suspend fun insertTodo(todo: Todo)
+    suspend fun insertTodo(todo: Todo):Unit
 
     /**
      * Delete Todo from the data source
      */
-    suspend fun deleteTodo(todo: Todo)
+    suspend fun deleteTodo(todo: Todo): Unit
 
     /**
      * Update Todo in the data source
      */
-    suspend fun updateTodo(todo: Todo)
+    suspend fun updateTodo(todo: Todo): Unit
 
     suspend fun getAttentionTodo(): Flow<List<Todo?>>
 }
