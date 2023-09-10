@@ -2,9 +2,8 @@ package com.example.todo_app_jpc.ui.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.todo_app_jpc.data.Todo
+import com.example.todo_app_jpc.data.TodoEntity
 import com.example.todo_app_jpc.data.TodoRepository
-import com.example.todo_app_jpc.ItemData.ItemsRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
@@ -33,4 +32,4 @@ class MainBodyViewModel(todoRepository: TodoRepository) : ViewModel() {
 /**
  * Ui State for HomeScreen
  */
-data class MainBodyUiState(val itemList: List<Todo> = listOf())
+data class MainBodyUiState(val itemList: List<TodoEntity> = listOf())

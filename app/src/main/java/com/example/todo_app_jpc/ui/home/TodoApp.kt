@@ -44,12 +44,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
-import com.example.todo_app_jpc.data.Todo
-import com.example.todo_app_jpc.ui.AppViewModelProvider
+import com.example.todo_app_jpc.data.TodoEntity
+
+import com.example.todo_app_jpc.ui.TodoAppViewModelProvider
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 import com.example.todo_app_jpc.ui.todo.TodoEntryBody
 import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
-import com.example.todo_app_jpc.ui.todo.TodoState
 import kotlinx.coroutines.launch
 
 
@@ -72,15 +72,16 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
     }
 }
 
+//これはtutorialで使われてた画面
 @Composable
 private fun MainScreen(
-    todoList: List<Todo>, onTodoClick: (Int) -> Unit, modifier: Modifier = Modifier
+    todoEntityList: List<TodoEntity>, onTodoClick: (Int) -> Unit, modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
     ) {
-        if (todoList.isEmpty()) {
+        if (todoEntityList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
                 textAlign = TextAlign.Center,
@@ -88,7 +89,7 @@ private fun MainScreen(
             )
         } else {
             AllTodoList(
-                todoList = todoList,
+                todoEntityList = todoEntityList,
                 onTodoClick = { onTodoClick(it.id) },
                 modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
             )
@@ -96,13 +97,14 @@ private fun MainScreen(
     }
 }
 
+//　これもtutorialのやつ
 @Composable
 private fun AllTodoList(
-    todoList: List<Todo>, onTodoClick: (Todo) -> Unit, modifier: Modifier = Modifier
+    todoEntityList: List<TodoEntity>, onTodoClick: (TodoEntity) -> Unit, modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier){
-        items(items = todoList, key = {it.id}) { item ->
-            TodoItem(todo = item, modifier = Modifier
+        items(items = todoEntityList, key = {it.id}) { item ->
+            TodoItem(todoEntity = item, modifier = Modifier
                 .padding(dimensionResource(id = R.dimen.padding_small))
                 .clickable { onTodoClick(item) })
         }
@@ -111,7 +113,7 @@ private fun AllTodoList(
 
 @Composable
 private fun TodoItem(
-    todo: Todo, modifier: Modifier = Modifier
+    todoEntity: TodoEntity, modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
@@ -125,7 +127,7 @@ private fun TodoItem(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = todo.title,
+                    text = todoEntity.title,
                     style = MaterialTheme.typography.titleLarge,
                 )
 
@@ -200,7 +202,7 @@ fun MyAppView() {
             },
             content = {
 
-                val viewModel: TodoEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
+                val viewModel: TodoEntryViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
                 val coroutineScope = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier, color = MaterialTheme.colorScheme.background

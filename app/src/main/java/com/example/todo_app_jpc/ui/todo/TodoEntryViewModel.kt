@@ -4,7 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.todo_app_jpc.data.Todo
+import com.example.todo_app_jpc.data.TodoEntity
 import com.example.todo_app_jpc.data.TodoRepository
 
 //class TodoEntryViewModel(
@@ -110,7 +110,7 @@ data class TodoState(
     val priority: String = "low",
 ){
 //    あえて違う実装にしてみる
-    fun toTodo(): Todo = Todo(
+    fun toTodo(): TodoEntity = TodoEntity(
     id = id,
     title = title,
     content = content,
@@ -124,7 +124,7 @@ data class TodoState(
     )
 }
 
-fun Todo.toTodoState(): TodoState = TodoState(
+fun TodoEntity.toTodoState(): TodoState = TodoState(
     id = id,
     title = title,
     content = content,
