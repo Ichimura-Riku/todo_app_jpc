@@ -2,8 +2,9 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
-    id("org.jetbrains.kotlin.kapt")
+//    id("com.google.devtools.ksp")
+//    id("org.jetbrains.kotlin.kapt")
+    id("kotlin-kapt")
 
 }
 
@@ -59,7 +60,7 @@ android {
 dependencies {
     implementation("androidx.navigation:navigation-runtime-ktx:2.7.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    val room_version = "2.5.0"
+    val room_version = "2.5.1"
     val compose_runtime_version = "1.3.3"
     val nav_version = "2.7.1"
     implementation("androidx.core:core-ktx:1.9.0")
@@ -77,7 +78,8 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     implementation("androidx.room:room-runtime:$compose_runtime_version")
-    annotationProcessor("androidx.room:room-compiler:$room_version")
+//    annotationProcessor("androidx.room:room-compiler:$room_version")
+
     implementation("androidx.compose.material3:material3:1.1.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
 
@@ -93,9 +95,9 @@ dependencies {
     kaptTest("com.google.dagger:hilt-compiler:2.48")
 
     // To use Kotlin annotation processing tool (kapt)
-//    kapt("androidx.room:room-compiler:$room_version")
+    kapt("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
-    ksp("androidx.room:room-compiler:$room_version")
+//    ksp("androidx.room:room-compiler:$room_version")
 
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
@@ -131,7 +133,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version")
 
     // Annotation processor
-    ksp("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+//    ksp("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
@@ -151,6 +154,9 @@ dependencies {
     testImplementation ("androidx.lifecycle:lifecycle-runtime-testing:$lifecycle_version")
 
     implementation("androidx.navigation:navigation-compose:$nav_version")
+
+//  コルーチン
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }
 
 kapt {
