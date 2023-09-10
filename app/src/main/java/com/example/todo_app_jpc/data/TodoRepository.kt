@@ -3,30 +3,18 @@ package com.example.todo_app_jpc.data
 import kotlinx.coroutines.flow.Flow
 
 interface TodoRepository {
-    /**
-     * Retrieve all the Todos from the the given data source.
-     */
-    fun getAllTodoStream(): Flow<List<Todo>>
 
-    /**
-     * Retrieve an Todo from the given data source that matches with the [id].
-     */
-//    fun getTodoStream(id: Int): Flow<Todo?>
+    fun getAllTodoStream(): Flow<List<TodoEntity>>
 
-    /**
-     * Insert Todo in the data source
-     */
-    suspend fun insertTodo(todo: Todo):Unit
+    fun getAttentionTodo(): Flow<List<TodoEntity>>
 
-    /**
-     * Delete Todo from the data source
-     */
-    suspend fun deleteTodo(todo: Todo): Unit
+    fun getTodoByCategory(category: String): Flow<List<TodoEntity>>
 
-    /**
-     * Update Todo in the data source
-     */
-    suspend fun updateTodo(todo: Todo): Unit
 
-    suspend fun getAttentionTodo(): Flow<List<Todo?>>
+    suspend fun insertTodo(todoEntity: TodoEntity)
+
+    suspend fun deleteTodo(todoEntity: TodoEntity)
+
+    suspend fun updateTodo(todoEntity: TodoEntity)
+
 }
