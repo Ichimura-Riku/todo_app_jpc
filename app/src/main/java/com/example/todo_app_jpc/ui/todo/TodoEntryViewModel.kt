@@ -85,19 +85,25 @@ import com.example.todo_app_jpc.data.TodoRepository
 //)
 
 class TodoEntryViewModel (private val todoRepository: TodoRepository): ViewModel(){
-    var todoUiState by mutableStateOf(TodoState())
+    var todoUiState by mutableStateOf(TodoUiState())
         private set
     fun updateTodoState(todoState: TodoState){
-        todoUiState = TodoState()
+        todoUiState = TodoUiState(todoState = todoState )
     }
 
     suspend fun adventTodo() {
-        todoRepository.insertTodo(todoUiState.toTodo())
+        todoRepository.insertTodo(todoUiState.todoState.toTodo())
     }
 
 
 }
 
+data class TodoUiState(
+    val todoState: TodoState = TodoState(),
+
+)
+
+// ItemDetailsの代わり
 data class TodoState(
     val id: Int = 0,
     val title: String = "",

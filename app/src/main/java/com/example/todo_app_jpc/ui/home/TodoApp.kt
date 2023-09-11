@@ -213,7 +213,7 @@ fun MyAppView() {
                         verticalArrangement = Arrangement.Center
                     ) {
                         TodoEntryBody(
-                            todoState = viewModel.todoUiState,
+                            todoState = viewModel.todoUiState.todoState,
                             onTodoValueChange = viewModel::updateTodoState,
                             onSaveClick = {
                                 // Note: If the user rotates the screen very fast, the operation may get cancelled
