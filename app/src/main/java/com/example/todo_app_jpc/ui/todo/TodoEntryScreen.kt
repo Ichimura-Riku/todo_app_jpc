@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -20,8 +19,8 @@ import com.example.todo_app_jpc.R
 
 @Composable
 fun TodoEntryBody(
-    todoUiState: TodoUiState,
-    onTodoValueChange: (TodoDetails) -> Unit,
+    todoState: TodoState,
+    onTodoValueChange: (TodoState) -> Unit,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -30,13 +29,12 @@ fun TodoEntryBody(
         verticalArrangement = Arrangement.spacedBy(20.dp)
     ) {
         TodoInputForm(
-            todoDetails = todoUiState.todoDetails,
+            todoState = todoState,
             onValueChange = onTodoValueChange,
             modifier = Modifier.fillMaxWidth()
         )
         Button(
             onClick = onSaveClick,
-            enabled = todoUiState.isEntryValid,
             shape = MaterialTheme.shapes.small,
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -45,12 +43,14 @@ fun TodoEntryBody(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun TodoInputForm(
-    todoDetails: TodoDetails,
+    todoState: TodoState,
     modifier: Modifier = Modifier,
-    onValueChange: (TodoDetails) -> Unit = {},
+    onValueChange: (TodoState) -> Unit = {},
+//    エントリー可能か判定するものは、空白でも登録できるようにするために関数実装はしてないが、
+//    今後必要になるかもしれないので一旦引数は残しておく
     enabled: Boolean = true
 ) {
     Column(
@@ -58,8 +58,8 @@ fun TodoInputForm(
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         OutlinedTextField(
-            value = todoDetails.title,
-            onValueChange = { onValueChange(todoDetails.copy(title = it)) },
+            value = todoState.title,
+            onValueChange = { onValueChange(todoState.copy(title = it)) },
             label = { Text(stringResource(R.string.todo_title_req)) },
             colors = OutlinedTextFieldDefaults.colors(
                 focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
