@@ -16,7 +16,7 @@ class MainBodyViewModel(todoRepository: TodoRepository) : ViewModel() {
      * Holds home ui state. The list of items are retrieved from [ItemsRepository] and mapped to
      * [HomeUiState]
      */
-    val homeUiState: StateFlow<MainBodyUiState> =
+    val mainBodyUiState: StateFlow<MainBodyUiState> =
         todoRepository.getAllTodoStream().map { MainBodyUiState(it) }
             .stateIn(
                 scope = viewModelScope,
@@ -32,4 +32,4 @@ class MainBodyViewModel(todoRepository: TodoRepository) : ViewModel() {
 /**
  * Ui State for HomeScreen
  */
-data class MainBodyUiState(val itemList: List<TodoEntity> = listOf())
+data class MainBodyUiState(val todoList: List<TodoEntity> = listOf())
