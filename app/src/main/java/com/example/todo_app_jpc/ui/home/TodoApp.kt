@@ -20,6 +20,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -43,9 +44,6 @@ import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
 import kotlinx.coroutines.launch
 
 
-
-
-
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,17 +58,9 @@ fun MyAppView() {
         Scaffold(
             topBar = {
 
-                TopAppBar(
-                    modifier = Modifier.statusBarsPadding(),
-                    title = {
-                        Text(
-                            text = "top app bar",
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    },
-                    colors = topAppBarColors,
+                TodoAppBar(
+                    topBarText = "TodoApp",
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = MaterialTheme.colorScheme.background)
                 )
             },
             bottomBar = {
@@ -113,7 +103,8 @@ fun MyAppView() {
             },
             content = {
 
-                val viewModel: TodoEntryViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
+                val viewModel: TodoEntryViewModel =
+                    viewModel(factory = TodoAppViewModelProvider.Factory)
                 val coroutineScope = rememberCoroutineScope()
                 Surface(
                     modifier = Modifier, color = MaterialTheme.colorScheme.background
@@ -158,7 +149,7 @@ fun MyAppView() {
                         }
 
                     }
-                    
+
                 }
                 MainBody()
             },
@@ -183,7 +174,27 @@ fun MyAppView() {
     }
 }
 
-
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TodoAppBar(
+    topBarText: String = "top app bar",
+    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+        containerColor = MaterialTheme.colorScheme.background
+    )
+) {
+    TopAppBar(
+        modifier = Modifier.statusBarsPadding(),
+        title = {
+            Text(
+                text = topBarText,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        },
+        colors = colors,
+    )
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
