@@ -42,13 +42,19 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.data.TodoEntity
 import com.example.todo_app_jpc.ui.TodoAppViewModelProvider
+import com.example.todo_app_jpc.ui.navigation.NavigationDestination
 import com.example.todo_app_jpc.ui.todo.TodoEntryBody
 import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-//これはtutorialで使われてた画面
+object HomeDestination: NavigationDestination {
+    override val route = "home"
+    override val titleRes = R.string.app_name
+}
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)) {
