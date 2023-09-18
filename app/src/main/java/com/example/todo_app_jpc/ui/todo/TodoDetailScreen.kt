@@ -20,6 +20,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.ui.TodoAppViewModelProvider
 import com.example.todo_app_jpc.ui.home.TodoAppBar
+import com.example.todo_app_jpc.ui.navigation.NavigationDestination
+
+object TodoDetailDestination: NavigationDestination {
+    override val route = "item_details"
+    override val titleRes = R.string.app_detail_page_top_bar
+//    const val itemIdArg = "TodoId"
+//    val routeWithArgs = "$route/{$itemIdArg}"
+}
 
 
 @OptIn(ExperimentalMaterial3Api::class)
