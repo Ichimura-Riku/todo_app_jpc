@@ -9,10 +9,12 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.ui.navigation.TodoNavHost
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 
@@ -24,7 +26,7 @@ fun TodoApp(navController: NavHostController = rememberNavController()){
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoAppBar(
-    topBarText: String = "top app bar",
+    topBarText: String = stringResource(R.string.app_name),
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background
     )
