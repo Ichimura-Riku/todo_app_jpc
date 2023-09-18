@@ -203,6 +203,7 @@ fun MainScreen(
     }
 //    Todoリストの表示のはず。今はクリックしたときも、modifierも、viewModelのデータも読んできてない
     MainBody(
+        modifier = modifier,
         viewModel = mainBodyViewModel
     )
 }
