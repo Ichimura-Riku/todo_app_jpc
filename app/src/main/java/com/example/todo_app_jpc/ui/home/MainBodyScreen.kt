@@ -43,7 +43,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.data.TodoEntity
 import com.example.todo_app_jpc.ui.TodoAppViewModelProvider
-import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
 import com.example.todo_app_jpc.ui.todo.TodoEntryBody
 import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -60,54 +59,54 @@ fun MyAppView(viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewMode
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
 //    var showBottomSheet by remember { mutableStateOf(false) }
-    Todo_app_jpcTheme {
-        Scaffold(
-            topBar = {
 
-                TodoAppBar(
-                    topBarText = "TodoApp",
-                    colors = topAppBarColors
-                )
-            },
-            bottomBar = {
-                BottomAppBar(
-                    modifier = Modifier.statusBarsPadding()
+    Scaffold(
+        topBar = {
+
+            TodoAppBar(
+                topBarText = "TodoApp",
+                colors = topAppBarColors
+            )
+        },
+        bottomBar = {
+            BottomAppBar(
+                modifier = Modifier.statusBarsPadding()
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+
                 ) {
-                    Row(
-                        modifier = Modifier.fillMaxSize(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-
-                    ) {
-                        Row {
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_format_list_bulleted_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_swap_vert_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
-                            IconButton(onClick = { /* doSomething() */ }) {
-                                Icon(
-                                    painterResource(id = R.drawable.round_more_horiz_24),
-                                    contentDescription = "Localized description"
-                                )
-                            }
+                    Row {
+                        IconButton(onClick = { /* doSomething() */ }) {
+                            Icon(
+                                painterResource(id = R.drawable.round_format_list_bulleted_24),
+                                contentDescription = "Localized description"
+                            )
                         }
-                        FloatingActionButton(
-                            onClick = { viewModel.setShowBottomSheet(true) },
-                            modifier = Modifier.padding(10.dp)
-                        ) {
-                            Icon(Icons.Rounded.Add, "localized description")
+                        IconButton(onClick = { /* doSomething() */ }) {
+                            Icon(
+                                painterResource(id = R.drawable.round_swap_vert_24),
+                                contentDescription = "Localized description"
+                            )
+                        }
+                        IconButton(onClick = { /* doSomething() */ }) {
+                            Icon(
+                                painterResource(id = R.drawable.round_more_horiz_24),
+                                contentDescription = "Localized description"
+                            )
                         }
                     }
+                    FloatingActionButton(
+                        onClick = { viewModel.setShowBottomSheet(true) },
+                        modifier = Modifier.padding(10.dp)
+                    ) {
+                        Icon(Icons.Rounded.Add, "localized description")
+                    }
                 }
-            },
+            }
+        },
 
 //            content = {
 //                val viewModel: TodoEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
@@ -126,17 +125,17 @@ fun MyAppView(viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewMode
 //                    }
 //                }
 //            }
+    )
+    { innerPadding ->
+        MainScreen(
+            innerPadding = innerPadding,
+            sheetState = sheetState,
+            scope = scope,
+            mainBodyViewModel = viewModel
         )
-        { innerPadding ->
-            MainScreen(
-                innerPadding = innerPadding,
-                sheetState = sheetState,
-                scope = scope,
-                mainBodyViewModel = viewModel
-            )
 
-        }
     }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
