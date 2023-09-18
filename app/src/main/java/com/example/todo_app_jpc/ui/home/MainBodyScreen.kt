@@ -3,7 +3,6 @@ package com.example.todo_app_jpc.ui.home
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -52,7 +51,7 @@ import kotlinx.coroutines.launch
 //これはtutorialで使われてた画面
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppView(viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)) {
+fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)) {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background
     )
@@ -128,7 +127,8 @@ fun MyAppView(viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewMode
     )
     { innerPadding ->
         MainScreen(
-            innerPadding = innerPadding,
+            modifier = modifier.fillMaxSize()
+                .padding(innerPadding),
             sheetState = sheetState,
             scope = scope,
             mainBodyViewModel = viewModel
@@ -141,7 +141,7 @@ fun MyAppView(viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewMode
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen(
-    innerPadding: PaddingValues,
+    modifier: Modifier = Modifier,
     sheetState: SheetState,
     scope: CoroutineScope = rememberCoroutineScope(),
     mainBodyViewModel: MainBodyViewModel
@@ -153,9 +153,7 @@ fun MainScreen(
         modifier = Modifier, color = MaterialTheme.colorScheme.background
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding),
+            modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
