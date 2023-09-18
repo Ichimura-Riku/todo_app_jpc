@@ -69,7 +69,7 @@ fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = view
         topBar = {
 
             TodoAppBar(
-                topBarText = "TodoApp",
+                topBarText = stringResource(id = HomeDestination.titleRes),
                 colors = topAppBarColors
             )
         },
@@ -133,7 +133,8 @@ fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = view
     )
     { innerPadding ->
         MainScreen(
-            modifier = modifier.fillMaxSize()
+            modifier = modifier
+                .fillMaxSize()
                 .padding(innerPadding),
             sheetState = sheetState,
             scope = scope,
