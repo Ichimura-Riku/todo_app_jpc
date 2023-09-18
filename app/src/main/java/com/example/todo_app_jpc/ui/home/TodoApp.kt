@@ -11,7 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.todo_app_jpc.ui.navigation.TodoNavHost
 import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+
+@Composable
+fun TodoApp(navController: NavHostController = rememberNavController()){
+    TodoNavHost(navController = navController)
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,7 +44,7 @@ fun TodoAppBar(
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Preview(showBackground = true)
 @Composable
 fun ScfPreview() {
