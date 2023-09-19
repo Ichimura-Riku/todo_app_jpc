@@ -49,7 +49,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-object HomeDestination: NavigationDestination {
+object HomeDestination : NavigationDestination {
     override val route = "home"
     override val titleRes = R.string.app_name
 }
@@ -57,7 +57,11 @@ object HomeDestination: NavigationDestination {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)) {
+fun MyAppView(
+    modifier: Modifier = Modifier,
+    onTodoClick: (Int) -> Unit,
+    viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
+) {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background
     )
@@ -136,6 +140,7 @@ fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = view
             modifier = modifier
                 .fillMaxSize()
                 .padding(innerPadding),
+            onTodoClick = onTodoClick,
             sheetState = sheetState,
             scope = scope,
             mainBodyViewModel = viewModel
@@ -149,6 +154,7 @@ fun MyAppView(modifier: Modifier = Modifier, viewModel: MainBodyViewModel = view
 @Composable
 fun MainScreen(
     modifier: Modifier = Modifier,
+    onTodoClick: (Int) -> Unit,
     sheetState: SheetState,
     scope: CoroutineScope = rememberCoroutineScope(),
     mainBodyViewModel: MainBodyViewModel
@@ -204,6 +210,7 @@ fun MainScreen(
 //    Todoリストの表示のはず。今はクリックしたときも、modifierも、viewModelのデータも読んできてない
     MainBody(
         modifier = modifier,
+        onTodoClick = onTodoClick,
         viewModel = mainBodyViewModel
     )
 }

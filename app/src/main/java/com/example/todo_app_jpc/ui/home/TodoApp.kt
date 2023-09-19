@@ -51,7 +51,7 @@ fun TodoAppBar(
 @Composable
 fun ScfPreview() {
     Todo_app_jpcTheme {
-        MyAppView()
+        MyAppView(onTodoClick = {})
     }
 }
 

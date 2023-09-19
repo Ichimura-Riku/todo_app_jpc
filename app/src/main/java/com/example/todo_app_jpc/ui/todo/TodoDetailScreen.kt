@@ -24,7 +24,7 @@ import com.example.todo_app_jpc.ui.home.TodoAppBar
 import com.example.todo_app_jpc.ui.navigation.NavigationDestination
 
 object TodoDetailDestination: NavigationDestination {
-    override val route = "item_details"
+    override val route = "todo_details"
     override val titleRes = R.string.app_detail_page_top_bar
     const val todoIdArg = "TodoId"
     val routeWithArgs = "$route/{$todoIdArg}"

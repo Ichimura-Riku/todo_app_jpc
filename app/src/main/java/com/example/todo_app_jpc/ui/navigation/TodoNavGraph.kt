@@ -21,9 +21,10 @@ fun TodoNavHost(
 ) {
     NavHost(navController = navController, startDestination = HomeDestination.route, modifier = modifier) {
         composable(route = HomeDestination.route) {
-            MyAppView(modifier = modifier)
+            MyAppView(modifier = modifier, onTodoClick = {navController.navigate("${TodoDetailDestination.route}/${it}")})
         }
-        composable(route = TodoDetailDestination.route, arguments = listOf(navArgument(TodoDetailDestination.todoIdArg){
+
+        composable(route = TodoDetailDestination.routeWithArgs, arguments = listOf(navArgument(TodoDetailDestination.todoIdArg){
             type = NavType.IntType
         })){
             DetailScreen()
