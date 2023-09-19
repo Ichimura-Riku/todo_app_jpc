@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
@@ -38,7 +39,7 @@ fun DetailScreen(
 ) {
     MaterialTheme {
         Scaffold(
-            topBar = { TodoAppBar(topBarText = "") },
+            topBar = { TodoAppBar(topBarText = stringResource(id = TodoDetailDestination.titleRes)) },
 
 
         ){ innerPadding -> TodoDetailBody(modifier = modifier.padding(innerPadding))
