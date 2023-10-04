@@ -38,6 +38,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todo_app_jpc.R
 import com.example.todo_app_jpc.data.TodoEntity
@@ -59,8 +60,8 @@ object HomeDestination : NavigationDestination {
 @Composable
 fun MyAppView(
     modifier: Modifier = Modifier,
-    onTodoClick: (Int) -> Unit,
-    viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
+    onTodoClick: (Int) -> Unit = {},
+    viewModel: MainBodyViewModel = hiltViewModel()
 ) {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
         containerColor = MaterialTheme.colorScheme.background

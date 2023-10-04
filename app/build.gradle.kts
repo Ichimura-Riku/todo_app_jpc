@@ -2,9 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.dagger.hilt.android")
-//    id("com.google.devtools.ksp")
-//    id("org.jetbrains.kotlin.kapt")
-    id("kotlin-kapt")
+    id("com.google.devtools.ksp")
 
 }
 
@@ -46,7 +44,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.3"
+        kotlinCompilerExtensionVersion = "1.5.0"
     }
     packaging {
         resources {
@@ -83,19 +81,12 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.1.1")
     implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
 
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
-
-    // For instrumentation tests
-    androidTestImplementation ("com.google.dagger:hilt-android-testing:2.48")
-    kaptAndroidTest("com.google.dagger:hilt-compiler:2.48")
-
-    // For local unit tests
-    testImplementation("com.google.dagger:hilt-android-testing:2.48")
-    kaptTest("com.google.dagger:hilt-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:2.48")           // 変更
+    ksp("com.google.dagger:hilt-android-compiler:2.48")             // 変更
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // To use Kotlin annotation processing tool (kapt)
-    kapt("androidx.room:room-compiler:$room_version")
+    ksp("androidx.room:room-compiler:$room_version")
     // To use Kotlin Symbol Processing (KSP)
 //    ksp("androidx.room:room-compiler:$room_version")
 
@@ -134,7 +125,7 @@ dependencies {
 
     // Annotation processor
 //    ksp("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
-    kapt("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
+    ksp("androidx.lifecycle:lifecycle-compiler:$lifecycle_version")
     // alternately - if using Java8, use the following instead of lifecycle-compiler
     implementation("androidx.lifecycle:lifecycle-common-java8:$lifecycle_version")
 
@@ -159,10 +150,3 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
 }
 
-kapt {
-    correctErrorTypes = true
-    useBuildCache = false
-    arguments {
-        arg("key", "value")
-    }
-}

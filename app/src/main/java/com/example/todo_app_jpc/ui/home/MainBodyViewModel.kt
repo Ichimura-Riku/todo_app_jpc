@@ -8,13 +8,16 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todo_app_jpc.data.TodoEntity
 import com.example.todo_app_jpc.data.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import javax.inject.Inject
 
+@HiltViewModel
 @OptIn(SavedStateHandleSaveableApi::class)
-class MainBodyViewModel(savedStateHandle: SavedStateHandle,todoRepository: TodoRepository) : ViewModel() {
+class MainBodyViewModel @Inject constructor(savedStateHandle: SavedStateHandle,todoRepository: TodoRepository) : ViewModel() {
 
     /**
      * Holds home ui state. The list of items are retrieved from [ItemsRepository] and mapped to
