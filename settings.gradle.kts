@@ -15,4 +15,3 @@ dependencyResolutionManagement {
 
 rootProject.name = "todo_app_jpc"
 include(":app")
- 

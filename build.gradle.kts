@@ -16,15 +16,15 @@ plugins {
 spotless {
     kotlin {
         // by default the target is every '.kt' and '.kts` file in the java sourcesets
-//４つのうちどれかを選ぶ
+// ４つのうちどれかを選ぶ
 //        ktfmt()    // has its own section below
         ktlint() // has its own section below
 //        diktat()   // has its own section below
 //        prettier() // has its own section below
-        licenseHeader("/* (C) ${YEAR} */") // or licenseHeaderFile
+        licenseHeader("/* (C) $YEAR */") // or licenseHeaderFile
     }
     kotlinGradle {
-        target("*.gradle.kts", "app/src/main/java/com/example/inventory/**") // default target for kotlinGradle
+        target("*.gradle.kts", "app/src/main/java/com/example/todo_app_jpc/**") // default target for kotlinGradle
         ktlint() // or ktfmt() or prettier()
     }
 }
