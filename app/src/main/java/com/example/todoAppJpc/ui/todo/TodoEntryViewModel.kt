@@ -1,11 +1,11 @@
-package com.example.todo_app_jpc.ui.todo
+package com.example.todoAppJpc.ui.todo
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.todo_app_jpc.data.TodoEntity
-import com.example.todo_app_jpc.data.TodoRepository
+import com.example.todoAppJpc.data.TodoEntity
+import com.example.todoAppJpc.data.TodoRepository
 
 class TodoEntryViewModel (private val todoRepository: TodoRepository): ViewModel(){
     var todoUiState by mutableStateOf(TodoUiState())

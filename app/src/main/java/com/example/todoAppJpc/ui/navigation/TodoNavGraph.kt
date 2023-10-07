@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.ui.navigation
+package com.example.todoAppJpc.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -7,10 +7,10 @@ import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
-import com.example.todo_app_jpc.ui.home.HomeDestination
-import com.example.todo_app_jpc.ui.home.MyAppView
-import com.example.todo_app_jpc.ui.todo.DetailScreen
-import com.example.todo_app_jpc.ui.todo.TodoDetailDestination
+import com.example.todoAppJpc.ui.home.HomeDestination
+import com.example.todoAppJpc.ui.home.MyAppView
+import com.example.todoAppJpc.ui.todo.DetailScreen
+import com.example.todoAppJpc.ui.todo.TodoDetailDestination
 
 // ここではnavigationで画面遷移させるcomposeをそれぞれ設定する
 

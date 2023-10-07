@@ -8,11 +8,11 @@ plugins {
 
 
 android {
-    namespace = "com.example.todo_app_jpc"
+    namespace = "com.example.todoAppJpc"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.todo_app_jpc"
+        applicationId = "com.example.todoAppJpc"
         minSdk = 25
         targetSdk = 34
         versionCode = 1

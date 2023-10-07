@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.ui.home
+package com.example.todoAppJpc.ui.home
 
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -14,9 +14,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import com.example.todo_app_jpc.R
-import com.example.todo_app_jpc.ui.navigation.TodoNavHost
-import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+import com.example.todoAppJpc.R
+import com.example.todoAppJpc.ui.navigation.TodoNavHost
+import com.example.todoAppJpc.ui.theme.TodoAppJpcTheme
 
 @Composable
 fun TodoApp(navController: NavHostController = rememberNavController()){
@@ -50,7 +50,7 @@ fun TodoAppBar(
 @Preview(showBackground = true)
 @Composable
 fun ScfPreview() {
-    Todo_app_jpcTheme {
+    TodoAppJpcTheme {
         MyAppView(onTodoClick = {})
     }
 }

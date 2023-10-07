@@ -1,5 +1,5 @@
 <resources>
-    <!--    <string name="app_name">todo_app_jpc</string>-->
+    <!--    <string name="app_name">todoAppJpc</string>-->
     <string name="add_action">ADD</string>
     <string name="todo_title_req">Title</string>
 

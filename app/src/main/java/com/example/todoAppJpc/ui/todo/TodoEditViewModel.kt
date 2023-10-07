@@ -1,11 +1,11 @@
-package com.example.todo_app_jpc.ui.todo//package com.example.todo_app_jpc.ui.todo
+package com.example.todoAppJpc.ui.todo//package com.example.todoAppJpc.ui.todo
 //
 //import androidx.compose.runtime.getValue
 //import androidx.compose.runtime.mutableStateOf
 //import androidx.compose.runtime.setValue
 //import androidx.lifecycle.SavedStateHandle
 //import androidx.lifecycle.ViewModel
-//import com.example.todo_app_jpc.Data.TodoRepository
+//import com.example.todoAppJpc.Data.TodoRepository
 //
 //class TodoEditViewModel(
 //    savedStateHandle: SavedStateHandle,

@@ -24,7 +24,7 @@ spotless {
         licenseHeader("/* (C) $YEAR */") // or licenseHeaderFile
     }
     kotlinGradle {
-        target("*.gradle.kts", "app/src/main/java/com/example/todo_app_jpc/**") // default target for kotlinGradle
+        target("*.gradle.kts", "app/src/main/java/com/example/todoAppJpc/**") // default target for kotlinGradle
         ktlint() // or ktfmt() or prettier()
     }
 }

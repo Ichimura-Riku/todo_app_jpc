@@ -1,19 +1,17 @@
-package com.example.todo_app_jpc
-
+package com.example.todoAppJpc
 
 import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.todo_app_jpc.ui.home.TodoApp
-import com.example.todo_app_jpc.ui.theme.Todo_app_jpcTheme
+import com.example.todoAppJpc.ui.home.TodoApp
+import com.example.todoAppJpc.ui.theme.TodoAppJpcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -25,7 +23,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            Todo_app_jpcTheme {
+            TodoAppJpcTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background

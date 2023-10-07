@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.ui.navigation
+package com.example.todoAppJpc.ui.navigation
 
 /**
  * Interface to describe the navigation destinations for the app

@@ -1,8 +1,8 @@
-package com.example.todo_app_jpc.ui.todo
+package com.example.todoAppJpc.ui.todo
 
 import androidx.lifecycle.ViewModel
-import com.example.todo_app_jpc.data.TodoEntity
-import com.example.todo_app_jpc.data.TodoRepository
+import com.example.todoAppJpc.data.TodoEntity
+import com.example.todoAppJpc.data.TodoRepository
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

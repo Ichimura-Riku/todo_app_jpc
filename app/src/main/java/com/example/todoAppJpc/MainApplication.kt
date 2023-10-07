@@ -1,9 +1,9 @@
-package com.example.todo_app_jpc
+package com.example.todoAppJpc
 
 import android.app.Application
 
-import com.example.todo_app_jpc.data.TodoAppContainer
-import com.example.todo_app_jpc.data.TodoAppDataContainer
+import com.example.todoAppJpc.data.TodoAppContainer
+import com.example.todoAppJpc.data.TodoAppDataContainer
 import dagger.hilt.android.HiltAndroidApp
 
 

@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.ui.home
+package com.example.todoAppJpc.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -40,20 +40,22 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.todo_app_jpc.R
-import com.example.todo_app_jpc.data.TodoEntity
-import com.example.todo_app_jpc.ui.TodoAppViewModelProvider
-import com.example.todo_app_jpc.ui.navigation.NavigationDestination
-import com.example.todo_app_jpc.ui.todo.TodoEntryBody
-import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
+import com.example.todoAppJpc.R
+import com.example.todoAppJpc.data.TodoEntity
+import com.example.todoAppJpc.ui.TodoAppViewModelProvider
+import com.example.todoAppJpc.ui.navigation.NavigationDestination
+import com.example.todoAppJpc.ui.todo.TodoEntryBody
+import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+
+
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 object HomeDestination : NavigationDestination {
     override val route = "home"
-    override val titleRes = R.string.app_name
-}
+override val titleRes = R.string.app_name
+    }
 
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc.data
+package com.example.todoAppJpc.data
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow

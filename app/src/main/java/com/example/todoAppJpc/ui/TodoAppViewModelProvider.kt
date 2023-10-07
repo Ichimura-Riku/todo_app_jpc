@@ -1,14 +1,14 @@
-package com.example.todo_app_jpc.ui
+package com.example.todoAppJpc.ui
 
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.example.todo_app_jpc.MainApplication
-import com.example.todo_app_jpc.ui.home.MainBodyViewModel
-import com.example.todo_app_jpc.ui.todo.TodoDetailViewModel
-import com.example.todo_app_jpc.ui.todo.TodoEntryViewModel
+import com.example.todoAppJpc.MainApplication
+import com.example.todoAppJpc.ui.home.MainBodyViewModel
+import com.example.todoAppJpc.ui.todo.TodoDetailViewModel
+import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
 object TodoAppViewModelProvider {
     val Factory = viewModelFactory {

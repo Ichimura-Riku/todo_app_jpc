@@ -1,4 +1,4 @@
-package com.example.todo_app_jpc
+package com.example.todoAppJpc
 
 import org.junit.Test
 
