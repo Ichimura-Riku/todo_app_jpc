@@ -35,7 +35,7 @@ object TodoDetailDestination: NavigationDestination {
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier.padding(10.dp),
-    viewModel: TodoDetailViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
+    viewModel: TodoDetailViewModel = hiltViewModel()
 ) {
     MaterialTheme {
         Scaffold(
