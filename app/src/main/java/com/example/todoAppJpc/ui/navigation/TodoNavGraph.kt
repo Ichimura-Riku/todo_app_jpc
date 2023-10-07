@@ -2,6 +2,7 @@ package com.example.todoAppJpc.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,6 +18,7 @@ import com.example.todoAppJpc.ui.todo.TodoDetailDestination
 @Composable
 fun TodoNavHost(
     navController: NavHostController,
+    navBackStackEntry: NavBackStackEntry?,
     modifier: Modifier = Modifier,
 ) {
     NavHost(navController = navController, startDestination = HomeDestination.route, modifier = modifier) {
@@ -24,10 +26,11 @@ fun TodoNavHost(
             MyAppView(modifier = modifier, onTodoClick = {navController.navigate("${TodoDetailDestination.route}/${it}")})
         }
 
+//　ここのcomposable引数は、Roomから特定のデータを参照するときに必要な値
         composable(route = TodoDetailDestination.routeWithArgs, arguments = listOf(navArgument(TodoDetailDestination.todoIdArg){
             type = NavType.IntType
         })){
-            DetailScreen()
+            DetailScreen(modifier = modifier, navController = navController, navBackStackEntry = navBackStackEntry)
         }
     }
 }

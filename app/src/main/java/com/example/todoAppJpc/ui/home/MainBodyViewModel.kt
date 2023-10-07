@@ -18,13 +18,16 @@ import javax.inject.Inject
 
 @HiltViewModel
 @OptIn(SavedStateHandleSaveableApi::class)
-class MainBodyViewModel @Inject constructor(savedStateHandle: SavedStateHandle, todoRepository: TodoRepository) : ViewModel() {
+class MainBodyViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
+    todoRepository: TodoRepository
+) : ViewModel() {
 
     /**
      * Holds home ui state. The list of items are retrieved from [ItemsRepository] and mapped to
      * [HomeUiState]
      */
-    private var _showBottomSheet by savedStateHandle.saveable(){
+    private var _showBottomSheet by savedStateHandle.saveable() {
         mutableStateOf(false)
     }
 
@@ -45,7 +48,7 @@ class MainBodyViewModel @Inject constructor(savedStateHandle: SavedStateHandle, 
         return _showBottomSheet
     }
 
-    fun setShowBottomSheet(bottomSheetState: Boolean){
+    fun setShowBottomSheet(bottomSheetState: Boolean) {
         _showBottomSheet = bottomSheetState
     }
 }

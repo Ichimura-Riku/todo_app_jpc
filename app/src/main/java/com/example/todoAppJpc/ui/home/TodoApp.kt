@@ -8,11 +8,13 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.navigation.TodoNavHost
@@ -20,7 +22,11 @@ import com.example.todoAppJpc.ui.theme.TodoAppJpcTheme
 
 @Composable
 fun TodoApp(navController: NavHostController = rememberNavController()){
-    TodoNavHost(navController = navController)
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    TodoNavHost(navController = navController, navBackStackEntry = navBackStackEntry)
+//    rmv 謎の変換が登場した。もしダメなら試す、いけたら消す。？で通った。？？？
+//    navBackStackEntry?.let { TodoNavHost(navController = navController, navBackStackEntry = it) }
+
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
