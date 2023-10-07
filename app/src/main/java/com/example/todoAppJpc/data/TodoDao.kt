@@ -8,7 +8,6 @@ import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface TodoDao {
     @Query("SELECT * from todo ORDER BY deadLine")
@@ -25,10 +24,8 @@ interface TodoDao {
     suspend fun insert(todoEntity: TodoEntity)
 
     @Update
-    suspend fun update(todoEntity:TodoEntity)
+    suspend fun update(todoEntity: TodoEntity)
 
     @Delete
     suspend fun delete(todoEntity: TodoEntity)
-
-
 }

@@ -21,12 +21,11 @@ import com.example.todoAppJpc.ui.navigation.TodoNavHost
 import com.example.todoAppJpc.ui.theme.TodoAppJpcTheme
 
 @Composable
-fun TodoApp(navController: NavHostController = rememberNavController()){
+fun TodoApp(navController: NavHostController = rememberNavController()) {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     TodoNavHost(navController = navController, navBackStackEntry = navBackStackEntry)
 //    rmv 謎の変換が登場した。もしダメなら試す、いけたら消す。？で通った。？？？
 //    navBackStackEntry?.let { TodoNavHost(navController = navController, navBackStackEntry = it) }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,8 +33,8 @@ fun TodoApp(navController: NavHostController = rememberNavController()){
 fun TodoAppBar(
     topBarText: String = stringResource(R.string.app_name),
     colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background
-    )
+        containerColor = MaterialTheme.colorScheme.background,
+    ),
 ) {
     TopAppBar(
         modifier = Modifier.statusBarsPadding(),
@@ -44,14 +43,12 @@ fun TodoAppBar(
                 text = topBarText,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         },
         colors = colors,
     )
 }
-
-
 
 @Preview(showBackground = true)
 @Composable
@@ -60,4 +57,3 @@ fun ScfPreview() {
         MyAppView(onTodoClick = {})
     }
 }
-

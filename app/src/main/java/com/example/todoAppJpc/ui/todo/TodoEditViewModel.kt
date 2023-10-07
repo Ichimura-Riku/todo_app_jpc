@@ -1,16 +1,16 @@
-package com.example.todoAppJpc.ui.todo//package com.example.todoAppJpc.ui.todo
+package com.example.todoAppJpc.ui.todo // package com.example.todoAppJpc.ui.todo
 //
-//import androidx.compose.runtime.getValue
-//import androidx.compose.runtime.mutableStateOf
-//import androidx.compose.runtime.setValue
-//import androidx.lifecycle.SavedStateHandle
-//import androidx.lifecycle.ViewModel
-//import com.example.todoAppJpc.Data.TodoRepository
+// import androidx.compose.runtime.getValue
+// import androidx.compose.runtime.mutableStateOf
+// import androidx.compose.runtime.setValue
+// import androidx.lifecycle.SavedStateHandle
+// import androidx.lifecycle.ViewModel
+// import com.example.todoAppJpc.Data.TodoRepository
 //
-//class TodoEditViewModel(
+// class TodoEditViewModel(
 //    savedStateHandle: SavedStateHandle,
 //    private val itemsRepository: TodoRepository
-//) : ViewModel() {
+// ) : ViewModel() {
 //
 //    /**
 //     * Holds current item ui state
@@ -52,4 +52,4 @@ package com.example.todoAppJpc.ui.todo//package com.example.todoAppJpc.ui.todo
 //            name.isNotBlank() && price.isNotBlank() && quantity.isNotBlank()
 //        }
 //    }
-//}
+// }

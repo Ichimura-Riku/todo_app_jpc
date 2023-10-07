@@ -7,18 +7,17 @@ import androidx.lifecycle.ViewModel
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 
-class TodoEntryViewModel (private val todoRepository: TodoRepository): ViewModel(){
+class TodoEntryViewModel(private val todoRepository: TodoRepository) : ViewModel() {
     var todoUiState by mutableStateOf(TodoUiState())
         private set
-    fun updateTodoState(todoState: TodoState){
-        todoUiState = TodoUiState(todoState = todoState )
+
+    fun updateTodoState(todoState: TodoState) {
+        todoUiState = TodoUiState(todoState = todoState)
     }
 
     suspend fun adventTodo() {
         todoRepository.insertTodo(todoUiState.todoState.toTodo())
     }
-
-
 }
 
 data class TodoUiState(
@@ -37,19 +36,19 @@ data class TodoState(
     val category: String = "myTask",
     val isFinished: Int = 0,
     val priority: String = "low",
-){
-//    あえて違う実装にしてみる
+) {
+    //    あえて違う実装にしてみる
     fun toTodo(): TodoEntity = TodoEntity(
-    id = id,
-    title = title,
-    content = content,
+        id = id,
+        title = title,
+        content = content,
 //    多分日時系は型変換する必要がある
-    date = date,
-    deadLine = deadLine,
-    isAttention = isAttention,
-    category = category,
-    isFinished = isFinished,
-    priority = priority,
+        date = date,
+        deadLine = deadLine,
+        isAttention = isAttention,
+        category = category,
+        isFinished = isFinished,
+        priority = priority,
     )
 }
 
@@ -65,4 +64,3 @@ fun TodoEntity.toTodoState(): TodoState = TodoState(
     isFinished = isFinished,
     priority = priority,
 )
-

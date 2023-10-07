@@ -46,27 +46,23 @@ import com.example.todoAppJpc.ui.TodoAppViewModelProvider
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 import com.example.todoAppJpc.ui.todo.TodoEntryBody
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
-
-
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-
 object HomeDestination : NavigationDestination {
     override val route = "home"
-override val titleRes = R.string.app_name
-    }
-
+    override val titleRes = R.string.app_name
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyAppView(
     modifier: Modifier = Modifier,
     onTodoClick: (Int) -> Unit = {},
-    viewModel: MainBodyViewModel = hiltViewModel()
+    viewModel: MainBodyViewModel = hiltViewModel(),
 ) {
     val topAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-        containerColor = MaterialTheme.colorScheme.background
+        containerColor = MaterialTheme.colorScheme.background,
     )
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
@@ -74,45 +70,44 @@ fun MyAppView(
 
     Scaffold(
         topBar = {
-
             TodoAppBar(
                 topBarText = stringResource(id = HomeDestination.titleRes),
-                colors = topAppBarColors
+                colors = topAppBarColors,
             )
         },
         bottomBar = {
             BottomAppBar(
-                modifier = Modifier.statusBarsPadding()
+                modifier = Modifier.statusBarsPadding(),
             ) {
                 Row(
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
 
-                ) {
+                    ) {
                     Row {
                         IconButton(onClick = { /* doSomething() */ }) {
                             Icon(
                                 painterResource(id = R.drawable.round_format_list_bulleted_24),
-                                contentDescription = "Localized description"
+                                contentDescription = "Localized description",
                             )
                         }
                         IconButton(onClick = { /* doSomething() */ }) {
                             Icon(
                                 painterResource(id = R.drawable.round_swap_vert_24),
-                                contentDescription = "Localized description"
+                                contentDescription = "Localized description",
                             )
                         }
                         IconButton(onClick = { /* doSomething() */ }) {
                             Icon(
                                 painterResource(id = R.drawable.round_more_horiz_24),
-                                contentDescription = "Localized description"
+                                contentDescription = "Localized description",
                             )
                         }
                     }
                     FloatingActionButton(
                         onClick = { viewModel.setShowBottomSheet(true) },
-                        modifier = Modifier.padding(10.dp)
+                        modifier = Modifier.padding(10.dp),
                     ) {
                         Icon(Icons.Rounded.Add, "localized description")
                     }
@@ -132,13 +127,12 @@ fun MyAppView(
 //                        horizontalAlignment = Alignment.CenterHorizontally,
 //                        verticalArrangement = Arrangement.Center
 //                    ) {
-////                        Greeting("Android")
+// //                        Greeting("Android")
 //                        MainScreen(todoList = viewModel.MainBodyUiState.collectAsState(), onTodoClick = )
 //                    }
 //                }
 //            }
-    )
-    { innerPadding ->
+    ) { innerPadding ->
         MainScreen(
             modifier = modifier
                 .fillMaxSize()
@@ -146,11 +140,9 @@ fun MyAppView(
             onTodoClick = onTodoClick,
             sheetState = sheetState,
             scope = scope,
-            mainBodyViewModel = viewModel
+            mainBodyViewModel = viewModel,
         )
-
     }
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -160,25 +152,26 @@ fun MainScreen(
     onTodoClick: (Int) -> Unit,
     sheetState: SheetState,
     scope: CoroutineScope = rememberCoroutineScope(),
-    mainBodyViewModel: MainBodyViewModel
+    mainBodyViewModel: MainBodyViewModel,
 ) {
     val todoEntryViewModel: TodoEntryViewModel =
         viewModel(factory = TodoAppViewModelProvider.Factory)
     val coroutineScope = rememberCoroutineScope()
     Surface(
-        modifier = Modifier, color = MaterialTheme.colorScheme.background
+        modifier = Modifier,
+        color = MaterialTheme.colorScheme.background,
     ) {
         Column(
             modifier = modifier,
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+            verticalArrangement = Arrangement.Center,
         ) {
             if (mainBodyViewModel.getShowBottomSheet()) {
                 ModalBottomSheet(
                     onDismissRequest = {
                         mainBodyViewModel.setShowBottomSheet(false)
                     },
-                    sheetState = sheetState
+                    sheetState = sheetState,
                 ) {
                     // Sheet content
                     TodoEntryBody(
@@ -199,22 +192,17 @@ fun MainScreen(
                                     mainBodyViewModel.setShowBottomSheet(false)
                                 }
                             }
-
                         },
                     )
-
-
                 }
             }
-
         }
-
     }
 //    Todoリストの表示のはず。今はクリックしたときも、modifierも、viewModelのデータも読んできてない
     MainBody(
         modifier = modifier,
         onTodoClick = onTodoClick,
-        viewModel = mainBodyViewModel
+        viewModel = mainBodyViewModel,
     )
 }
 
@@ -222,66 +210,70 @@ fun MainScreen(
 fun MainBody(
     modifier: Modifier = Modifier,
     onTodoClick: (Int) -> Unit = {},
-    viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory)
+    viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory),
 ) {
     val mainBodyUiState by viewModel.mainBodyUiState.collectAsState()
     val todoEntityList = mainBodyUiState.todoList
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = modifier
+        modifier = modifier,
     ) {
         if (todoEntityList.isEmpty()) {
             Text(
                 text = stringResource(R.string.no_item_description),
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge,
             )
         } else {
             AllTodoList(
                 todoEntityList = todoEntityList,
                 onTodoClick = { onTodoClick(it.id) },
-                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small))
+                modifier = Modifier.padding(horizontal = dimensionResource(id = R.dimen.padding_small)),
             )
         }
     }
 }
 
-//　これもtutorialのやつ
+// 　これもtutorialのやつ
 @Composable
 private fun AllTodoList(
     todoEntityList: List<TodoEntity>,
     onTodoClick: (TodoEntity) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(modifier = modifier) {
         items(items = todoEntityList, key = { it.id }) { item ->
-            TodoItem(todoEntity = item, modifier = Modifier
-                .padding(dimensionResource(id = R.dimen.padding_small))
-                .clickable { onTodoClick(item) })
+            TodoItem(
+                todoEntity = item,
+                modifier = Modifier
+                    .padding(dimensionResource(id = R.dimen.padding_small))
+                    .clickable { onTodoClick(item) },
+            )
         }
     }
 }
 
 @Composable
 private fun TodoItem(
-    todoEntity: TodoEntity, modifier: Modifier = Modifier
+    todoEntity: TodoEntity,
+    modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier, elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        modifier = modifier,
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(
             modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_large)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small))
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_small)),
         ) {
 //            rowいらない説濃厚
             Row(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Text(
                     text = todoEntity.title,
                     style = MaterialTheme.typography.titleLarge,
                 )
-
             }
         }
     }

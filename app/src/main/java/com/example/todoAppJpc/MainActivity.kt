@@ -14,7 +14,6 @@ import com.example.todoAppJpc.ui.home.TodoApp
 import com.example.todoAppJpc.ui.theme.TodoAppJpcTheme
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -26,7 +25,7 @@ class MainActivity : ComponentActivity() {
             TodoAppJpcTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     TodoApp()
                 }

@@ -15,12 +15,11 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
-
 @HiltViewModel
 @OptIn(SavedStateHandleSaveableApi::class)
 class MainBodyViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    todoRepository: TodoRepository
+    todoRepository: TodoRepository,
 ) : ViewModel() {
 
     /**
@@ -31,13 +30,12 @@ class MainBodyViewModel @Inject constructor(
         mutableStateOf(false)
     }
 
-
     val mainBodyUiState: StateFlow<MainBodyUiState> =
         todoRepository.getAllTodoStream().map { MainBodyUiState(it) }
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = MainBodyUiState()
+                initialValue = MainBodyUiState(),
             )
 
     companion object {

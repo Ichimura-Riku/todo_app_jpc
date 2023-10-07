@@ -23,14 +23,25 @@ fun TodoNavHost(
 ) {
     NavHost(navController = navController, startDestination = HomeDestination.route, modifier = modifier) {
         composable(route = HomeDestination.route) {
-            MyAppView(modifier = modifier, onTodoClick = {navController.navigate("${TodoDetailDestination.route}/${it}")})
+            MyAppView(
+                modifier = modifier,
+                onTodoClick = { navController.navigate("${TodoDetailDestination.route}/$it") })
         }
 
-//　ここのcomposable引数は、Roomから特定のデータを参照するときに必要な値
-        composable(route = TodoDetailDestination.routeWithArgs, arguments = listOf(navArgument(TodoDetailDestination.todoIdArg){
-            type = NavType.IntType
-        })){
-            DetailScreen(modifier = modifier, navController = navController, navBackStackEntry = navBackStackEntry)
+// 　ここのcomposable引数は、Roomから特定のデータを参照するときに必要な値
+        composable(
+            route = TodoDetailDestination.routeWithArgs,
+            arguments = listOf(
+                navArgument(TodoDetailDestination.todoIdArg) {
+                    type = NavType.IntType
+                },
+            ),
+        ) {
+            DetailScreen(
+                modifier = modifier,
+                navController = navController,
+                navBackStackEntry = navBackStackEntry
+            )
         }
     }
 }

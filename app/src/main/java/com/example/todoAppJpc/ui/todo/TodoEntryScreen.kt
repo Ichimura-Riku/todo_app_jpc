@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.todo
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,34 +15,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.todoAppJpc.R
 
-
-
 @Composable
 fun TodoEntryBody(
     todoState: TodoState,
     onTodoValueChange: (TodoState) -> Unit,
     onSaveClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier.padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(20.dp),
     ) {
         TodoInputForm(
             todoState = todoState,
             onValueChange = onTodoValueChange,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Button(
             onClick = onSaveClick,
             shape = MaterialTheme.shapes.small,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         ) {
             Text(text = stringResource(R.string.add_action))
         }
     }
 }
-
 
 @Composable
 fun TodoInputForm(
@@ -52,11 +48,11 @@ fun TodoInputForm(
     onValueChange: (TodoState) -> Unit = {},
 //    エントリー可能か判定するものは、空白でも登録できるようにするために関数実装はしてないが、
 //    今後必要になるかもしれないので一旦引数は残しておく
-    enabled: Boolean = true
+    enabled: Boolean = true,
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         OutlinedTextField(
             value = todoState.title,
@@ -69,13 +65,13 @@ fun TodoInputForm(
             ),
             modifier = Modifier.fillMaxWidth(),
             enabled = enabled,
-            singleLine = true
+            singleLine = true,
         )
 
         if (enabled) {
             Text(
                 text = stringResource(R.string.required_fields),
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(start = 16.dp),
             )
         }
     }

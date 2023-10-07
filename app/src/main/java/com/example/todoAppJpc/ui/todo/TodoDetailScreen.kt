@@ -31,21 +31,19 @@ import androidx.navigation.NavController
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 
-
-object TodoDetailDestination: NavigationDestination {
+object TodoDetailDestination : NavigationDestination {
     override val route = "todo_details"
     override val titleRes = R.string.app_detail_page_top_bar
     const val todoIdArg = "TodoId"
     val routeWithArgs = "$route/{$todoIdArg}"
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     modifier: Modifier = Modifier.padding(10.dp),
     viewModel: TodoDetailViewModel = hiltViewModel(),
-    navController: NavController,  // rmv = rememberNavController()
+    navController: NavController, // rmv = rememberNavController()
     navBackStackEntry: NavBackStackEntry?,
 ) {
     MaterialTheme {
@@ -58,10 +56,8 @@ fun DetailScreen(
                 )
             },
 
-
-
-        ){ innerPadding -> TodoDetailBody(modifier = modifier.padding(innerPadding))
-
+            ) { innerPadding ->
+            TodoDetailBody(modifier = modifier.padding(innerPadding))
         }
     }
 }
@@ -71,7 +67,7 @@ fun DetailScreen(
 fun TodoDetailTopAppBar(
     navController: NavController,
     navBackStackEntry: NavBackStackEntry?,
-){
+) {
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはDetailScreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
@@ -81,7 +77,7 @@ fun TodoDetailTopAppBar(
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.ArrowBack,
-                        contentDescription = "Back"
+                        contentDescription = "Back",
                     )
                 }
             }
@@ -96,13 +92,13 @@ fun TodoDetailTopAppBar(
                     text = stringResource(id = TodoDetailDestination.titleRes),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
             },
             modifier = Modifier.statusBarsPadding(),
             navigationIcon = navigationIcon,
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.background
+                containerColor = MaterialTheme.colorScheme.background,
             ),
         )
     }
@@ -115,7 +111,6 @@ fun TodoDetailBody(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
 
-
     ) {
         TodoDetails()
     }
@@ -123,25 +118,23 @@ fun TodoDetailBody(modifier: Modifier = Modifier) {
 
 @Composable
 fun TodoDetails(
-    modifier: Modifier = Modifier
-){
+    modifier: Modifier = Modifier,
+) {
     Card(
         modifier = modifier,
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+        ),
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(dimensionResource(id = R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium))
+            verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
         ) {
             Text(text = "title")
             Divider()
-
-
         }
     }
 }

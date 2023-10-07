@@ -14,18 +14,18 @@ object TodoAppViewModelProvider {
     val Factory = viewModelFactory {
         initializer {
             TodoEntryViewModel(
-                todoApplication().todoContainer.todoRepository
+                todoApplication().todoContainer.todoRepository,
             )
         }
         initializer {
             MainBodyViewModel(
                 this.createSavedStateHandle(),
-                todoApplication().todoContainer.todoRepository
+                todoApplication().todoContainer.todoRepository,
             )
         }
         initializer {
             TodoDetailViewModel(
-                todoApplication().todoContainer.todoRepository
+                todoApplication().todoContainer.todoRepository,
             )
         }
     }
