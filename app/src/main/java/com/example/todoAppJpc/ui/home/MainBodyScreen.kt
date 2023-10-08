@@ -39,10 +39,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.data.TodoEntity
-import com.example.todoAppJpc.ui.TodoAppViewModelProvider
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 import com.example.todoAppJpc.ui.todo.TodoEntryBody
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
@@ -155,7 +153,7 @@ fun MainScreen(
     mainBodyViewModel: MainBodyViewModel,
 ) {
     val todoEntryViewModel: TodoEntryViewModel =
-        viewModel(factory = TodoAppViewModelProvider.Factory)
+        hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
     Surface(
         modifier = Modifier,
@@ -210,7 +208,7 @@ fun MainScreen(
 fun MainBody(
     modifier: Modifier = Modifier,
     onTodoClick: (Int) -> Unit = {},
-    viewModel: MainBodyViewModel = viewModel(factory = TodoAppViewModelProvider.Factory),
+    viewModel: MainBodyViewModel = hiltViewModel(),
 ) {
     val mainBodyUiState by viewModel.mainBodyUiState.collectAsState()
     val todoEntityList = mainBodyUiState.todoList

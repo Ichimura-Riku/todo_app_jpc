@@ -4,7 +4,7 @@
     <string name="todo_title_req">Title</string>
 
     <string name="app_name">TodoApp</string>
-    <string name="app_detail_page_top_bar">Todo Detail</string>
+    <string name="app_edit_page_top_bar">Todo View</string>
     <string name="attention">Attention</string>
     <string name="back_button">Back</string>
     <string name="delete">Delete</string>

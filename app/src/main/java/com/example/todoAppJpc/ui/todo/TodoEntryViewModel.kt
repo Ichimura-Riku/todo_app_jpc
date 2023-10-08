@@ -6,8 +6,12 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class TodoEntryViewModel(private val todoRepository: TodoRepository) : ViewModel() {
+@HiltViewModel
+class TodoEntryViewModel @Inject constructor(private val todoRepository: TodoRepository) :
+    ViewModel() {
     var todoUiState by mutableStateOf(TodoUiState())
         private set
 

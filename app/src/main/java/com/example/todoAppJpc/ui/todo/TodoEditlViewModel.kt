@@ -6,12 +6,12 @@ import com.example.todoAppJpc.data.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 @HiltViewModel
-class TodoDetailViewModel @Inject constructor(
+class TodoEditViewModel @Inject constructor(
     private val todoRepository: TodoRepository,
 ) : ViewModel() {
-//    private val itemId: Int = checkNotNull(savedStateHandle[ItemDetailsDestination.itemIdArg])
+//    private val itemId: Int = checkNotNull(savedStateHandle[ItemEditDestination.itemIdArg])
 }
 
-data class TodoDetailsUiState(
-    val todoDetail: TodoEntity,
+data class TodoEditUiState(
+    val todoEdit: TodoEntity,
 )

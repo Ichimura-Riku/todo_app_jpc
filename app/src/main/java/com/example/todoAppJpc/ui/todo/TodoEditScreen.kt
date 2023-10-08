@@ -32,45 +32,45 @@ import androidx.navigation.NavController
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 
-object TodoDetailDestination : NavigationDestination {
-    override val route = "todo_details"
-    override val titleRes = R.string.app_detail_page_top_bar
+object TodoEditDestination : NavigationDestination {
+    override val route = "todo_edit"
+    override val titleRes = R.string.app_edit_page_top_bar
     const val todoIdArg = "TodoId"
     val routeWithArgs = "$route/{$todoIdArg}"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(
+fun EditScreen(
     modifier: Modifier = Modifier.padding(10.dp),
-    viewModel: TodoDetailViewModel = hiltViewModel(),
+    viewModel: TodoEditViewModel = hiltViewModel(),
     navController: NavController, // rmv = rememberNavController()
     navBackStackEntry: NavBackStackEntry?,
 ) {
     MaterialTheme {
         Scaffold(
-//            topBar = { TodoAppBar(topBarText = stringResource(id = TodoDetailDestination.titleRes)) },
+//            topBar = { TodoAppBar(topBarText = stringResource(id = TodoEditDestination.titleRes)) },
             topBar = {
-                TodoDetailTopAppBar(
+                TodoEditTopAppBar(
                     navController = navController,
                     navBackStackEntry = navBackStackEntry,
                 )
             },
 
             ) { innerPadding ->
-            TodoDetailBody(modifier = modifier.padding(innerPadding))
+            TodoEditBody(modifier = modifier.padding(innerPadding))
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TodoDetailTopAppBar(
+fun TodoEditTopAppBar(
     navController: NavController,
     navBackStackEntry: NavBackStackEntry?,
 ) {
     val navigationIcon: (@Composable () -> Unit)? =
-//        rmv navBackStackEntryはDetailScreenか、navGraphで値を持つ
+//        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
             {
                 IconButton(onClick = {
@@ -90,7 +90,7 @@ fun TodoDetailTopAppBar(
         TopAppBar(
             title = {
                 Text(
-                    text = stringResource(id = TodoDetailDestination.titleRes),
+                    text = stringResource(id = TodoEditDestination.titleRes),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -106,19 +106,19 @@ fun TodoDetailTopAppBar(
 }
 
 @Composable
-fun TodoDetailBody(modifier: Modifier = Modifier) {
+fun TodoEditBody(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier.padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
 
-    ) {
-        TodoDetails()
+        ) {
+        TodoEdit()
     }
 }
 
 @Composable
-fun TodoDetails(
+fun TodoEdit(
     modifier: Modifier = Modifier,
 ) {
     Card(

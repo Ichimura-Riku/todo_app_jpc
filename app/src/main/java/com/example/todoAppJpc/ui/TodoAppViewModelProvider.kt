@@ -7,7 +7,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.todoAppJpc.MainApplication
 import com.example.todoAppJpc.ui.home.MainBodyViewModel
-import com.example.todoAppJpc.ui.todo.TodoDetailViewModel
+import com.example.todoAppJpc.ui.todo.TodoEditViewModel
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
 object TodoAppViewModelProvider {
@@ -24,7 +24,7 @@ object TodoAppViewModelProvider {
             )
         }
         initializer {
-            TodoDetailViewModel(
+            TodoEditViewModel(
                 todoApplication().todoContainer.todoRepository,
             )
         }
