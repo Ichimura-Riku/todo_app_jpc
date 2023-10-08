@@ -58,7 +58,7 @@ fun EditScreen(
             },
 
             ) { innerPadding ->
-            TodoEditBody(modifier = modifier.padding(innerPadding))
+            TodoEditBody(viewModel = viewModel, modifier = modifier.padding(innerPadding))
         }
     }
 }
@@ -106,19 +106,28 @@ fun TodoEditTopAppBar(
 }
 
 @Composable
-fun TodoEditBody(modifier: Modifier = Modifier) {
+fun TodoEditBody(
+    viewModel: TodoEditViewModel,
+    modifier: Modifier = Modifier
+) {
     Column(
         modifier = modifier.padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top,
 
         ) {
-        TodoEdit()
+        TodoEdit(
+            todoState = viewModel.todoUiState.todoState,
+            onValueChange = viewModel::updateTodoState
+
+        )
     }
 }
 
 @Composable
 fun TodoEdit(
+    todoState: TodoState,
+    onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
     Card(
@@ -135,7 +144,9 @@ fun TodoEdit(
             verticalArrangement = Arrangement.spacedBy(dimensionResource(id = R.dimen.padding_medium)),
         ) {
             Text(text = "title")
-            TextField(value = "textField", onValueChange = {})
+            TextField(
+                value = todoState.title,
+                onValueChange = { onValueChange(todoState.copy(title = it)) })
             Divider()
         }
     }
