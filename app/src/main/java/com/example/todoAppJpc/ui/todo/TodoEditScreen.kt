@@ -20,6 +20,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -31,6 +32,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 object TodoEditDestination : NavigationDestination {
     override val route = "todo_edit"
@@ -52,6 +55,7 @@ fun EditScreen(
 //            topBar = { TodoAppBar(topBarText = stringResource(id = TodoEditDestination.titleRes)) },
             topBar = {
                 TodoEditTopAppBar(
+                    viewModel = viewModel,
                     navController = navController,
                     navBackStackEntry = navBackStackEntry,
                 )
@@ -66,15 +70,21 @@ fun EditScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEditTopAppBar(
+    viewModel: TodoEditViewModel,
     navController: NavController,
     navBackStackEntry: NavBackStackEntry?,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
             {
                 IconButton(onClick = {
-                    navController.popBackStack()
+                    navBackEntry(
+                        viewModel = viewModel,
+                        navController = navController,
+                        coroutineScope = coroutineScope
+                    )
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.ArrowBack,
@@ -110,6 +120,7 @@ fun TodoEditBody(
     viewModel: TodoEditViewModel,
     modifier: Modifier = Modifier
 ) {
+
     Column(
         modifier = modifier.padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -150,4 +161,19 @@ fun TodoEdit(
             Divider()
         }
     }
+}
+
+fun navBackEntry(
+    viewModel: TodoEditViewModel,
+    navController: NavController,
+    coroutineScope: CoroutineScope
+) {
+    val todoState = viewModel.todoUiState.todoState
+    navController.popBackStack()
+    coroutineScope.launch {
+        viewModel.adventTodo()
+
+    }
+
+
 }

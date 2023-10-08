@@ -16,10 +16,13 @@ interface TodoDao {
     @Query("SELECT * FROM todo WHERE is_attention = 1")
     fun getAttentionTodo(): Flow<List<TodoEntity>>
 
-    @Query("SELECT * from todo WHERE id = :category")
+    @Query("SELECT * from todo WHERE category = :category")
     fun getTodoByCategory(category: String): Flow<List<TodoEntity>>
 
-//    競合が発生した時、その処理を無視するように指定
+    @Query("SELECT * from todo WHERE id = :id")
+    fun getTodoById(id: Int): Flow<TodoEntity>
+
+    //    競合が発生した時、その処理を無視するように指定
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(todoEntity: TodoEntity)
 

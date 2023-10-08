@@ -16,6 +16,9 @@ class OfflineTodoRepository(private val todoDao: TodoDao) : TodoRepository {
     override fun getTodoByCategory(category: String): Flow<List<TodoEntity>> =
         todoDao.getTodoByCategory(category).flowOn(Dispatchers.IO)
 
+    override fun getTodoById(id: Int): Flow<TodoEntity> =
+        todoDao.getTodoById(id).flowOn(Dispatchers.IO)
+
     override suspend fun insertTodo(todoEntity: TodoEntity) =
         withContext(Dispatchers.IO) { todoDao.insert(todoEntity) }
 

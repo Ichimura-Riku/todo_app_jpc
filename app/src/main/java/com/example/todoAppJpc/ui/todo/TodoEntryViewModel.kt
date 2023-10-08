@@ -27,7 +27,7 @@ class TodoEntryViewModel @Inject constructor(private val todoRepository: TodoRep
 data class TodoUiState(
     val todoState: TodoState = TodoState(),
 
-)
+    )
 
 // ItemDetailsの代わり
 data class TodoState(
@@ -40,21 +40,25 @@ data class TodoState(
     val category: String = "myTask",
     val isFinished: Int = 0,
     val priority: String = "low",
-) {
-    //    あえて違う実装にしてみる
-    fun toTodo(): TodoEntity = TodoEntity(
-        id = id,
-        title = title,
-        content = content,
+)
+
+fun TodoState.toTodo(): TodoEntity = TodoEntity(
+    id = id,
+    title = title,
+    content = content,
 //    多分日時系は型変換する必要がある
-        date = date,
-        deadLine = deadLine,
-        isAttention = isAttention,
-        category = category,
-        isFinished = isFinished,
-        priority = priority,
-    )
-}
+    date = date,
+    deadLine = deadLine,
+    isAttention = isAttention,
+    category = category,
+    isFinished = isFinished,
+    priority = priority,
+)
+
+
+fun TodoEntity.toTodoUiState(): TodoUiState = TodoUiState(
+    todoState = this.toTodoState()
+)
 
 fun TodoEntity.toTodoState(): TodoState = TodoState(
     id = id,

@@ -25,6 +25,7 @@ object TodoAppViewModelProvider {
         }
         initializer {
             TodoEditViewModel(
+                this.createSavedStateHandle(),
                 todoApplication().todoContainer.todoRepository,
             )
         }
