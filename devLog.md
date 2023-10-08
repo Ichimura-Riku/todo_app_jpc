@@ -240,7 +240,14 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
     - 削除ボタンを作成
         - 戻る時のボタンも必要だった
         - とりあえずnavControllerを持たせた
+        - https://tech.mokelab.com/android/compose/app/navigation/topAppBar.html
     - 確認画面を作成
+        - 今detailとeditで分かれてるけど、これ一緒でいい気がする
+        - 一旦、detailをeditに寄せるか？
+        - 逆かもしれない
+        - 逆にして、ビルドできるか試す？
+        - 普通に消して名前変えた方が早そう
+        - それでいく
     - delete関数の実装
 - 編集の実装
 
