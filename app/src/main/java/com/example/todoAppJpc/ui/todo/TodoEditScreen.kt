@@ -2,11 +2,13 @@ package com.example.todoAppJpc.ui.todo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -95,6 +97,17 @@ fun TodoEditTopAppBar(
         } else {
             null
         }
+    val eliminateIcon: (@Composable RowScope.() -> Unit) =
+        {
+            IconButton(onClick = {
+                onClickEliminate(
+                    viewModel = viewModel,
+                    coroutineScope = coroutineScope,
+                )
+            }) {
+                Icon(imageVector = Icons.Rounded.Delete, contentDescription = "delete")
+            }
+        }
 //    rmv 基本レイアウトはMainBodyScreenと一緒で、
     if (navigationIcon != null) {
         TopAppBar(
@@ -108,6 +121,7 @@ fun TodoEditTopAppBar(
             },
             modifier = Modifier.statusBarsPadding(),
             navigationIcon = navigationIcon,
+            actions = eliminateIcon,
             colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                 containerColor = MaterialTheme.colorScheme.background,
             ),
@@ -168,12 +182,20 @@ fun navBackEntry(
     navController: NavController,
     coroutineScope: CoroutineScope
 ) {
-    val todoState = viewModel.todoUiState.todoState
-    navController.popBackStack()
     coroutineScope.launch {
         viewModel.adventTodo()
 
     }
+    navController.popBackStack()
+}
 
+fun onClickEliminate(
+    viewModel: TodoEditViewModel,
+    coroutineScope: CoroutineScope,
+) {
 
+    coroutineScope.launch {
+        viewModel.eliminateTodo()
+
+    }
 }

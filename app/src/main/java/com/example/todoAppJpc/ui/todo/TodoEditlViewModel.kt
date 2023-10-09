@@ -42,5 +42,9 @@ class TodoEditViewModel @Inject constructor(
 //        Log.d( "debug", OnConflictStrategy.IGNORE.toString())
     }
 
+    suspend fun eliminateTodo() {
+        todoRepository.deleteTodo(todoUiState.todoState.toTodo())
+    }
+
 }
 
