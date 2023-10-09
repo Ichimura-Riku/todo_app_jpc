@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
@@ -18,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -52,6 +54,7 @@ fun EditScreen(
     navController: NavController, // rmv = rememberNavController()
     navBackStackEntry: NavBackStackEntry?,
 ) {
+    val coroutineScope = rememberCoroutineScope()
     MaterialTheme {
         Scaffold(
 //            topBar = { TodoAppBar(topBarText = stringResource(id = TodoEditDestination.titleRes)) },
@@ -59,12 +62,18 @@ fun EditScreen(
                 TodoEditTopAppBar(
                     viewModel = viewModel,
                     navController = navController,
+                    coroutineScope = coroutineScope,
                     navBackStackEntry = navBackStackEntry,
                 )
             },
 
             ) { innerPadding ->
-            TodoEditBody(viewModel = viewModel, modifier = modifier.padding(innerPadding))
+            TodoEditBody(
+                viewModel = viewModel,
+                navController = navController,
+                coroutineScope = coroutineScope,
+                modifier = modifier.padding(innerPadding),
+            )
         }
     }
 }
@@ -74,9 +83,10 @@ fun EditScreen(
 fun TodoEditTopAppBar(
     viewModel: TodoEditViewModel,
     navController: NavController,
+    coroutineScope: CoroutineScope,
     navBackStackEntry: NavBackStackEntry?,
 ) {
-    val coroutineScope = rememberCoroutineScope()
+
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
@@ -100,10 +110,7 @@ fun TodoEditTopAppBar(
     val eliminateIcon: (@Composable RowScope.() -> Unit) =
         {
             IconButton(onClick = {
-                onClickEliminate(
-                    viewModel = viewModel,
-                    coroutineScope = coroutineScope,
-                )
+                viewModel.setDeleteConfirmationRequired(true)
             }) {
                 Icon(imageVector = Icons.Rounded.Delete, contentDescription = "delete")
             }
@@ -132,8 +139,11 @@ fun TodoEditTopAppBar(
 @Composable
 fun TodoEditBody(
     viewModel: TodoEditViewModel,
+    navController: NavController,
+    coroutineScope: CoroutineScope,
     modifier: Modifier = Modifier
 ) {
+
 
     Column(
         modifier = modifier.padding(10.dp),
@@ -146,6 +156,24 @@ fun TodoEditBody(
             onValueChange = viewModel::updateTodoState
 
         )
+        if (viewModel.getDeleteConfirmationRequired()) {
+            EliminateConfirmationDialog(
+                onDeleteConfirm = {
+                    onClickEliminate(
+                        viewModel = viewModel,
+                        navController = navController,
+                        coroutineScope = coroutineScope,
+                    )
+
+                },
+                onDeleteCancel = {
+                    viewModel.setDeleteConfirmationRequired(false)
+
+                },
+                modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
+            )
+        }
+
     }
 }
 
@@ -177,6 +205,31 @@ fun TodoEdit(
     }
 }
 
+@Composable
+private fun EliminateConfirmationDialog(
+    onDeleteConfirm: () -> Unit,
+    onDeleteCancel: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    AlertDialog(
+        onDismissRequest = { /* Do nothing */ },
+        title = { Text(stringResource(R.string.attention)) },
+        text = { Text(stringResource(R.string.delete_question)) },
+        modifier = modifier,
+        dismissButton = {
+            TextButton(onClick = onDeleteCancel) {
+                Text(text = stringResource(R.string.no))
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = onDeleteConfirm) {
+                Text(text = stringResource(R.string.yes))
+            }
+        },
+    )
+}
+
+
 fun navBackEntry(
     viewModel: TodoEditViewModel,
     navController: NavController,
@@ -191,11 +244,13 @@ fun navBackEntry(
 
 fun onClickEliminate(
     viewModel: TodoEditViewModel,
+    navController: NavController,
     coroutineScope: CoroutineScope,
 ) {
-
+    viewModel.setDeleteConfirmationRequired(false)
     coroutineScope.launch {
         viewModel.eliminateTodo()
 
     }
+    navController.popBackStack()
 }

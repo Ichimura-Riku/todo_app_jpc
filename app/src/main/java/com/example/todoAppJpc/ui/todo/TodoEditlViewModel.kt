@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filterNotNull
@@ -21,6 +22,9 @@ class TodoEditViewModel @Inject constructor(
     private val itemId: Int = checkNotNull(savedStateHandle[TodoEditDestination.todoIdArg])
     var todoUiState by mutableStateOf(TodoUiState())
         private set
+    private var _deleteConfirmationRequired by savedStateHandle.saveable {
+        mutableStateOf(false)
+    }
 
     init {
         viewModelScope.launch {
@@ -29,6 +33,14 @@ class TodoEditViewModel @Inject constructor(
                 .first()
                 .toTodoUiState()
         }
+    }
+
+    fun getDeleteConfirmationRequired(): Boolean {
+        return _deleteConfirmationRequired
+    }
+
+    fun setDeleteConfirmationRequired(deleteConfirmationRequired: Boolean) {
+        _deleteConfirmationRequired = deleteConfirmationRequired
     }
 
     fun updateTodoState(todoState: TodoState) {
