@@ -68,9 +68,9 @@ fun TodoEntryBody(
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
-                IconButton(onClick = { /* doSomething() */ }) {
+                IconButton(onClick = { viewModel.setShowContentTextField(!viewModel.getShowContentTextField()) }) {
                     Icon(
-                        painterResource(id = R.drawable.round_format_list_bulleted_24),
+                        painterResource(id = if (viewModel.getShowContentTextField()) R.drawable.baseline_edit_note_24 else R.drawable.baseline_notes_24),
                         contentDescription = "Localized description",
                     )
                 }
