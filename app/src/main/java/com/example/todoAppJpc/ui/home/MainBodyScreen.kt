@@ -170,6 +170,8 @@ fun MainScreen(
                         mainBodyViewModel.setShowBottomSheet(false)
                     },
                     sheetState = sheetState,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                 ) {
                     // Sheet content
                     TodoEntryBody(
@@ -182,8 +184,6 @@ fun MainScreen(
                             // be cancelled - since the scope is bound to composition.
                             coroutineScope.launch {
                                 todoEntryViewModel.adventTodo()
-//                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
-//                                    navigateBack()
                             }
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {

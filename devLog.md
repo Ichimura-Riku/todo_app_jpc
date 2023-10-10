@@ -268,6 +268,7 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
     - delete関数の実装
         - この作業に入る
         - topAppBarに入れる
+          - [参考](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#TopAppBar(kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function1,androidx.compose.foundation.layout.WindowInsets,androidx.compose.material3.TopAppBarColors,androidx.compose.material3.TopAppBarScrollBehavior))
         - あと、ボトムに入れる
             - 完了にしたっていうボタンも入れたい
         - 消す時、確認アラート入れる
@@ -275,10 +276,19 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
         - homeのfabと同様、stateはViewModelに持たせることで複数のComposable関数で値の変更ができるようにした
 - 編集の実装
     - ついでで実装完了してしまった
+- 登録プロパティを追加
+    - textFieldも合わせに行こうと思ってたけどうまいことデザインを合わせられなかった
+    - bottomSheet
+        - 詳細
+        - 締切
+        - 登録した時間
+        - 重要度
+            - タグの機能だったはず
+        -
+        - editScreen
 
 あとで
-
 - タイル長押しで削除も追加
 - 登録する時の他の要素も追加できるようにする
 - ボトムメニューバーに機能を持たせる
-- detailのtitleをなんとかする
+- カテゴリの作成
