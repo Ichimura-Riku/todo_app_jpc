@@ -2,7 +2,6 @@ package com.example.todoAppJpc.ui.todo
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -67,8 +66,8 @@ fun TodoInputForm(
             value = todoState.content,
             onValueChange = { onValueChange(todoState.copy(content = it)) },
             label = { Text(stringResource(R.string.todo_content_req)) },
-            modifier = Modifier.fillMaxSize(),
-
-            )
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = false,
+        )
     }
 }

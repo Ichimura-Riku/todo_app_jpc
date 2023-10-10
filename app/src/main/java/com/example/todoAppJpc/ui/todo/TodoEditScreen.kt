@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.todo
 
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
@@ -192,6 +193,11 @@ fun TodoEdit(
             value = todoState.title,
             onValueChange = { onValueChange(todoState.copy(title = it)) })
         Divider()
+        TextField(
+            value = todoState.content,
+            onValueChange = { onValueChange(todoState.copy(title = it)) })
+        Divider()
+
     }
 
 }
