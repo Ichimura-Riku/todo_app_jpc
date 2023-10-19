@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePicker
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,6 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
+import java.time.Instant
 
 
 @Composable
@@ -74,7 +78,7 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { /* doSomething() */ }) {
+                IconButton(onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) }) {
                     Icon(
                         painterResource(id = R.drawable.round_swap_vert_24),
                         contentDescription = "Localized description",
@@ -93,6 +97,8 @@ fun TodoEntryBody(
 
 }
 
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoInputForm(
     viewModel: TodoEntryViewModel,
@@ -100,6 +106,9 @@ fun TodoInputForm(
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
 ) {
+    val datePickerState = rememberDatePickerState(
+        initialSelectedDateMillis = Instant.now().toEpochMilli()
+    )
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -124,6 +133,10 @@ fun TodoInputForm(
                 modifier = Modifier.fillMaxWidth(),
                 singleLine = false,
             )
+        }
+        if (viewModel.getShowDatePicker()) {
+
+            DatePicker(state = datePickerState)
         }
     }
 }
