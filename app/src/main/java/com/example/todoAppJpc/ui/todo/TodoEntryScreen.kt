@@ -117,11 +117,6 @@ fun TodoInputForm(
             value = todoState.title,
             onValueChange = { onValueChange(todoState.copy(title = it)) },
             label = { Text(stringResource(R.string.todo_title_req)) },
-//            colors = TextFieldDefaults.colors(
-//                focusedContainerColor = MaterialTheme.colorScheme.surface,
-//                unfocusedContainerColor = MaterialTheme.colorScheme.surface,
-//                disabledContainerColor = MaterialTheme.colorScheme.surface,
-//            ),
             modifier = Modifier.fillMaxWidth(),
             singleLine = false,
         )
