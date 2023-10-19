@@ -31,6 +31,18 @@ class TodoEntryViewModel @Inject constructor(
         _showContentTextField = showContentTextField
     }
 
+    private var _showDatePicker by savedStateHandle.saveable {
+        mutableStateOf(false)
+    }
+
+    fun getShowDatePicker(): Boolean {
+        return _showDatePicker
+    }
+
+    fun setShowDatePicker(showDatePicker: Boolean) {
+        _showDatePicker = showDatePicker
+    }
+
     fun updateTodoState(todoState: TodoState) {
         todoUiState = TodoUiState(todoState = todoState)
     }
