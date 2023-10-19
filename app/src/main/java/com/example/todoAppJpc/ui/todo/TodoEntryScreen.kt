@@ -134,7 +134,7 @@ fun TodoInputForm(
         }
         if (viewModel.getShowDatePicker()) {
 
-            DatePicker(state = datePickerState)
+            DatePickerComponent(viewModel = viewModel)
         }
     }
 }
