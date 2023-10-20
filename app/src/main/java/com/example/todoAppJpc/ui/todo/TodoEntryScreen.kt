@@ -92,7 +92,7 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { viewModel.setShowTimePicker(!viewModel.getShowTimePicker()) }) {
+                IconButton(onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) }) {
                     Icon(
                         painterResource(id = R.drawable.round_swap_vert_24),
                         contentDescription = "Localized description",
@@ -176,7 +176,10 @@ fun DatePickerComponent(
     if (viewModel.getShowDatePicker()) {
         Material3DatePickerDialogComponent(
             datePickerState = datePickerState,
-            closePicker = { viewModel.setShowDatePicker(false) },
+            closePicker = {
+                viewModel.setShowDatePicker(false)
+                viewModel.setShowTimePicker(true)
+            },
         )
     }
 }
