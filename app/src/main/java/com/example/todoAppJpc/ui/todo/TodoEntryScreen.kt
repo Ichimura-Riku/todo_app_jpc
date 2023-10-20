@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
-import com.example.todoAppJpc.ui.components.TimePickerDialog
+import com.example.todoAppJpc.ui.components.TimePickerComponent
 import java.time.Instant
 import java.util.Calendar
 
@@ -139,7 +139,7 @@ fun TodoInputForm(
             DatePickerComponent(viewModel = viewModel)
         }
         if (viewModel.getShowTimePicker()) {
-            TimePickerDialog(
+            TimePickerComponent(
                 onCancel = { viewModel.setShowTimePicker(false) },
                 onConfirm = {
                     val cal = Calendar.getInstance()
