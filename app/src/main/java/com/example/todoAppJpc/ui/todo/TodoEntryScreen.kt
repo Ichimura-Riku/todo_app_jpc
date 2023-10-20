@@ -113,7 +113,7 @@ fun TodoInputForm(
     val datePickerState = rememberDatePickerState(
         initialSelectedDateMillis = Instant.now().toEpochMilli()
     )
-    val state = rememberTimePickerState()
+    val timePickerState = rememberTimePickerState()
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -143,13 +143,13 @@ fun TodoInputForm(
                 onCancel = { viewModel.setShowTimePicker(false) },
                 onConfirm = {
                     val cal = Calendar.getInstance()
-                    cal.set(Calendar.HOUR_OF_DAY, state.hour)
-                    cal.set(Calendar.MINUTE, state.minute)
+                    cal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+                    cal.set(Calendar.MINUTE, timePickerState.minute)
                     cal.isLenient = false
                     viewModel.setShowTimePicker(false)
                 },
             ) {
-                TimePicker(state = state)
+                TimePicker(state = timePickerState)
             }
         }
     }
