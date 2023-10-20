@@ -195,7 +195,7 @@ fun TodoEdit(
         Divider()
         TextField(
             value = todoState.content,
-            onValueChange = { onValueChange(todoState.copy(title = it)) })
+            onValueChange = { onValueChange(todoState.copy(content = it)) })
         Divider()
 
     }
