@@ -37,20 +37,16 @@ class TodoEntryViewModel @Inject constructor(
     }
 
     //      [deadlineState]
-    private var deadlineState: DeadLineState by savedStateHandle.saveable {
-        mutableStateOf(DeadLineState())
+    private var deadlineUiState: DeadlineUiState by savedStateHandle.saveable {
+        mutableStateOf(DeadlineUiState())
     }
 
-    val datePickerState: DatePickerState? get() = deadlineState.datePickerState
+    val datePickerState: DatePickerState? get() = deadlineUiState.deadlineState.datePickerState
 
-    val timePickerState: TimePickerState? get() = deadlineState.timePickerState
+    val timePickerState: TimePickerState? get() = deadlineUiState.deadlineState.timePickerState
 
     fun updateDatePickerState(datePickerState: DatePickerState?) {
-        deadlineState.datePickerState = datePickerState
-    }
-
-    fun updateTimePickerState(timePickerState: TimePickerState?) {
-        deadlineState.timePickerState = timePickerState
+        deadlineUiState.deadlineState.datePickerState = datePickerState
     }
 
     //  [showDatePicker]
@@ -106,11 +102,24 @@ data class TodoState(
     val priority: String = "low",
 )
 
-data class DeadLineState
+data class DeadlineUiState
 @OptIn(ExperimentalMaterial3Api::class)
 constructor(
+    val deadlineState: DeadlineState = DeadlineState(),
+    val showDeadlineDialog: ShowDeadlineDialog = ShowDeadlineDialog()
+)
+
+data class DeadlineState @OptIn(ExperimentalMaterial3Api::class)
+constructor(
     var datePickerState: DatePickerState? = null,
-    var timePickerState: TimePickerState? = null,
+    var timePickerState: TimePickerState = TimePickerState(0, 0, false),
+
+    )
+
+data class ShowDeadlineDialog(
+    var showDatePicker: Boolean = false,
+    var showTimePicker: Boolean = false
+
 )
 
 fun TodoState.toTodo(): TodoEntity = TodoEntity(

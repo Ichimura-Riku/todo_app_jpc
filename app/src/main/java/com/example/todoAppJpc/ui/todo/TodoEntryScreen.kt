@@ -16,7 +16,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TimePicker
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -28,8 +27,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
-import java.time.Instant
-import java.util.Calendar
 
 @Composable
 fun TodoEntryBody(
@@ -68,7 +65,6 @@ fun TodoEntryBody(
         ) {
             Row(
                 modifier = Modifier.fillMaxSize(),
-//                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
@@ -103,9 +99,7 @@ fun TodoInputForm(
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
 ) {
-    val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli(),
-    )
+
     val timePickerState = rememberTimePickerState()
     Column(
         modifier = modifier,
@@ -134,14 +128,10 @@ fun TodoInputForm(
             TimePickerComponent(
                 onCancel = { viewModel.setShowTimePicker(false) },
                 onConfirm = {
-                    val cal = Calendar.getInstance()
-                    cal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
-                    cal.set(Calendar.MINUTE, timePickerState.minute)
-                    cal.isLenient = false
                     viewModel.setShowTimePicker(false)
                 },
             ) {
-                TimePicker(state = timePickerState)
+                TimePicker(state = viewModel.timePickerState ?: rememberTimePickerState())
             }
         }
     }
