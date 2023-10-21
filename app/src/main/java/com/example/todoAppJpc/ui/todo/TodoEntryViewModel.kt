@@ -8,14 +8,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.DeadlineUiState
+import com.example.todoAppJpc.utils.IsInputDeadlineState
+import com.example.todoAppJpc.utils.updateIsInputDatePickerState
+import com.example.todoAppJpc.utils.updateIsInputTimePickerState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
 @HiltViewModel
 class TodoEntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -45,6 +49,14 @@ class TodoEntryViewModel @Inject constructor(
     val datePickerState: DatePickerState get() = deadlineUiState.deadlineState.datePickerState
 
     val timePickerState: TimePickerState get() = deadlineUiState.deadlineState.timePickerState
+
+    val isInputDeadlineState: IsInputDeadlineState get() = deadlineUiState.isInputDeadlineState
+
+    fun updateIsInputTimePickerState(isInputState: Boolean) =
+        deadlineUiState.updateIsInputTimePickerState(isInputState)
+
+    fun updateIsInputDatePickerState(isInputState: Boolean) =
+        deadlineUiState.updateIsInputDatePickerState(isInputState)
 
     //  [showDatePicker]
     private var _showDatePicker by savedStateHandle.saveable {

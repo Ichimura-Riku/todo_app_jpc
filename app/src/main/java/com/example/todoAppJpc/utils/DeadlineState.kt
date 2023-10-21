@@ -12,6 +12,7 @@ data class DeadlineUiState
 constructor(
     val deadlineState: DeadlineState = DeadlineState(),
     val showDeadlineDialog: ShowDeadlineDialog = ShowDeadlineDialog(),
+    val isInputDeadlineState: IsInputDeadlineState = IsInputDeadlineState(),
 )
 
 data class DeadlineState
@@ -34,8 +35,14 @@ data class ShowDeadlineDialog(
     )
 
 data class IsInputDeadlineState(
-    var isInputTimeState: Boolean = false,
-    var isInputDateState: Boolean = false,
+    var isInputTimePickerState: Boolean = false,
+    var isInputDatePickerState: Boolean = false,
 )
 
-// fun DeadlineState.updateDateState()
+fun DeadlineUiState.updateIsInputTimePickerState(isInputState: Boolean) {
+    isInputDeadlineState.isInputTimePickerState = isInputState
+}
+
+fun DeadlineUiState.updateIsInputDatePickerState(isInputState: Boolean) {
+    isInputDeadlineState.isInputDatePickerState = isInputState
+}
