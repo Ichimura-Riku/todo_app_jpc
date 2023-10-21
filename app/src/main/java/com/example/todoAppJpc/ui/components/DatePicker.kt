@@ -3,7 +3,6 @@ package com.example.todoAppJpc.ui.components
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
-import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +46,8 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
+//                        isInputDatePickerState = true
+                        viewModel.updateIsInputDatePickerState(true)
                         datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()
                     },
@@ -55,6 +56,7 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
+                        viewModel.updateIsInputDatePickerState(true)
                         datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()
                         showTimePicker()
