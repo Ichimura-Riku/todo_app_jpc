@@ -1,8 +1,6 @@
 package com.example.todoAppJpc.ui.todo
 
-import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
-import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
@@ -13,10 +11,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
+import com.example.todoAppJpc.utils.DeadlineUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.time.Instant
 import javax.inject.Inject
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @HiltViewModel
@@ -48,7 +45,6 @@ class TodoEntryViewModel @Inject constructor(
     val datePickerState: DatePickerState get() = deadlineUiState.deadlineState.datePickerState
 
     val timePickerState: TimePickerState get() = deadlineUiState.deadlineState.timePickerState
-
 
     //  [showDatePicker]
     private var _showDatePicker by savedStateHandle.saveable {
@@ -101,31 +97,6 @@ data class TodoState(
     val category: String = "myTask",
     val isFinished: Int = 0,
     val priority: String = "low",
-)
-
-data class DeadlineUiState
-@OptIn(ExperimentalMaterial3Api::class)
-constructor(
-    val deadlineState: DeadlineState = DeadlineState(),
-    val showDeadlineDialog: ShowDeadlineDialog = ShowDeadlineDialog()
-)
-
-data class DeadlineState @OptIn(ExperimentalMaterial3Api::class)
-constructor(
-    var datePickerState: DatePickerState = DatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli(),
-        initialDisplayedMonthMillis = Instant.now().toEpochMilli(),
-        yearRange = DatePickerDefaults.YearRange,
-        initialDisplayMode = DisplayMode.Picker
-    ),
-    var timePickerState: TimePickerState = TimePickerState(0, 0, false),
-
-    )
-
-data class ShowDeadlineDialog(
-    var showDatePicker: Boolean = false,
-    var showTimePicker: Boolean = false
-
 )
 
 fun TodoState.toTodo(): TodoEntity = TodoEntity(
