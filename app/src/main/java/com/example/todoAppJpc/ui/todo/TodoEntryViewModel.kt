@@ -1,5 +1,8 @@
 package com.example.todoAppJpc.ui.todo
 
+import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -11,6 +14,7 @@ import com.example.todoAppJpc.data.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+@OptIn(ExperimentalMaterial3Api::class)
 @HiltViewModel
 class TodoEntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -19,10 +23,10 @@ class TodoEntryViewModel @Inject constructor(
     var todoUiState by mutableStateOf(TodoUiState())
         private set
 
-//  [contextTextField]
+    //  [contextTextField]
 private var _showContentTextField by savedStateHandle.saveable {
-    mutableStateOf(false)
-}
+        mutableStateOf(false)
+    }
 
     fun getShowContentTextField(): Boolean {
         return _showContentTextField
@@ -30,6 +34,23 @@ private var _showContentTextField by savedStateHandle.saveable {
 
     fun setShowContentTextField(showContentTextField: Boolean) {
         _showContentTextField = showContentTextField
+    }
+
+    //      [deadlineState]
+    private var deadlineState: DeadLineState by savedStateHandle.saveable {
+        mutableStateOf(DeadLineState())
+    }
+
+    val datePickerState: DatePickerState? get() = deadlineState.datePickerState
+
+    val timePickerState: TimePickerState? get() = deadlineState.timePickerState
+
+    fun updateDatePickerState(datePickerState: DatePickerState?) {
+        deadlineState.datePickerState = datePickerState
+    }
+
+    fun updateTimePickerState(timePickerState: TimePickerState?) {
+        deadlineState.timePickerState = timePickerState
     }
 
     //  [showDatePicker]
@@ -83,6 +104,11 @@ data class TodoState(
     val category: String = "myTask",
     val isFinished: Int = 0,
     val priority: String = "low",
+)
+
+data class DeadLineState @OptIn(ExperimentalMaterial3Api::class) constructor(
+    var datePickerState: DatePickerState? = null,
+    var timePickerState: TimePickerState? = null,
 )
 
 fun TodoState.toTodo(): TodoEntity = TodoEntity(
