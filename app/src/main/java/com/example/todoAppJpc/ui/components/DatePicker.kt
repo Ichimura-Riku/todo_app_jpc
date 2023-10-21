@@ -1,6 +1,6 @@
 package com.example.todoAppJpc.ui.components
 
-import android.util.Log
+import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DatePickerState
@@ -10,6 +10,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -21,9 +22,10 @@ fun DatePickerComponent(
             datePickerState = viewModel.datePickerState,
             closePicker = {
                 viewModel.setShowDatePicker(false)
-                viewModel.setShowTimePicker(true)
-                Log.d("debug-----", "${viewModel.datePickerState.selectedDateMillis}")
             },
+            showTimePicker = {
+                viewModel.setShowTimePicker(true)
+            }
         )
     }
 }
@@ -33,6 +35,7 @@ fun DatePickerComponent(
 fun Material3DatePickerDialogComponent(
     datePickerState: DatePickerState,
     closePicker: () -> Unit,
+    showTimePicker: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     DatePickerDialog(
@@ -40,13 +43,24 @@ fun Material3DatePickerDialogComponent(
             closePicker()
         },
         confirmButton = {
-            TextButton(
-                onClick = {
-                    datePickerState.setSelection(datePickerState.selectedDateMillis)
-                    closePicker()
-                },
-            ) {
-                Text(text = "OK")
+            Row {
+                TextButton(
+                    onClick = {
+                        datePickerState.setSelection(datePickerState.selectedDateMillis)
+                        closePicker()
+                    },
+                ) {
+                    Text(text = "OK")
+                }
+                TextButton(
+                    onClick = {
+                        datePickerState.setSelection(datePickerState.selectedDateMillis)
+                        closePicker()
+                        showTimePicker()
+                    },
+                ) {
+                    Text(text = "set time")
+                }
             }
         },
         dismissButton = {
