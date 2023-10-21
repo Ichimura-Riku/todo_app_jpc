@@ -23,7 +23,7 @@ constructor(
         yearRange = DatePickerDefaults.YearRange,
         initialDisplayMode = DisplayMode.Picker,
     ),
-    var timePickerState: TimePickerState = TimePickerState(0, 0, false),
+    var timePickerState: TimePickerState = TimePickerState(0, 0, true),
 
     )
 
