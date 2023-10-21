@@ -1,6 +1,8 @@
 package com.example.todoAppJpc.ui.todo
 
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
@@ -12,7 +14,9 @@ import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.Instant
 import javax.inject.Inject
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @HiltViewModel
@@ -41,13 +45,10 @@ class TodoEntryViewModel @Inject constructor(
         mutableStateOf(DeadlineUiState())
     }
 
-    val datePickerState: DatePickerState? get() = deadlineUiState.deadlineState.datePickerState
+    val datePickerState: DatePickerState get() = deadlineUiState.deadlineState.datePickerState
 
-    val timePickerState: TimePickerState? get() = deadlineUiState.deadlineState.timePickerState
+    val timePickerState: TimePickerState get() = deadlineUiState.deadlineState.timePickerState
 
-    fun updateDatePickerState(datePickerState: DatePickerState?) {
-        deadlineUiState.deadlineState.datePickerState = datePickerState
-    }
 
     //  [showDatePicker]
     private var _showDatePicker by savedStateHandle.saveable {
@@ -111,7 +112,12 @@ constructor(
 
 data class DeadlineState @OptIn(ExperimentalMaterial3Api::class)
 constructor(
-    var datePickerState: DatePickerState? = null,
+    var datePickerState: DatePickerState = DatePickerState(
+        initialSelectedDateMillis = Instant.now().toEpochMilli(),
+        initialDisplayedMonthMillis = Instant.now().toEpochMilli(),
+        yearRange = DatePickerDefaults.YearRange,
+        initialDisplayMode = DisplayMode.Picker
+    ),
     var timePickerState: TimePickerState = TimePickerState(0, 0, false),
 
     )
