@@ -24,7 +24,8 @@ import androidx.compose.ui.window.DialogProperties
 fun TimePickerComponent(
     title: String = "Select Time",
     onCancel: () -> Unit,
-    onConfirm: () -> Unit,
+    closePicker: () -> Unit,
+    showDatePicker: () -> Unit,
     toggle: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
@@ -68,8 +69,11 @@ fun TimePickerComponent(
                         onClick = onCancel,
                     ) { Text("Cancel") }
                     TextButton(
-                        onClick = onConfirm,
+                        onClick = closePicker,
                     ) { Text("OK") }
+                    TextButton(
+                        onClick = showDatePicker,
+                    ) { Text("set Date") }
                 }
             }
         }
