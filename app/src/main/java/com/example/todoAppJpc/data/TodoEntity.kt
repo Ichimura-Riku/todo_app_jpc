@@ -19,5 +19,5 @@ data class TodoEntity(
     @ColumnInfo(name = "is_attention") val isAttention: Int,
     @ColumnInfo(name = "category") val category: String,
     @ColumnInfo(name = "is_finished") val isFinished: Int,
-    @ColumnInfo(name = "priority") val priority: String, //重要度
+    @ColumnInfo(name = "priority") val priority: String, // 重要度
 )

@@ -15,10 +15,10 @@ import java.time.Instant
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
-    viewModel: TodoEntryViewModel
+    viewModel: TodoEntryViewModel,
 ) {
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli()
+        initialSelectedDateMillis = Instant.now().toEpochMilli(),
     )
     if (viewModel.getShowDatePicker()) {
         Material3DatePickerDialogComponent(
@@ -47,7 +47,7 @@ fun Material3DatePickerDialogComponent(
                 onClick = {
                     datePickerState.setSelection(datePickerState.selectedDateMillis)
                     closePicker()
-                }
+                },
             ) {
                 Text(text = "OK")
             }
@@ -56,7 +56,7 @@ fun Material3DatePickerDialogComponent(
             TextButton(
                 onClick = {
                     closePicker()
-                }
+                },
             ) {
                 Text(text = "CANCEL")
             }

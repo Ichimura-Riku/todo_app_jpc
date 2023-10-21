@@ -24,7 +24,7 @@ class TodoEntryViewModel @Inject constructor(
         private set
 
     //  [contextTextField]
-private var _showContentTextField by savedStateHandle.saveable {
+    private var _showContentTextField by savedStateHandle.saveable {
         mutableStateOf(false)
     }
 
@@ -106,7 +106,9 @@ data class TodoState(
     val priority: String = "low",
 )
 
-data class DeadLineState @OptIn(ExperimentalMaterial3Api::class) constructor(
+data class DeadLineState
+@OptIn(ExperimentalMaterial3Api::class)
+constructor(
     var datePickerState: DatePickerState? = null,
     var timePickerState: TimePickerState? = null,
 )
@@ -124,9 +126,8 @@ fun TodoState.toTodo(): TodoEntity = TodoEntity(
     priority = priority,
 )
 
-
 fun TodoEntity.toTodoUiState(): TodoUiState = TodoUiState(
-    todoState = this.toTodoState()
+    todoState = this.toTodoState(),
 )
 
 fun TodoEntity.toTodoState(): TodoState = TodoState(

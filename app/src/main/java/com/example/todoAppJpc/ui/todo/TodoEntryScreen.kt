@@ -31,7 +31,6 @@ import com.example.todoAppJpc.ui.components.TimePickerComponent
 import java.time.Instant
 import java.util.Calendar
 
-
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),
@@ -40,8 +39,6 @@ fun TodoEntryBody(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -65,7 +62,6 @@ fun TodoEntryBody(
             ) {
                 Text(text = stringResource(R.string.add_action))
             }
-
         }
         BottomAppBar(
             modifier = Modifier.statusBarsPadding(),
@@ -95,12 +91,9 @@ fun TodoEntryBody(
                     )
                 }
             }
-
         }
     }
-
 }
-
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -111,7 +104,7 @@ fun TodoInputForm(
     onValueChange: (TodoState) -> Unit = {},
 ) {
     val datePickerState = rememberDatePickerState(
-        initialSelectedDateMillis = Instant.now().toEpochMilli()
+        initialSelectedDateMillis = Instant.now().toEpochMilli(),
     )
     val timePickerState = rememberTimePickerState()
     Column(
@@ -135,7 +128,6 @@ fun TodoInputForm(
             )
         }
         if (viewModel.getShowDatePicker()) {
-
             DatePickerComponent(viewModel = viewModel)
         }
         if (viewModel.getShowTimePicker()) {
@@ -154,4 +146,3 @@ fun TodoInputForm(
         }
     }
 }
-

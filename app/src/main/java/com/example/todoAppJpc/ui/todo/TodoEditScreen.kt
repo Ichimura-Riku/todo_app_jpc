@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.todo
 
-
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.RowScope
@@ -85,7 +84,6 @@ fun TodoEditTopAppBar(
     coroutineScope: CoroutineScope,
     navBackStackEntry: NavBackStackEntry?,
 ) {
-
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
@@ -94,7 +92,7 @@ fun TodoEditTopAppBar(
                     navBackEntry(
                         viewModel = viewModel,
                         navController = navController,
-                        coroutineScope = coroutineScope
+                        coroutineScope = coroutineScope,
                     )
                 }) {
                     Icon(
@@ -140,10 +138,8 @@ fun TodoEditBody(
     viewModel: TodoEditViewModel,
     navController: NavController,
     coroutineScope: CoroutineScope,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
-
-
     Column(
         modifier = modifier.padding(10.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -152,9 +148,9 @@ fun TodoEditBody(
         ) {
         TodoEdit(
             todoState = viewModel.todoUiState.todoState,
-            onValueChange = viewModel::updateTodoState
+            onValueChange = viewModel::updateTodoState,
 
-        )
+            )
         if (viewModel.getDeleteConfirmationRequired()) {
             EliminateConfirmationDialog(
                 onDeleteConfirm = {
@@ -163,16 +159,13 @@ fun TodoEditBody(
                         navController = navController,
                         coroutineScope = coroutineScope,
                     )
-
                 },
                 onDeleteCancel = {
                     viewModel.setDeleteConfirmationRequired(false)
-
                 },
                 modifier = Modifier.padding(dimensionResource(id = R.dimen.padding_medium)),
             )
         }
-
     }
 }
 
@@ -182,7 +175,6 @@ fun TodoEdit(
     onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -191,15 +183,15 @@ fun TodoEdit(
     ) {
         TextField(
             value = todoState.title,
-            onValueChange = { onValueChange(todoState.copy(title = it)) })
+            onValueChange = { onValueChange(todoState.copy(title = it)) },
+        )
         Divider()
         TextField(
             value = todoState.content,
-            onValueChange = { onValueChange(todoState.copy(content = it)) })
+            onValueChange = { onValueChange(todoState.copy(content = it)) },
+        )
         Divider()
-
     }
-
 }
 
 @Composable
@@ -226,15 +218,13 @@ private fun EliminateConfirmationDialog(
     )
 }
 
-
 fun navBackEntry(
     viewModel: TodoEditViewModel,
     navController: NavController,
-    coroutineScope: CoroutineScope
+    coroutineScope: CoroutineScope,
 ) {
     coroutineScope.launch {
         viewModel.adventTodo()
-
     }
     navController.popBackStack()
 }
@@ -247,7 +237,6 @@ fun onClickEliminate(
     viewModel.setDeleteConfirmationRequired(false)
     coroutineScope.launch {
         viewModel.eliminateTodo()
-
     }
     navController.popBackStack()
 }
