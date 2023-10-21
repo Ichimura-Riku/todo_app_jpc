@@ -131,7 +131,7 @@ fun TodoInputForm(
                     viewModel.setShowTimePicker(false)
                 },
             ) {
-                TimePicker(state = viewModel.timePickerState ?: rememberTimePickerState())
+                TimePicker(state = viewModel.timePickerState)
             }
         }
     }
