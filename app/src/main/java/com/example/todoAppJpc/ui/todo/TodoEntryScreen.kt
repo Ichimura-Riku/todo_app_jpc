@@ -125,16 +125,10 @@ fun TodoInputForm(
                 label = { Text("${viewModel.getDeadlineUiState()}") },
                 onClick = { },
                 selected = false,
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.baseline_edit_note_24),
-                        contentDescription = "Localized description",
-                    )
-                },
                 trailingIcon = {
                     IconButton(onClick = {}) {
                         Icon(
-                            painterResource(id = R.drawable.baseline_edit_note_24),
+                            painterResource(id = R.drawable.round_close_24),
                             contentDescription = "Localized description",
                         )
                     }
