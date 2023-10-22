@@ -16,7 +16,6 @@ import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -139,11 +138,7 @@ fun TodoInputForm(
             DatePickerComponent(viewModel = viewModel)
         }
         if (viewModel.getShowTimePicker()) {
-            TimePickerComponent(
-                viewModel = viewModel
-            ) {
-                TimePicker(state = viewModel.timePickerState)
-            }
+            TimePickerComponent(viewModel = viewModel)
         }
     }
 }

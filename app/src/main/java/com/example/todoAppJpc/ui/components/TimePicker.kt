@@ -9,10 +9,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,14 +25,24 @@ import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
 @Composable
 fun TimePickerComponent(
+    viewModel: TodoEntryViewModel,
+) {
+    Material3TimePickerDialogComponent(
+        viewModel = viewModel,
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun Material3TimePickerDialogComponent(
     title: String = "Select Time",
     viewModel: TodoEntryViewModel,
     toggle: @Composable () -> Unit = {},
-    content: @Composable () -> Unit,
 ) {
     val closePicker = { viewModel.setShowTimePicker(false) }
     val timePickerStateSet = { viewModel.updateIsInputTimePickerState(true) }
     val showDatePicker = { viewModel.setShowDatePicker(true) }
+    val timePickerState = viewModel.timePickerState
     Dialog(
         onDismissRequest = closePicker,
         properties = DialogProperties(
@@ -60,7 +72,7 @@ fun TimePickerComponent(
                     text = title,
                     style = MaterialTheme.typography.labelMedium,
                 )
-                content()
+                TimePicker(state = timePickerState)
                 Row(
                     modifier = Modifier
                         .height(40.dp)

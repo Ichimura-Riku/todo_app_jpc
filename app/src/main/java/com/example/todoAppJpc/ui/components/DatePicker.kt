@@ -16,12 +16,6 @@ fun DatePickerComponent(
 ) {
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
-        closePicker = {
-            viewModel.setShowDatePicker(false)
-        },
-        showTimePicker = {
-            viewModel.setShowTimePicker(true)
-        },
     )
 }
 
@@ -29,10 +23,11 @@ fun DatePickerComponent(
 @Composable
 fun Material3DatePickerDialogComponent(
     viewModel: TodoEntryViewModel,
-    closePicker: () -> Unit,
-    showTimePicker: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+    val closePicker = { viewModel.setShowDatePicker(false) }
+    val showTimePicker = { viewModel.setShowTimePicker(true) }
+    val datePickerStateSet = { viewModel.updateIsInputDatePickerState(true) }
     val datePickerState = viewModel.datePickerState
     DatePickerDialog(
         onDismissRequest = {
@@ -42,7 +37,7 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-                        viewModel.updateIsInputDatePickerState(true)
+                        datePickerStateSet()
                         datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()
                     },
@@ -51,7 +46,7 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
-                        viewModel.updateIsInputDatePickerState(true)
+                        datePickerStateSet()
                         datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()
                         showTimePicker()
