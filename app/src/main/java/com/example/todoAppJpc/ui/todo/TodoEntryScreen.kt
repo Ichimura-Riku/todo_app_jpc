@@ -149,6 +149,7 @@ fun TodoInputForm(
             TimePickerComponent(
                 onCancel = { viewModel.setShowTimePicker(false) },
                 closePicker = {
+                    viewModel.updateIsInputTimePickerState(true)
                     viewModel.setShowTimePicker(false)
                 },
                 showDatePicker = { viewModel.setShowDatePicker(true) },
