@@ -14,17 +14,15 @@ import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
 ) {
-    if (viewModel.getShowDatePicker()) {
-        Material3DatePickerDialogComponent(
-            viewModel = viewModel,
-            closePicker = {
-                viewModel.setShowDatePicker(false)
-            },
-            showTimePicker = {
-                viewModel.setShowTimePicker(true)
-            },
-        )
-    }
+    Material3DatePickerDialogComponent(
+        viewModel = viewModel,
+        closePicker = {
+            viewModel.setShowDatePicker(false)
+        },
+        showTimePicker = {
+            viewModel.setShowTimePicker(true)
+        },
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
