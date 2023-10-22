@@ -28,7 +28,7 @@ import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),
@@ -140,12 +140,7 @@ fun TodoInputForm(
         }
         if (viewModel.getShowTimePicker()) {
             TimePickerComponent(
-                onCancel = { viewModel.setShowTimePicker(false) },
-                closePicker = {
-                    viewModel.updateIsInputTimePickerState(true)
-                    viewModel.setShowTimePicker(false)
-                },
-                showDatePicker = { viewModel.setShowDatePicker(true) },
+                viewModel = viewModel
             ) {
                 TimePicker(state = viewModel.timePickerState)
             }

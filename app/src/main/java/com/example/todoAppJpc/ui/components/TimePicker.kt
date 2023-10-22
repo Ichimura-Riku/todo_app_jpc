@@ -19,18 +19,20 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
 @Composable
 fun TimePickerComponent(
     title: String = "Select Time",
-    onCancel: () -> Unit,
-    closePicker: () -> Unit,
-    showDatePicker: () -> Unit,
+    viewModel: TodoEntryViewModel,
     toggle: @Composable () -> Unit = {},
     content: @Composable () -> Unit,
 ) {
+    val closePicker = { viewModel.setShowTimePicker(false) }
+    val timePickerStateSet = { viewModel.updateIsInputTimePickerState(true) }
+    val showDatePicker = { viewModel.setShowDatePicker(true) }
     Dialog(
-        onDismissRequest = onCancel,
+        onDismissRequest = closePicker,
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
         ),
@@ -66,14 +68,18 @@ fun TimePickerComponent(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
-                        onClick = onCancel,
+                        onClick = closePicker,
                     ) { Text("Cancel") }
                     TextButton(
-                        onClick = closePicker,
+                        onClick = {
+                            closePicker()
+                            timePickerStateSet()
+                        },
                     ) { Text("OK") }
                     TextButton(
                         onClick = {
                             closePicker()
+                            timePickerStateSet()
                             showDatePicker()
                         },
                     ) { Text("set Date") }
