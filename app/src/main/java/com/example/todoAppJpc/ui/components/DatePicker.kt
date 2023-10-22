@@ -10,8 +10,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
@@ -24,7 +22,7 @@ fun DatePickerComponent(
             },
             showTimePicker = {
                 viewModel.setShowTimePicker(true)
-            }
+            },
         )
     }
 }
@@ -46,7 +44,6 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-//                        isInputDatePickerState = true
                         viewModel.updateIsInputDatePickerState(true)
                         datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()

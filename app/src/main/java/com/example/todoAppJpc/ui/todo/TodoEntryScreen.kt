@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.todo
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,27 +53,6 @@ fun TodoEntryBody(
                 modifier = Modifier.fillMaxWidth(),
             )
 
-            InputChip(
-                label = { Text("label") },
-                onClick = { Log.d("debug-----", "onClickInputChip") },
-                selected = false,
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.baseline_edit_note_24),
-                        contentDescription = "Localized description"
-                    )
-                },
-                trailingIcon = {
-                    IconButton(onClick = { Log.d("debug-----", "onClickTrailingIcon") }) {
-
-                        Icon(
-                            painterResource(id = R.drawable.baseline_edit_note_24),
-                            contentDescription = "Localized description"
-                        )
-                    }
-                },
-            )
-
             Button(
                 onClick = onSaveClick,
                 shape = MaterialTheme.shapes.small,
@@ -103,7 +81,7 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { /* doSomething() */ }) {
+                IconButton(onClick = { }) {
                     Icon(
                         painterResource(id = R.drawable.round_more_horiz_24),
                         contentDescription = "Localized description",
@@ -142,6 +120,28 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
+//        if (viewModel.getIsInputDeadlineState) {
+        if (viewModel.getIsInputDeadlineState) {
+            InputChip(
+                label = { Text("${viewModel.datePickerState.selectedDateMillis} ${viewModel.timePickerState.hour}") },
+                onClick = { },
+                selected = false,
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.baseline_edit_note_24),
+                        contentDescription = "Localized description",
+                    )
+                },
+                trailingIcon = {
+                    IconButton(onClick = {}) {
+                        Icon(
+                            painterResource(id = R.drawable.baseline_edit_note_24),
+                            contentDescription = "Localized description",
+                        )
+                    }
+                },
+            )
+        }
         if (viewModel.getShowDatePicker()) {
             DatePickerComponent(viewModel = viewModel)
         }
@@ -151,7 +151,7 @@ fun TodoInputForm(
                 closePicker = {
                     viewModel.setShowTimePicker(false)
                 },
-                showDatePicker = { viewModel.setShowDatePicker(true) }
+                showDatePicker = { viewModel.setShowDatePicker(true) },
             ) {
                 TimePicker(state = viewModel.timePickerState)
             }

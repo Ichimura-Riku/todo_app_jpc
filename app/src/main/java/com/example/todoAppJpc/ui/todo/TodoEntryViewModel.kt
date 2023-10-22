@@ -60,7 +60,6 @@ class TodoEntryViewModel @Inject constructor(
     fun updateIsInputDatePickerState(isInputState: Boolean) =
         deadlineUiState.updateIsInputDatePickerState(isInputState)
 
-
     //  [showDatePicker]
     private var _showDatePicker by savedStateHandle.saveable {
         mutableStateOf(false)
