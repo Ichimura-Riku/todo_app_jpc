@@ -52,11 +52,14 @@ class TodoEntryViewModel @Inject constructor(
 
     val isInputDeadlineState: IsInputDeadlineState get() = deadlineUiState.isInputDeadlineState
 
+    val getIsInputDeadlineState: Boolean get() = deadlineUiState.isInputDeadlineState.isInputDatePickerState || deadlineUiState.isInputDeadlineState.isInputTimePickerState
+
     fun updateIsInputTimePickerState(isInputState: Boolean) =
         deadlineUiState.updateIsInputTimePickerState(isInputState)
 
     fun updateIsInputDatePickerState(isInputState: Boolean) =
         deadlineUiState.updateIsInputDatePickerState(isInputState)
+
 
     //  [showDatePicker]
     private var _showDatePicker by savedStateHandle.saveable {
