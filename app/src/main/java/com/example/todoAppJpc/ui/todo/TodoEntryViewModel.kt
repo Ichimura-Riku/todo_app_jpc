@@ -14,6 +14,7 @@ import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.DeadlineUiState
 import com.example.todoAppJpc.utils.IsInputDeadlineState
+import com.example.todoAppJpc.utils.getDeadlineUiState
 import com.example.todoAppJpc.utils.updateIsInputDatePickerState
 import com.example.todoAppJpc.utils.updateIsInputTimePickerState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +54,8 @@ class TodoEntryViewModel @Inject constructor(
     val isInputDeadlineState: IsInputDeadlineState get() = deadlineUiState.isInputDeadlineState
 
     val getIsInputDeadlineState: Boolean get() = deadlineUiState.isInputDeadlineState.isInputDatePickerState || deadlineUiState.isInputDeadlineState.isInputTimePickerState
+
+    fun getDeadlineUiState(): String = deadlineUiState.getDeadlineUiState()
 
     fun updateIsInputTimePickerState(isInputState: Boolean) =
         deadlineUiState.updateIsInputTimePickerState(isInputState)
