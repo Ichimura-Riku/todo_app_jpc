@@ -72,6 +72,4 @@ fun DeadlineUiState.getDeadlineUiState(): String {
         if (isInputDeadlineState.isInputDatePickerState) dateFormatter.format(cal.time) else ""
 
     return "$dateUiState $timeUiState"
-
-
 }
