@@ -77,7 +77,7 @@ fun TodoEntryBody(
                 }
                 IconButton(onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) }) {
                     Icon(
-                        painterResource(id = R.drawable.round_swap_vert_24),
+                        painterResource(id = R.drawable.baseline_access_time_24),
                         contentDescription = "Localized description",
                     )
                 }
