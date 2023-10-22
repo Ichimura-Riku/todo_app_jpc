@@ -120,10 +120,9 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
-//        if (viewModel.getIsInputDeadlineState) {
         if (viewModel.getIsInputDeadlineState) {
             InputChip(
-                label = { Text("${viewModel.datePickerState.selectedDateMillis} ${viewModel.timePickerState.hour}") },
+                label = { Text("${viewModel.getDeadlineUiState()}") },
                 onClick = { },
                 selected = false,
                 leadingIcon = {
