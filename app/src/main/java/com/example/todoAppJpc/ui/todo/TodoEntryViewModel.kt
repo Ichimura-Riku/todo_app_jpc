@@ -1,6 +1,8 @@
 package com.example.todoAppJpc.ui.todo
 
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
+import androidx.compose.material3.DisplayMode
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
@@ -18,6 +20,7 @@ import com.example.todoAppJpc.utils.getDeadlineUiState
 import com.example.todoAppJpc.utils.updateIsInputDatePickerState
 import com.example.todoAppJpc.utils.updateIsInputTimePickerState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.time.Instant
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
@@ -56,6 +59,19 @@ class TodoEntryViewModel @Inject constructor(
     val getIsInputDeadlineState: Boolean get() = deadlineUiState.isInputDeadlineState.isInputDatePickerState || deadlineUiState.isInputDeadlineState.isInputTimePickerState
 
     fun getDeadlineUiState(): String = deadlineUiState.getDeadlineUiState()
+
+    fun resetDatePickerState() {
+        deadlineUiState.deadlineState.datePickerState = DatePickerState(
+            initialSelectedDateMillis = Instant.now().toEpochMilli(),
+            initialDisplayedMonthMillis = Instant.now().toEpochMilli(),
+            yearRange = DatePickerDefaults.YearRange,
+            initialDisplayMode = DisplayMode.Picker,
+        )
+    }
+
+    fun resetTimePickerState() {
+        deadlineUiState.deadlineState.timePickerState = TimePickerState(0, 0, true)
+    }
 
     fun updateIsInputTimePickerState(isInputState: Boolean) =
         deadlineUiState.updateIsInputTimePickerState(isInputState)
