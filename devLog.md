@@ -301,13 +301,29 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
                     - まずはない時とある時の状態を管理できるようにする。
                     - どこでstateを管理するか確認しつつ実装
                     - 再代入の可能性があるので、stateはviewModelでやっぱり保持するべきかもしれない
+                    - 大体できてきた
+                    - deadline data classが複雑すぎてわからん
                     -
+                    updateメソッドを実装してないのに、なんでviewModelで保持する値を更新できてるのか分からなかったけど、DatePickerStateっていうクラス自体がupdateするメソッドを持っていて、このクラスだけ特別実装しなくても更新することができた。
+                    - あとは入力された時間を表示すれば締切登録はOK
+                    - roomへの登録もあった
+            - やりたかったけどできなかったこと
+                - ドラムロール24時間表記
+                    - TimePickerの24Hourっていうプロパティをtrueにしたらできた
+                    - Time and Date Pickerのdialogで、ボタンを追加したり、レウアウトを変更したかった
+                        - ボタンの追加はできた
+                        - 新しい項目を作成するのはできなかった。material3
+                          tokensを読み込むことができなくて、一からレイアウトを作成することができなかった。
+            - リンク
+                - https://m3.material.io/components/time-pickers/specs
+                - https://qiita.com/masayahak/items/efd11b86cd4643d2842d
+                - https://developer.android.com/jetpack/androidx/releases/compose-material3?hl=ja
+                - https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate?hl=ja#types
+                - https://cs.android.com/androidx/platform/tools/dokka-devsite-plugin/+/master:testData/compose/samples/material3/samples/TimePickerSamples.kt;l=230;drc=03ca30d22e6ee3483142f2e4048db459cb5afb79
+                - https://issuetracker.google.com/issues/288311426?pli=1
+                - https://stackoverflow.com/questions/75853449/timepickerdialog-in-jetpack-compose
+                - https://developer.android.com/training/snackbar/action?hl=ja
       - 登録した時間
-          - 大体できてきた
-          - deadline data classが複雑すぎてわからん
-          -
-          updateメソッドを実装してないのに、なんでviewModelで保持する値を更新できてるのか分からなかったけど、DatePickerStateっていうクラス自体がupdateするメソッドを持っていて、このクラスだけ特別実装しなくても更新することができた。
-
       - 重要度
           - タグの機能だったはず
       -
@@ -318,3 +334,4 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
 - 登録する時の他の要素も追加できるようにする
 - ボトムメニューバーに機能を持たせる
 - カテゴリの作成
+- slide sheetでbottomSheetを実装してみる

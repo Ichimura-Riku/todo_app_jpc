@@ -72,7 +72,10 @@ fun TimePickerComponent(
                         onClick = closePicker,
                     ) { Text("OK") }
                     TextButton(
-                        onClick = showDatePicker,
+                        onClick = {
+                            closePicker()
+                            showDatePicker()
+                        },
                     ) { Text("set Date") }
                 }
             }

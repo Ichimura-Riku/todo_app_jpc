@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.todo
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -27,6 +29,7 @@ import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),
@@ -49,6 +52,27 @@ fun TodoEntryBody(
                 todoState = todoState,
                 onValueChange = onTodoValueChange,
                 modifier = Modifier.fillMaxWidth(),
+            )
+
+            InputChip(
+                label = { Text("label") },
+                onClick = { Log.d("debug-----", "onClickInputChip") },
+                selected = false,
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.baseline_edit_note_24),
+                        contentDescription = "Localized description"
+                    )
+                },
+                trailingIcon = {
+                    IconButton(onClick = { Log.d("debug-----", "onClickTrailingIcon") }) {
+
+                        Icon(
+                            painterResource(id = R.drawable.baseline_edit_note_24),
+                            contentDescription = "Localized description"
+                        )
+                    }
+                },
             )
 
             Button(
