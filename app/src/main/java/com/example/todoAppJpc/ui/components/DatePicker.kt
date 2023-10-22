@@ -3,6 +3,7 @@ package com.example.todoAppJpc.ui.components
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -10,12 +11,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
+    rememberDatePickerState: DatePickerState
 ) {
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
+        rememberDatePickerState = rememberDatePickerState,
     )
 }
 
@@ -23,12 +27,16 @@ fun DatePickerComponent(
 @Composable
 fun Material3DatePickerDialogComponent(
     viewModel: TodoEntryViewModel,
+    rememberDatePickerState: DatePickerState,
     modifier: Modifier = Modifier,
 ) {
     val closePicker = { viewModel.setShowDatePicker(false) }
     val showTimePicker = { viewModel.setShowTimePicker(true) }
     val datePickerStateSet = { viewModel.updateIsInputDatePickerState(true) }
-    val datePickerState = viewModel.datePickerState
+    fun updateDatePickerState(selectedDateMillis: Long?) =
+        viewModel.updateDatePickerState(selectedDateMillis)
+
+
     DatePickerDialog(
         onDismissRequest = {
             closePicker()
@@ -37,8 +45,9 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
+//                        datePickerState.setSelection(rememberDatePickerState.selectedDateMillis)
+                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
-                        datePickerState.setSelection(datePickerState.selectedDateMillis)
                         closePicker()
                     },
                 ) {
@@ -46,10 +55,11 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
-                        datePickerStateSet()
-                        datePickerState.setSelection(datePickerState.selectedDateMillis)
-                        closePicker()
+//                        datePickerState.setSelection(rememberDatePickerState.selectedDateMillis)
+                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
+                        closePicker()
+                        datePickerStateSet()
                     },
                 ) {
                     Text(text = "set time")
@@ -67,6 +77,6 @@ fun Material3DatePickerDialogComponent(
         },
         modifier = modifier,
     ) {
-        DatePicker(state = datePickerState)
+        DatePicker(state = rememberDatePickerState)
     }
 }

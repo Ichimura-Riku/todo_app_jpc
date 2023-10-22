@@ -315,6 +315,32 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
               - closePickerの変数名を修正
               - timePickerComponentをもっとコンパクトにする（datePickerと同じにする）
               - chipsを削除できるようにする
+                  - 意外と面倒だった
+                  - composeをレンダリングしたいタイミングでviewModelのstateが変化してくれない
+                  - 他のプロパティを参考に実装したい
+                  - contentTextFieldの値はmutableStateで保持しているから、一旦これを真似してみよう
+                  - コミットしたからいくらでもいじれる
+                      - 不安要素
+                      - mutableState未実装の理由を思い出せないけど、根幹の実装から変わらないでほしい
+                      - data classでの実装がダメだとしたら今日はもう立ち直れない
+                      - あと、viewModelの関数の順番とかをformatしたい。ぐちゃぐちゃすぎて分からない
+                      - コメントアウトとか、しっかり弾いていきたい。
+                      - 確認したら、一番上のdeadlineUiStateがmutableになってる。
+                      - このmutableが下の方までいっていたとしたらmutable以外のところを変える必要がある。
+                      - なんか一応できた。よく分からんが動いた状態なので、あとで検証していく
+                      - 学び
+                          - data
+                            classのプロパティに関連した関数は、Uiに反映させたい変数を取り出したり更新したりする処理をViewModelクラス内で記述するべき
+                          - UiStateに使うプロパティは、一番深い値（使用したい直接のプロパティ）を直接mutableStateで定義する？
+                          - Stateの更新と取得のタイミングでヌルポが発生してクラッシュするケースがあるので、気を付ける
+                          -
+                      - 検証事項
+                          - rememberTimePickerStateを使っていない
+                          - rememberDatePickerStateにしたが意味があったのか
+                          - TodoEntryViewModelないで作成していったものにいらないものはあったのか
+                          - 他にDeadlineStateデータクラスにいらないものはあるか
+                          - mutableStateをdeadlineUiStateからそれぞれ直接定義したけれど、これらが意味あるのかまたはどちらの実装の方が適切なのか
+                          -
               - roomへの登録
               - EditScreenにあとから修正する用のUIを実装
           - やりたかったけどできなかったこと

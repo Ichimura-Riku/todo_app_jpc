@@ -15,12 +15,11 @@ import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.DeadlineUiState
-import com.example.todoAppJpc.utils.IsInputDeadlineState
-import com.example.todoAppJpc.utils.getDeadlineUiState
-import com.example.todoAppJpc.utils.updateIsInputDatePickerState
-import com.example.todoAppJpc.utils.updateIsInputTimePickerState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import java.text.SimpleDateFormat
 import java.time.Instant
+import java.util.Calendar
+import java.util.Locale
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
@@ -46,19 +45,109 @@ class TodoEntryViewModel @Inject constructor(
     }
 
     //      [deadlineState]
+
     private var deadlineUiState: DeadlineUiState by savedStateHandle.saveable {
         mutableStateOf(DeadlineUiState())
     }
 
-    val datePickerState: DatePickerState get() = deadlineUiState.deadlineState.datePickerState
+    // レンダリング確認会場----------------------------------------------------------
+    // レンダリング確認会場----------------------------------------------------------
 
-    val timePickerState: TimePickerState get() = deadlineUiState.deadlineState.timePickerState
 
-    val isInputDeadlineState: IsInputDeadlineState get() = deadlineUiState.isInputDeadlineState
+    // メインとなるstateにアクセスするための関数
+    // stateをmutableにして確認するからコメントアウト
+//    val datePickerState: DatePickerState get() = deadlineUiState.deadlineState.datePickerState
+//    val timePickerState: TimePickerState get() = deadlineUiState.deadlineState.timePickerState
+
+    // stateの入力状態を管理するstateを呼び出す関数
+    // IsInputDeadlineStateのmutable化にともなってコメントアウト
+//    fun updateIsInputTimePickerState(isInputState: Boolean) =
+//        deadlineUiState.updateIsInputTimePickerState(isInputState)
+//    fun updateIsInputDatePickerState(isInputState: Boolean) =
+//        deadlineUiState.updateIsInputDatePickerState(isInputState)
+
+    // こいつをレンダリングされるようにしたい。
+//    val isInputDeadlineState: IsInputDeadlineState get() = deadlineUiState.isInputDeadlineState
+
+    // まず、mutableな変数を作成してみる
+    // まぁ、savableは反応しない
+    // またやってる. savableは{}で囲わないといけない
+    private var _timePickerState: TimePickerState by savedStateHandle.saveable {
+        mutableStateOf(deadlineUiState.deadlineState.timePickerState)
+    }
+    private var _datePickerState: DatePickerState by savedStateHandle.saveable {
+        mutableStateOf(deadlineUiState.deadlineState.datePickerState)
+    }
+
+    // isInputDeadlineStateもmutableで定義してみる
+    private var _isInputTimePickerState: Boolean by savedStateHandle.saveable {
+        mutableStateOf(deadlineUiState.isInputDeadlineState.isInputTimePickerState)
+    }
+    private var _isInputDatePickerState: Boolean by savedStateHandle.saveable {
+        mutableStateOf(deadlineUiState.isInputDeadlineState.isInputDatePickerState)
+    }
+
+    // deadlineStateを取得する関数をリメイクする
+    val timePickerState: TimePickerState get() = _timePickerState
+    val datePickerState: DatePickerState get() = _datePickerState
+
+    // isInputDeadlineStateを取得する関数をリメイクする
+    val isInputTimePickerState: Boolean get() = _isInputTimePickerState
+    val isInputDatePickerState: Boolean get() = _isInputDatePickerState
+
+    // isInputDeadlineStateのmutable化に対応するupdate関数を定義
+    fun updateIsInputTimePickerState(isInputState: Boolean) {
+        _isInputTimePickerState = isInputState
+    }
+
+    fun updateIsInputDatePickerState(isInputState: Boolean) {
+        _isInputDatePickerState = isInputState
+    }
+
+    // 結局、こうすることで反映されなくなった　＝　しっかりViewModelで管理できるようになった
+    // update関数も、こっちでしっかり定義しないといけなさそう
+    // datePickerはできそうだけど、timePickerは血の滲む努力が必要そう
+//    fun updateTimePickerState()
+    fun updateDatePickerState(selectedDateMillis: Long?) {
+        _datePickerState.setSelection(selectedDateMillis)
+    }
+
+    // こいつ、DeadlineStateで定義した関数を使ってるので、やっぱりこっちで定義して実装する
+//    fun getDeadlineUiState(): String = deadlineUiState.getDeadlineUiState()
+    fun getDeadlineUiState(): String {
+        val userLocale = Locale.getDefault()
+        val cal = Calendar.getInstance()
+
+        val timeFormatter = SimpleDateFormat("HH:mm", userLocale)
+        val timeState = _timePickerState
+        cal.set(Calendar.HOUR_OF_DAY, timeState.hour)
+        cal.set(Calendar.MINUTE, timeState.minute)
+        cal.isLenient = false
+        val timeUiState =
+            if (_isInputTimePickerState) timeFormatter.format(cal.time) else ""
+
+        val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
+        val dateState = _datePickerState
+        cal.apply {
+            // あとで、コルーチン処理かなんかでawaitさせる
+            timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
+//            timeInMillis = dateState.selectedDateMillis!!
+        }
+        val dateUiState =
+            if (_isInputDatePickerState) dateFormatter.format(cal.time) else ""
+
+        return "$dateUiState $timeUiState"
+    }
+
+    // レンダリング確認会場----------------------------------------------------------
+    // レンダリング確認会場----------------------------------------------------------
+
+
+//    private val deadlineUiState: DeadlineUiState = DeadlineUiState()
+
 
     val getIsInputDeadlineState: Boolean get() = deadlineUiState.isInputDeadlineState.isInputDatePickerState || deadlineUiState.isInputDeadlineState.isInputTimePickerState
 
-    fun getDeadlineUiState(): String = deadlineUiState.getDeadlineUiState()
 
     fun resetDatePickerState() {
         deadlineUiState.deadlineState.datePickerState = DatePickerState(
@@ -73,13 +162,8 @@ class TodoEntryViewModel @Inject constructor(
         deadlineUiState.deadlineState.timePickerState = TimePickerState(0, 0, true)
     }
 
-    fun updateIsInputTimePickerState(isInputState: Boolean) =
-        deadlineUiState.updateIsInputTimePickerState(isInputState)
 
-    fun updateIsInputDatePickerState(isInputState: Boolean) =
-        deadlineUiState.updateIsInputDatePickerState(isInputState)
-
-    //  [showDatePicker]
+    //  [showDatePicker] --------
     private var _showDatePicker by savedStateHandle.saveable {
         mutableStateOf(false)
     }
