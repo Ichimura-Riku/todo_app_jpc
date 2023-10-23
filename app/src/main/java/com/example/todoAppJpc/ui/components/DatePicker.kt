@@ -15,7 +15,8 @@ import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
-    rememberDatePickerState: DatePickerState
+
+    rememberDatePickerState: DatePickerState,
 ) {
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
@@ -36,7 +37,6 @@ fun Material3DatePickerDialogComponent(
     fun updateDatePickerState(selectedDateMillis: Long?) =
         viewModel.updateDatePickerState(selectedDateMillis)
 
-
     DatePickerDialog(
         onDismissRequest = {
             closePicker()
@@ -45,7 +45,6 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-//                        datePickerState.setSelection(rememberDatePickerState.selectedDateMillis)
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
                         closePicker()
@@ -55,7 +54,6 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
-//                        datePickerState.setSelection(rememberDatePickerState.selectedDateMillis)
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
                         closePicker()

@@ -18,7 +18,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
-import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +28,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
-
 
 @Composable
 fun TodoEntryBody(
@@ -102,7 +100,6 @@ fun TodoInputForm(
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
 ) {
-    val rememberTimePickerState = rememberTimePickerState()
     val rememberDatePickerState = rememberDatePickerState()
     Column(
         modifier = modifier,
@@ -128,7 +125,7 @@ fun TodoInputForm(
         }
         if (isInputDeadlineState) {
             InputChip(
-                label = { Text("${viewModel.getDeadlineUiState()}") },
+                label = { Text(viewModel.getDeadlineUiState()) },
                 onClick = { },
                 selected = false,
                 trailingIcon = {
@@ -137,7 +134,6 @@ fun TodoInputForm(
                         viewModel.updateIsInputDatePickerState(false)
                         viewModel.resetTimePickerState()
                         viewModel.resetDatePickerState()
-                        Log.d("debug-----", "$isInputDeadlineState")
                     }) {
                         Icon(
                             painterResource(id = R.drawable.round_close_24),
