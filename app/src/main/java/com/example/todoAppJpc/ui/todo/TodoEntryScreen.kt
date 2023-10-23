@@ -16,6 +16,7 @@ import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,10 +100,13 @@ fun TodoInputForm(
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
 ) {
+    val rememberDatePickerState = rememberDatePickerState()
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        val isInputDeadlineState =
+            viewModel.isInputTimePickerState || viewModel.isInputDatePickerState
         TextField(
             value = todoState.title,
             onValueChange = { onValueChange(todoState.copy(title = it)) },
@@ -119,13 +123,18 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
-        if (viewModel.getIsInputDeadlineState) {
+        if (isInputDeadlineState) {
             InputChip(
-                label = { Text("${viewModel.getDeadlineUiState()}") },
+                label = { Text(viewModel.getDeadlineUiState()) },
                 onClick = { },
                 selected = false,
                 trailingIcon = {
-                    IconButton(onClick = {}) {
+                    IconButton(onClick = {
+                        viewModel.updateIsInputTimePickerState(false)
+                        viewModel.updateIsInputDatePickerState(false)
+                        viewModel.resetTimePickerState()
+                        viewModel.resetDatePickerState()
+                    }) {
                         Icon(
                             painterResource(id = R.drawable.round_close_24),
                             contentDescription = "Localized description",
@@ -135,7 +144,10 @@ fun TodoInputForm(
             )
         }
         if (viewModel.getShowDatePicker()) {
-            DatePickerComponent(viewModel = viewModel)
+            DatePickerComponent(
+                viewModel = viewModel,
+                rememberDatePickerState = rememberDatePickerState,
+            )
         }
         if (viewModel.getShowTimePicker()) {
             TimePickerComponent(viewModel = viewModel)
