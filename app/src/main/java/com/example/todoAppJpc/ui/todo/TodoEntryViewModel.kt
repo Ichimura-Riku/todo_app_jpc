@@ -88,7 +88,6 @@ class TodoEntryViewModel @Inject constructor(
     fun updateIsInputTimePickerState(isInputState: Boolean) {
         _isInputTimePickerState = isInputState
     }
-
     fun updateIsInputDatePickerState(isInputState: Boolean) {
         _isInputDatePickerState = isInputState
     }
