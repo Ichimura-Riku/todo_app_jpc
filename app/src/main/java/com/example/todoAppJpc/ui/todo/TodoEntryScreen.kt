@@ -28,7 +28,6 @@ import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
 
-
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),

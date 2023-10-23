@@ -114,8 +114,8 @@ hiltの設定をミスっていた
    （クラスによってアノテーションは変化するかも）
 3. メインの使用用途はinterfaceの継承とコンストラクタをUIクラスに影響を与えない程度に分離させつつテストの汎用性を持たせる所になる。
 4.
-    3. のために、`@module` と`@InstallIn` のアノテーションをつけたmodule用のクラスを作成する
-5. `@InstallIn` にはシングルトンクラスなどのアノテーション属性を指定する。
+5. のために、`@module` と`@InstallIn` のアノテーションをつけたmodule用のクラスを作成する
+6. `@InstallIn` にはシングルトンクラスなどのアノテーション属性を指定する。
    → @InstallIn(SingletonComponent::class)など（singletonしか知らない…）
 
 ```kotlin
@@ -168,14 +168,13 @@ kaptのバージョンが対応してなくてエラーが出た
 コルーチンはスレッド処理でメインスレッドに影響を及ばさないような並列処理を実装してくれる
 
 ```kotlin
-
-withContext(Dispatchers.IO) { <動作させたい処理や関数 > }
+withContext(Dispatchers.IO) { /*動作させたい処理や関数 */ }
 ```
 
 flowが返り値の時はこっちも有効
 
 ```kotlin
-<該当する関数() > . flowOn (Dispatchers.IO)
+/*<該当する関数() >.flowOn (Dispatchers.IO) */
 ```
 
 ### flowとワンショット（suspend）の使い分け
@@ -268,7 +267,7 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
     - delete関数の実装
         - この作業に入る
         - topAppBarに入れる
-          - [参考](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#TopAppBar(kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function1,androidx.compose.foundation.layout.WindowInsets,androidx.compose.material3.TopAppBarColors,androidx.compose.material3.TopAppBarScrollBehavior))
+            - [参考](https://developer.android.com/reference/kotlin/androidx/compose/material3/package-summary#TopAppBar(kotlin.Function0,androidx.compose.ui.Modifier,kotlin.Function0,kotlin.Function1,androidx.compose.foundation.layout.WindowInsets,androidx.compose.material3.TopAppBarColors,androidx.compose.material3.TopAppBarScrollBehavior))
         - あと、ボトムに入れる
             - 完了にしたっていうボタンも入れたい
         - 消す時、確認アラート入れる
@@ -280,7 +279,7 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
     - textFieldも合わせに行こうと思ってたけどうまいことデザインを合わせられなかった
     - bottomSheet
         - 詳細
-          - これ入れたけど、編集時にtitleと干渉するので対応必須
+            - これ入れたけど、編集時にtitleと干渉するので対応必須
         - 締切
             - 時間入れてみたけど、roomに対応させる時のparseが沼
             - dateとtimeを入れる必要がありそう
@@ -315,6 +314,56 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
               - closePickerの変数名を修正
               - timePickerComponentをもっとコンパクトにする（datePickerと同じにする）
               - chipsを削除できるようにする
+                  - 意外と面倒だった
+                  - composeをレンダリングしたいタイミングでviewModelのstateが変化してくれない
+                  - 他のプロパティを参考に実装したい
+                  - contentTextFieldの値はmutableStateで保持しているから、一旦これを真似してみよう
+                  - コミットしたからいくらでもいじれる
+                      - 不安要素
+                      - mutableState未実装の理由を思い出せないけど、根幹の実装から変わらないでほしい
+                      - data classでの実装がダメだとしたら今日はもう立ち直れない
+                      - あと、viewModelの関数の順番とかをformatしたい。ぐちゃぐちゃすぎて分からない
+                      - コメントアウトとか、しっかり弾いていきたい。
+                      - 確認したら、一番上のdeadlineUiStateがmutableになってる。
+                      - このmutableが下の方までいっていたとしたらmutable以外のところを変える必要がある。
+                      - なんか一応できた。よく分からんが動いた状態なので、あとで検証していく
+                      - 学び
+                          - data
+                            classのプロパティに関連した関数は、Uiに反映させたい変数を取り出したり更新したりする処理をViewModelクラス内で記述するべき
+                          - UiStateに使うプロパティは、一番深い値（使用したい直接のプロパティ）を直接mutableStateで定義する？
+                          - Stateの更新と取得のタイミングでヌルポが発生してクラッシュするケースがあるので、気を付ける
+                          - クラスを入れ子構造にするデータクラスのインスタンスをmutableStateにすると、入れ子のクラスもmutableになる
+                      - 検証事項
+                          - rememberTimePickerStateを使っていない
+                              - いらないことがわかった
+                              - timePicker自体が、引数に入れてるプロパティ自体に変更を加えるような処理になっているのかもしれない
+                              -
+                            datePickerは、とりあえず入力された値を保持するためのプロパティが必要な気がしてて、必要だとしてもdatePickerだけでいい
+                          - rememberDatePickerStateにしたが意味があったのか
+                              - 結論いる
+                              -
+                            なくても動くけど、この値はEntryされたり、EntryScreenが破棄されたタイミングで同様に消えてもらいたい値なので、このままでいい。と思う。
+                              - 大体、Uiの保持で問題ない部分なので、どちらにしてもrememberでいい気がする。
+                              -
+                            逆に、rememberじゃない方がいい時は、bottomSheetがhideした時に自動で登録するとか、Uiが破棄されるタイミングでも値を保持しておきたい場合はViewModel保持で良さそう
+                          - TodoEntryViewModelないで作成していったものにいらないものはあったのか
+                              - まず、変更したものをまとめないと多すぎて整理できない
+                              - なんだったら、DeadlineStateデータクラスにも変更を加えたので、両方確認していく
+                              - deadlineUiState
+                                  - これは結局必要だった。
+                                  - 強いて考えることがあるとしたら、_をつけるかどうかぐらい
+                                  - mutableにする必要があったかどうかはわかんない
+                                  - 結論mutableじゃなくても動く
+                                  - mutableにする理由はUiのレンダリング
+                                  - ここじゃなくて、他のMutableStateの時に検証さらに必要そう
+                              - deadline(Picker)State
+                                ここでまず、一番ややこしかったのが、大元のdeadlineUiStateがmutableだけど、そっから深いプロパティを参照するのがmutableという認識であってるのかを確認する必要がある
+                                  - 結論、一番上がmutableな値なら、そのさらに深いプロパティもmutableになる
+                                  - ということは、細かく実装してきたmutableStateはいらないっていうことになる
+                          - 他にDeadlineStateデータクラスにいらないものはあるか
+                              - 現状で最小限の実装な気がする
+                          - mutableStateをdeadlineUiStateからそれぞれ直接定義したけれど、これらが意味あるのかまたはどちらの実装の方が適切なのか
+                              - これ上記の検証で実証済み
               - roomへの登録
               - EditScreenにあとから修正する用のUIを実装
           - やりたかったけどできなかったこと
@@ -327,18 +376,18 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
           - リンク
               - https://m3.material.io/components/time-pickers/specs
               - https://qiita.com/masayahak/items/efd11b86cd4643d2842d
-                - https://developer.android.com/jetpack/androidx/releases/compose-material3?hl=ja
-                - https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate?hl=ja#types
-                - https://cs.android.com/androidx/platform/tools/dokka-devsite-plugin/+/master:testData/compose/samples/material3/samples/TimePickerSamples.kt;l=230;drc=03ca30d22e6ee3483142f2e4048db459cb5afb79
-                - https://issuetracker.google.com/issues/288311426?pli=1
-                - https://stackoverflow.com/questions/75853449/timepickerdialog-in-jetpack-compose
+                  - https://developer.android.com/jetpack/androidx/releases/compose-material3?hl=ja
+                  - https://developer.android.com/topic/libraries/architecture/viewmodel-savedstate?hl=ja#types
+                  - https://cs.android.com/androidx/platform/tools/dokka-devsite-plugin/+/master:testData/compose/samples/material3/samples/TimePickerSamples.kt;l=230;drc=03ca30d22e6ee3483142f2e4048db459cb5afb79
+                  - https://issuetracker.google.com/issues/288311426?pli=1
+                  - https://stackoverflow.com/questions/75853449/timepickerdialog-in-jetpack-compose
               - https://developer.android.com/training/snackbar/action?hl=ja
               - https://zenn.dev/yagiryuuu/articles/0ed6108070d8c1
-      - 登録した時間
-      - 重要度
-          - タグの機能だったはず
-      -
-      - editScreen
+        - 登録した時間
+        - 重要度
+            - タグの機能だったはず
+        -
+        - editScreen
 
 あとで
 - タイル長押しで削除も追加

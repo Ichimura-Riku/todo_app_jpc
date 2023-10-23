@@ -121,7 +121,6 @@ class TodoEntryViewModel @Inject constructor(
         return "$dateUiState $timeUiState"
     }
 
-
     // ---------------- [showDatePicker] ----------------
     private var _showDatePicker by savedStateHandle.saveable {
         mutableStateOf(false)
