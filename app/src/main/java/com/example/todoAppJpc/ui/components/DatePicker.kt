@@ -40,12 +40,6 @@ fun Material3DatePickerDialogComponent(
     val datePickerStateSet = {
         val result = scope.async {
             viewModel.updateDeadlineUiViewState()
-
-            // ui表示用のstate生成関数
-//        viewModel.updateDeadlineUiViewState()
-            // stateに入力されたかどうかのフラグで、こいつが変化することをscreenがみているので
-            // 処理の最後に入れるのが妥当と考えている。もし反映されてないのであれば、こいつが
-            // 上の関数よりも早く動いている可能性がある。
         }
         result.onAwait
         viewModel.updateIsInputDatePickerState(true)
@@ -65,14 +59,8 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-                        // こいつはDatePickerStateクラスのデフォルトのメソッドで更新されていて、この値を
-                        // flowで監視するには新しくクラスを定義する必要があるかもしれない
-                        // overrideで定義するか？
-                        // こいつの反応が遅かったら今の状況は納得できる
-                        // 少なくとも、この値はコルーチンでawaitさせたい
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
-                        // ちなみにclosePickerはui反映に影響しない
                         closePicker()
                     },
                 ) {
@@ -82,7 +70,6 @@ fun Material3DatePickerDialogComponent(
                     onClick = {
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
-                        // ちなみにclosePickerはui反映に影響しない
                         closePicker()
                         datePickerStateSet()
                     },

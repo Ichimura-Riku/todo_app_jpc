@@ -128,15 +128,7 @@ class TodoEntryViewModel @Inject constructor(
         val timeUiState =
             if (_isInputTimePickerState) timeFormatter.format(cal.time) else ""
         val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
-//        val dateState = _datePickerState
-//        try {
-//            cal.apply {
-// //                timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
-//                timeInMillis = dateState.selectedDateMillis!!
-//            }
-//        } catch (e: Exception) {
-//            Log.e("getDeadlineUiState() is error -----", "$e")
-//        }
+
         try {
             val setCalApply = viewModelScope.async(Dispatchers.IO) {
                 val dateState = _datePickerState
