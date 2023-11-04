@@ -13,7 +13,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 import kotlinx.coroutines.async
-import kotlinx.coroutines.selects.SelectClause1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,7 +44,7 @@ fun Material3DatePickerDialogComponent(
         viewModel.updateIsInputDatePickerState(true)
     }
 
-    fun updateDatePickerState(selectedDateMillis: Long?): () -> SelectClause1<Unit> = {
+    val updateDatePickerState: (selectedDateMillis: Long?) -> Unit = { selectedDateMillis ->
         scope.async {
             viewModel.updateDatePickerState(selectedDateMillis)
         }.onAwait
