@@ -19,10 +19,8 @@ import kotlinx.coroutines.selects.SelectClause1
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
-
-//    rememberDatePickerState: DatePickerState = rememberDatePickerState(),
+    rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
-    val rememberDatePickerState = rememberDatePickerState()
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
         rememberDatePickerState = rememberDatePickerState,
