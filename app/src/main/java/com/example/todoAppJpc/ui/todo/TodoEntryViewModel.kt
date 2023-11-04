@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
+import com.example.todoAppJpc.utils.DeadlineState
 import com.example.todoAppJpc.utils.DeadlineUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -194,7 +195,9 @@ data class TodoState(
     val title: String = "",
     val content: String = "",
     val date: String = "",
-    val deadLine: String = "",
+    var deadlineDate: Long = -1000000000000,
+    val deadlineTimeHour: Int = 10000,
+    val deadlineTimeMinute: Int = 100,
     val isAttention: Int = 0,
     val category: String = "myTask",
     val isFinished: Int = 0,
