@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.todo
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,6 +18,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -92,6 +93,7 @@ fun TodoEntryBody(
     }
 }
 
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoInputForm(
@@ -101,6 +103,7 @@ fun TodoInputForm(
     onValueChange: (TodoState) -> Unit = {},
 ) {
     val rememberDatePickerState = rememberDatePickerState()
+    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -114,6 +117,7 @@ fun TodoInputForm(
             modifier = Modifier.fillMaxWidth(),
             singleLine = false,
         )
+
         if (viewModel.getShowContentTextField()) {
             TextField(
                 value = todoState.content,
@@ -123,9 +127,10 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
+
         if (isInputDeadlineState) {
             InputChip(
-                label = { Text(viewModel.getDeadlineUiState()) },
+                label = { Text(deadlineUiViewState) },
                 onClick = { },
                 selected = false,
                 trailingIcon = {
@@ -143,6 +148,7 @@ fun TodoInputForm(
                 },
             )
         }
+
         if (viewModel.getShowDatePicker()) {
             DatePickerComponent(
                 viewModel = viewModel,
