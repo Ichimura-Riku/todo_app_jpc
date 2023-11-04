@@ -58,12 +58,10 @@ class TodoEntryViewModel @Inject constructor(
     }
 
     // deadline(Picker)State
-    private var _timePickerState: TimePickerState by savedStateHandle.saveable {
-        mutableStateOf(deadlineUiState.deadlineState.timePickerState)
-    }
-    private var _datePickerState: DatePickerState by savedStateHandle.saveable {
-        mutableStateOf(deadlineUiState.deadlineState.datePickerState)
-    }
+    private var _timePickerState: TimePickerState = deadlineUiState.deadlineState.timePickerState
+
+    private var _datePickerState: DatePickerState = deadlineUiState.deadlineState.datePickerState
+
     val timePickerState: TimePickerState get() = _timePickerState
     val datePickerState: DatePickerState get() = _datePickerState
     suspend fun updateDatePickerState(selectedDateMillis: Long?) {
