@@ -113,6 +113,7 @@ class TodoEntryViewModel @Inject constructor(
     suspend fun updateDeadlineUiViewState() {
         val newUiState = getDeadlineUiViewState() // ここで非同期処理を行う関数を呼び出す
         _deadlineUiViewState.value = newUiState
+        setDeadlineTodoState(deadlineState = deadlineUiState.deadlineState)
     }
 
     private suspend fun getDeadlineUiViewState(): String {
@@ -144,6 +145,23 @@ class TodoEntryViewModel @Inject constructor(
             if (_isInputDatePickerState) dateFormatter.format(cal.time) else ""
 
         return "$dateUiState $timeUiState"
+    }
+
+    private fun setDeadlineTodoState(deadlineState: DeadlineState) {
+        val inputDeadlineTimeHour = 10000 + deadlineState.timePickerState.hour * 100
+        val inputDeadlineTimeMinute = deadlineState.timePickerState.minute
+        val inputDeadlineDate = deadlineState.datePickerState.selectedDateMillis!!
+
+        updateTodoState(
+            todoUiState.todoState.copy(
+                deadlineDate = inputDeadlineDate,
+                deadlineTimeHour = inputDeadlineTimeHour,
+                deadlineTimeMinute = inputDeadlineTimeMinute,
+            )
+        )
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineDate}")
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeHour}")
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeMinute}")
     }
 
     // ---------------- [showDatePicker] ----------------
@@ -207,7 +225,7 @@ fun TodoState.toTodo(): TodoEntity = TodoEntity(
     content = content,
 //    多分日時系は型変換する必要がある
     date = date,
-    deadLine = deadLine,
+    deadline = deadlineDate + deadlineTimeHour + deadlineTimeMinute % 100,
     isAttention = isAttention,
     category = category,
     isFinished = isFinished,
@@ -224,7 +242,9 @@ fun TodoEntity.toTodoState(): TodoState = TodoState(
     content = content,
 //    多分日時系は型変換する必要がある
     date = date,
-    deadLine = deadLine,
+    deadlineDate = deadline / 100000,
+    deadlineTimeHour = ((deadline % 100000) / 100).toInt(),
+    deadlineTimeMinute = (deadline % 100).toInt(),
     isAttention = isAttention,
     category = category,
     isFinished = isFinished,
