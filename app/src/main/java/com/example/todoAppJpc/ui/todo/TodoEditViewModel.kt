@@ -48,15 +48,10 @@ class TodoEditViewModel @Inject constructor(
     }
 
     suspend fun adventTodo() {
-
         todoRepository.updateTodo(todoUiState.todoState.toTodo())
-//        Log.d( "debug", "↓デバッグ")
-//        Log.d( "debug", OnConflictStrategy.IGNORE.toString())
     }
 
     suspend fun eliminateTodo() {
         todoRepository.deleteTodo(todoUiState.todoState.toTodo())
     }
-
 }
-

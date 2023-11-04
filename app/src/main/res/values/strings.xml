@@ -1,7 +1,7 @@
 <resources>
     <!--    <string name="app_name">todoAppJpc</string>-->
     <string name="add_action">ADD</string>
-    <string name="todo_title_req">Title</string>
+    <string name="todo_title_req">新しいtodo</string>
 
     <string name="app_name">TodoApp</string>
     <string name="app_edit_page_top_bar">Todo View</string>
@@ -26,4 +26,5 @@
     <string name="sell">Sell</string>
     <string name="yes">Yes</string>
     <string name="required_fields">*required fields</string>
+    <string name="todo_content_req">詳細を記述</string>
 </resources>

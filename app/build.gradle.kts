@@ -13,7 +13,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.todoAppJpc"
-        minSdk = 25
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -78,8 +78,8 @@ dependencies {
     implementation("androidx.room:room-runtime:$compose_runtime_version")
 //    annotationProcessor("androidx.room:room-compiler:$room_version")
 
-    implementation("androidx.compose.material3:material3:1.1.1")
-    implementation("androidx.compose.material3:material3-window-size-class:1.1.1")
+    implementation("androidx.compose.material3:material3:1.1.2")
+    implementation("androidx.compose.material3:material3-window-size-class:1.1.2")
 
     implementation("com.google.dagger:hilt-android:2.48")           // 変更
     ksp("com.google.dagger:hilt-android-compiler:2.48")             // 変更

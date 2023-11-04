@@ -170,11 +170,12 @@ fun MainScreen(
                         mainBodyViewModel.setShowBottomSheet(false)
                     },
                     sheetState = sheetState,
+                    contentColor = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.surface,
                 ) {
                     // Sheet content
                     TodoEntryBody(
-                        todoState = todoEntryViewModel.todoUiState.todoState,
-                        onTodoValueChange = todoEntryViewModel::updateTodoState,
+                        // これもいらない説
                         onSaveClick = {
                             // Note: If the user rotates the screen very fast, the operation may get cancelled
                             // and the item may not be saved in the Database. This is because when config
@@ -182,8 +183,6 @@ fun MainScreen(
                             // be cancelled - since the scope is bound to composition.
                             coroutineScope.launch {
                                 todoEntryViewModel.adventTodo()
-//                                    Todo: ぱっと見、バックアクションのナビゲーションに関する処理だから一旦放置
-//                                    navigateBack()
                             }
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {
