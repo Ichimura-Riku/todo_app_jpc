@@ -65,8 +65,15 @@ class TodoEntryViewModel @Inject constructor(
     }
     val timePickerState: TimePickerState get() = _timePickerState
     val datePickerState: DatePickerState get() = _datePickerState
-    fun updateDatePickerState(selectedDateMillis: Long?) {
-        _datePickerState.setSelection(selectedDateMillis)
+    suspend fun updateDatePickerState(selectedDateMillis: Long?) {
+        try {
+            val updateDatePickerStateAwait = viewModelScope.async(Dispatchers.IO) {
+                _datePickerState.setSelection(selectedDateMillis)
+            }.await()
+        } catch (e: Exception) {
+            Log.e("error is updateDatePickerState()", "$e")
+        }
+
     }
 
     fun resetTimePickerState() {

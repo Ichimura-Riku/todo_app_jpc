@@ -7,19 +7,22 @@ import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.selects.SelectClause1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
 
-    rememberDatePickerState: DatePickerState,
+//    rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
+    val rememberDatePickerState = rememberDatePickerState()
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
         rememberDatePickerState = rememberDatePickerState,
@@ -37,7 +40,7 @@ fun Material3DatePickerDialogComponent(
     val closePicker = { viewModel.setShowDatePicker(false) }
     val showTimePicker = { viewModel.setShowTimePicker(true) }
     val datePickerStateSet = {
-        scope.async {
+        val result = scope.async {
             viewModel.updateDeadlineUiViewState()
 
             // ui表示用のstate生成関数
@@ -46,11 +49,16 @@ fun Material3DatePickerDialogComponent(
             // 処理の最後に入れるのが妥当と考えている。もし反映されてないのであれば、こいつが
             // 上の関数よりも早く動いている可能性がある。
         }
+        result.onAwait
         viewModel.updateIsInputDatePickerState(true)
     }
 
-    fun updateDatePickerState(selectedDateMillis: Long?) =
-        viewModel.updateDatePickerState(selectedDateMillis)
+    fun updateDatePickerState(selectedDateMillis: Long?): () -> SelectClause1<Unit> = {
+        scope.async {
+            viewModel.updateDatePickerState(selectedDateMillis)
+        }.onAwait
+    }
+
 
     DatePickerDialog(
         onDismissRequest = {
