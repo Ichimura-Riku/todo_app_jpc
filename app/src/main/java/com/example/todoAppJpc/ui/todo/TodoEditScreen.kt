@@ -191,6 +191,11 @@ fun TodoEdit(
             onValueChange = { onValueChange(todoState.copy(content = it)) },
         )
         Divider()
+        TextField(
+            value = "${todoState.deadlineTimeMinute}",
+            onValueChange = { onValueChange(todoState.copy(content = it)) },
+        )
+        Divider()
     }
 }
 
