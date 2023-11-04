@@ -16,12 +16,14 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+import kotlinx.coroutines.async
 
 @Composable
 fun TimePickerComponent(
@@ -39,10 +41,17 @@ fun Material3TimePickerDialogComponent(
     viewModel: TodoEntryViewModel,
     toggle: @Composable () -> Unit = {},
 ) {
+    val scope = rememberCoroutineScope()
     val closePicker = { viewModel.setShowTimePicker(false) }
-    val timePickerStateSet = { viewModel.updateIsInputTimePickerState(true) }
     val showDatePicker = { viewModel.setShowDatePicker(true) }
     val timePickerState = viewModel.timePickerState
+    val timePickerStateSet = {
+        val result = scope.async {
+            viewModel.updateDeadlineUiViewState()
+        }
+        result.onAwait
+        viewModel.updateIsInputTimePickerState(true)
+    }
     Dialog(
         onDismissRequest = closePicker,
         properties = DialogProperties(

@@ -150,7 +150,6 @@ class TodoEntryViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("getDeadlineUiState() is error", "$e")
         }
-//
 
         val dateUiState =
             if (_isInputDatePickerState) dateFormatter.format(cal.time) else ""
