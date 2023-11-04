@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.todo
 
+import android.util.Log
 import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.DisplayMode
@@ -10,12 +11,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.DeadlineUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Calendar
@@ -59,8 +65,14 @@ class TodoEntryViewModel @Inject constructor(
     }
     val timePickerState: TimePickerState get() = _timePickerState
     val datePickerState: DatePickerState get() = _datePickerState
-    fun updateDatePickerState(selectedDateMillis: Long?) {
-        _datePickerState.setSelection(selectedDateMillis)
+    suspend fun updateDatePickerState(selectedDateMillis: Long?) {
+        try {
+            val updateDatePickerStateAwait = viewModelScope.async(Dispatchers.IO) {
+                _datePickerState.setSelection(selectedDateMillis)
+            }.await()
+        } catch (e: Exception) {
+            Log.e("error is updateDatePickerState()", "$e")
+        }
     }
 
     fun resetTimePickerState() {
@@ -88,6 +100,7 @@ class TodoEntryViewModel @Inject constructor(
     fun updateIsInputTimePickerState(isInputState: Boolean) {
         _isInputTimePickerState = isInputState
     }
+
     fun updateIsInputDatePickerState(isInputState: Boolean) {
         _isInputDatePickerState = isInputState
     }
@@ -95,7 +108,15 @@ class TodoEntryViewModel @Inject constructor(
     val getIsInputDeadlineState: Boolean get() = deadlineUiState.isInputDeadlineState.isInputDatePickerState || deadlineUiState.isInputDeadlineState.isInputTimePickerState
 
     // deadlineUiState(Uiに直接表示するための値)
-    fun getDeadlineUiState(): String {
+    private val _deadlineUiViewState = MutableStateFlow("")
+    val deadlineUiViewState: StateFlow<String> get() = _deadlineUiViewState
+
+    suspend fun updateDeadlineUiViewState() {
+        val newUiState = getDeadlineUiViewState() // ここで非同期処理を行う関数を呼び出す
+        _deadlineUiViewState.value = newUiState
+    }
+
+    private suspend fun getDeadlineUiViewState(): String {
         val userLocale = Locale.getDefault()
         val cal = Calendar.getInstance()
 
@@ -106,14 +127,29 @@ class TodoEntryViewModel @Inject constructor(
         cal.isLenient = false
         val timeUiState =
             if (_isInputTimePickerState) timeFormatter.format(cal.time) else ""
-
         val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
-        val dateState = _datePickerState
-        cal.apply {
-            // あとで、コルーチン処理かなんかでawaitさせる
-            timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
-//            timeInMillis = dateState.selectedDateMillis!!
+//        val dateState = _datePickerState
+//        try {
+//            cal.apply {
+// //                timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
+//                timeInMillis = dateState.selectedDateMillis!!
+//            }
+//        } catch (e: Exception) {
+//            Log.e("getDeadlineUiState() is error -----", "$e")
+//        }
+        try {
+            val setCalApply = viewModelScope.async(Dispatchers.IO) {
+                val dateState = _datePickerState
+                cal.apply {
+                    timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
+//                    timeInMillis = dateState.selectedDateMillis!!
+                }
+            }.await()
+            setCalApply
+        } catch (e: Exception) {
+            Log.e("getDeadlineUiState() is error", "$e")
         }
+
         val dateUiState =
             if (_isInputDatePickerState) dateFormatter.format(cal.time) else ""
 

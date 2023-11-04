@@ -7,16 +7,19 @@ import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.selects.SelectClause1
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
     viewModel: TodoEntryViewModel,
-
-    rememberDatePickerState: DatePickerState,
+    rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
     Material3DatePickerDialogComponent(
         viewModel = viewModel,
@@ -31,11 +34,28 @@ fun Material3DatePickerDialogComponent(
     rememberDatePickerState: DatePickerState,
     modifier: Modifier = Modifier,
 ) {
+    val scope = rememberCoroutineScope()
     val closePicker = { viewModel.setShowDatePicker(false) }
     val showTimePicker = { viewModel.setShowTimePicker(true) }
-    val datePickerStateSet = { viewModel.updateIsInputDatePickerState(true) }
-    fun updateDatePickerState(selectedDateMillis: Long?) =
-        viewModel.updateDatePickerState(selectedDateMillis)
+    val datePickerStateSet = {
+        val result = scope.async {
+            viewModel.updateDeadlineUiViewState()
+
+            // ui表示用のstate生成関数
+//        viewModel.updateDeadlineUiViewState()
+            // stateに入力されたかどうかのフラグで、こいつが変化することをscreenがみているので
+            // 処理の最後に入れるのが妥当と考えている。もし反映されてないのであれば、こいつが
+            // 上の関数よりも早く動いている可能性がある。
+        }
+        result.onAwait
+        viewModel.updateIsInputDatePickerState(true)
+    }
+
+    fun updateDatePickerState(selectedDateMillis: Long?): () -> SelectClause1<Unit> = {
+        scope.async {
+            viewModel.updateDatePickerState(selectedDateMillis)
+        }.onAwait
+    }
 
     DatePickerDialog(
         onDismissRequest = {
@@ -45,8 +65,14 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
+                        // こいつはDatePickerStateクラスのデフォルトのメソッドで更新されていて、この値を
+                        // flowで監視するには新しくクラスを定義する必要があるかもしれない
+                        // overrideで定義するか？
+                        // こいつの反応が遅かったら今の状況は納得できる
+                        // 少なくとも、この値はコルーチンでawaitさせたい
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
+                        // ちなみにclosePickerはui反映に影響しない
                         closePicker()
                     },
                 ) {
@@ -56,6 +82,7 @@ fun Material3DatePickerDialogComponent(
                     onClick = {
                         updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
+                        // ちなみにclosePickerはui反映に影響しない
                         closePicker()
                         datePickerStateSet()
                     },
