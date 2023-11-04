@@ -93,7 +93,6 @@ fun TodoEntryBody(
     }
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoInputForm(

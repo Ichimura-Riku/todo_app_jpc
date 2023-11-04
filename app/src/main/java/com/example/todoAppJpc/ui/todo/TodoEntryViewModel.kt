@@ -73,7 +73,6 @@ class TodoEntryViewModel @Inject constructor(
         } catch (e: Exception) {
             Log.e("error is updateDatePickerState()", "$e")
         }
-
     }
 
     fun resetTimePickerState() {
@@ -132,7 +131,7 @@ class TodoEntryViewModel @Inject constructor(
 //        val dateState = _datePickerState
 //        try {
 //            cal.apply {
-////                timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
+// //                timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
 //                timeInMillis = dateState.selectedDateMillis!!
 //            }
 //        } catch (e: Exception) {

@@ -57,7 +57,6 @@ fun Material3DatePickerDialogComponent(
         }.onAwait
     }
 
-
     DatePickerDialog(
         onDismissRequest = {
             closePicker()
