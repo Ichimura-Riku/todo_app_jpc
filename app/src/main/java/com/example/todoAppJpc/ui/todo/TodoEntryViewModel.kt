@@ -132,8 +132,7 @@ class TodoEntryViewModel @Inject constructor(
             val setCalApply = viewModelScope.async(Dispatchers.IO) {
                 val dateState = _datePickerState
                 cal.apply {
-                    timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
-//                    timeInMillis = dateState.selectedDateMillis!!
+                    timeInMillis = dateState.selectedDateMillis!!
                 }
             }.await()
             setCalApply
