@@ -33,8 +33,7 @@ import com.example.todoAppJpc.ui.components.TimePickerComponent
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),
-    todoState: TodoState,
-    onTodoValueChange: (TodoState) -> Unit,
+    onTodoValueChange: (TodoState) -> Unit = viewModel::updateTodoState,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -49,7 +48,6 @@ fun TodoEntryBody(
         ) {
             TodoInputForm(
                 viewModel = viewModel,
-                todoState = todoState,
                 onValueChange = onTodoValueChange,
                 modifier = Modifier.fillMaxWidth(),
             )
@@ -97,12 +95,12 @@ fun TodoEntryBody(
 @Composable
 fun TodoInputForm(
     viewModel: TodoEntryViewModel,
-    todoState: TodoState,
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
 ) {
     val rememberDatePickerState = rememberDatePickerState()
     val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
+    val todoState = viewModel.todoUiState.todoState
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),

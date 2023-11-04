@@ -16,6 +16,7 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
+import com.example.todoAppJpc.utils.DeadlineState
 import com.example.todoAppJpc.utils.DeadlineUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -57,17 +58,15 @@ class TodoEntryViewModel @Inject constructor(
     }
 
     // deadline(Picker)State
-    private var _timePickerState: TimePickerState by savedStateHandle.saveable {
-        mutableStateOf(deadlineUiState.deadlineState.timePickerState)
-    }
-    private var _datePickerState: DatePickerState by savedStateHandle.saveable {
-        mutableStateOf(deadlineUiState.deadlineState.datePickerState)
-    }
+    private var _timePickerState: TimePickerState = deadlineUiState.deadlineState.timePickerState
+
+    private var _datePickerState: DatePickerState = deadlineUiState.deadlineState.datePickerState
+
     val timePickerState: TimePickerState get() = _timePickerState
     val datePickerState: DatePickerState get() = _datePickerState
     suspend fun updateDatePickerState(selectedDateMillis: Long?) {
         try {
-            val updateDatePickerStateAwait = viewModelScope.async(Dispatchers.IO) {
+            viewModelScope.async(Dispatchers.IO) {
                 _datePickerState.setSelection(selectedDateMillis)
             }.await()
         } catch (e: Exception) {
@@ -114,6 +113,7 @@ class TodoEntryViewModel @Inject constructor(
     suspend fun updateDeadlineUiViewState() {
         val newUiState = getDeadlineUiViewState() // ここで非同期処理を行う関数を呼び出す
         _deadlineUiViewState.value = newUiState
+        setDeadlineTodoState(deadlineState = deadlineUiState.deadlineState)
     }
 
     private suspend fun getDeadlineUiViewState(): String {
@@ -133,8 +133,7 @@ class TodoEntryViewModel @Inject constructor(
             val setCalApply = viewModelScope.async(Dispatchers.IO) {
                 val dateState = _datePickerState
                 cal.apply {
-                    timeInMillis = dateState.selectedDateMillis ?: Instant.now().toEpochMilli()
-//                    timeInMillis = dateState.selectedDateMillis!!
+                    timeInMillis = dateState.selectedDateMillis!!
                 }
             }.await()
             setCalApply
@@ -146,6 +145,23 @@ class TodoEntryViewModel @Inject constructor(
             if (_isInputDatePickerState) dateFormatter.format(cal.time) else ""
 
         return "$dateUiState $timeUiState"
+    }
+
+    private fun setDeadlineTodoState(deadlineState: DeadlineState) {
+        val inputDeadlineTimeHour = 10000 + deadlineState.timePickerState.hour * 100
+        val inputDeadlineTimeMinute = deadlineState.timePickerState.minute
+        val inputDeadlineDate = deadlineState.datePickerState.selectedDateMillis!!
+
+        updateTodoState(
+            todoUiState.todoState.copy(
+                deadlineDate = inputDeadlineDate,
+                deadlineTimeHour = inputDeadlineTimeHour,
+                deadlineTimeMinute = inputDeadlineTimeMinute,
+            )
+        )
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineDate}")
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeHour}")
+        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeMinute}")
     }
 
     // ---------------- [showDatePicker] ----------------
@@ -194,7 +210,9 @@ data class TodoState(
     val title: String = "",
     val content: String = "",
     val date: String = "",
-    val deadLine: String = "",
+    var deadlineDate: Long = -1000000000000,
+    val deadlineTimeHour: Int = 10000,
+    val deadlineTimeMinute: Int = 100,
     val isAttention: Int = 0,
     val category: String = "myTask",
     val isFinished: Int = 0,
@@ -207,7 +225,7 @@ fun TodoState.toTodo(): TodoEntity = TodoEntity(
     content = content,
 //    多分日時系は型変換する必要がある
     date = date,
-    deadLine = deadLine,
+    deadline = deadlineDate + deadlineTimeHour + deadlineTimeMinute % 100,
     isAttention = isAttention,
     category = category,
     isFinished = isFinished,
@@ -224,7 +242,9 @@ fun TodoEntity.toTodoState(): TodoState = TodoState(
     content = content,
 //    多分日時系は型変換する必要がある
     date = date,
-    deadLine = deadLine,
+    deadlineDate = deadline / 100000,
+    deadlineTimeHour = ((deadline % 100000) / 100).toInt(),
+    deadlineTimeMinute = (deadline % 100).toInt(),
     isAttention = isAttention,
     category = category,
     isFinished = isFinished,
