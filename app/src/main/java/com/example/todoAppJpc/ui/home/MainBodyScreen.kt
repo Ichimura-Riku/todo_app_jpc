@@ -175,8 +175,7 @@ fun MainScreen(
                 ) {
                     // Sheet content
                     TodoEntryBody(
-                        todoState = todoEntryViewModel.todoUiState.todoState,
-                        onTodoValueChange = todoEntryViewModel::updateTodoState,
+                        // これもいらない説
                         onSaveClick = {
                             // Note: If the user rotates the screen very fast, the operation may get cancelled
                             // and the item may not be saved in the Database. This is because when config
