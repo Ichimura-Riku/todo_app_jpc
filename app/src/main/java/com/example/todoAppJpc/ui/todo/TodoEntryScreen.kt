@@ -128,7 +128,7 @@ fun TodoInputForm(
         if (isInputDeadlineState) {
             InputChip(
                 label = { Text(deadlineUiViewState) },
-                onClick = { },
+                onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) },
                 selected = false,
                 trailingIcon = {
                     IconButton(onClick = {
