@@ -124,7 +124,6 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
-
         if (isInputDeadlineState) {
             InputChip(
                 label = { Text(deadlineUiViewState) },
@@ -145,7 +144,6 @@ fun TodoInputForm(
                 },
             )
         }
-
         if (viewModel.getShowDatePicker()) {
             DatePickerComponent(
                 viewModel = viewModel,
