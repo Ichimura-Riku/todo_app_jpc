@@ -24,7 +24,6 @@
 	- gmailみたいに、スナックバーで完了を元に戻したい
 
 # bugFix
-
 - edit画面からhome画面に戻る時、navBackを2回くらいタップするとバグる
 	- 多分コルーチン処理かなんか上手いことやると対応できるかもしれない
 - todoのaddしてもentryBottomSheetのstate保持がリセットされない
