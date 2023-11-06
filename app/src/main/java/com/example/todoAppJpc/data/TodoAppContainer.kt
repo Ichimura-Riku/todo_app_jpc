@@ -1,5 +1,7 @@
 package com.example.todoAppJpc.data
 
+
+// Hiltのおかげでファイル自体が入らなくなる
 import android.content.Context
 
 interface TodoAppContainer {

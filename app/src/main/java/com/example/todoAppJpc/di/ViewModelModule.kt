@@ -13,9 +13,11 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
+//class TodoRepositoryModule {
 class ViewModelModule {
     @Provides
     @Singleton
+//    fun provideTodoRepository(@ApplicationContext context: Context): TodoRepository {
     fun provideViewModel(@ApplicationContext context: Context): TodoRepository {
         return OfflineTodoRepository(TodoListDatabase.getDatabase(context = context).todoDao())
     }
