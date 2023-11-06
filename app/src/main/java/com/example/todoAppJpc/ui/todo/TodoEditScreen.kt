@@ -14,6 +14,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,10 +23,13 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -147,6 +151,7 @@ fun TodoEditBody(
 
         ) {
         TodoEdit(
+            viewModel = viewModel,
             todoState = viewModel.todoUiState.todoState,
             onValueChange = viewModel::updateTodoState,
 
@@ -169,12 +174,17 @@ fun TodoEditBody(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEdit(
+    viewModel: TodoEditViewModel,
     todoState: TodoState,
     onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
+    val isInputDeadlineState =
+        viewModel.isInputTimePickerState || viewModel.isInputDatePickerState
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -196,6 +206,35 @@ fun TodoEdit(
             onValueChange = { onValueChange(todoState.copy(content = it)) },
         )
         Divider()
+        InputChip(
+            label = { Text(deadlineUiViewState) },
+            onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) },
+            selected = false,
+            trailingIcon = {
+                IconButton(onClick = {
+                    viewModel.updateIsInputTimePickerState(false)
+                    viewModel.updateIsInputDatePickerState(false)
+                    viewModel.resetTimePickerState()
+                    viewModel.resetDatePickerState()
+                }) {
+                    Icon(
+                        painterResource(id = R.drawable.round_close_24),
+                        contentDescription = "Localized description",
+                    )
+                }
+            },
+        )
+//
+//        if (viewModel.getShowDatePicker()) {
+//            DatePickerComponent(
+//                viewModel = viewModel,
+//                rememberDatePickerState = rememberDatePickerState,
+//            )
+//        }
+//        if (viewModel.getShowTimePicker()) {
+//            TimePickerComponent(viewModel = viewModel)
+//        }
+
     }
 }
 
