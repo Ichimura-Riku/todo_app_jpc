@@ -153,7 +153,10 @@ fun TodoInputForm(
             )
         }
         if (deadlineUiState.showTimePicker) {
-            TimePickerComponent(viewModel = viewModel)
+            TimePickerComponent(
+                deadlineUiState = deadlineUiState,
+                updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
+            )
         }
     }
 }

@@ -19,7 +19,7 @@ import kotlinx.coroutines.async
 fun DatePickerComponent(
 //    viewModel: TodoEntryViewModel,
     deadlineUiState: DeadlineUiState,
-    updateDeadlineUiViewState: () -> Unit,
+    updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
     Material3DatePickerDialogComponent(
@@ -30,77 +30,11 @@ fun DatePickerComponent(
     )
 }
 
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun Material3DatePickerDialogComponent(
-//    viewModel: TodoEntryViewModel,
-//    rememberDatePickerState: DatePickerState,
-//    modifier: Modifier = Modifier,
-//) {
-//    val scope = rememberCoroutineScope()
-//    val closePicker = { viewModel.setShowDatePicker(false) }
-//    val showTimePicker = { viewModel.setShowTimePicker(true) }
-//    val datePickerStateSet = {
-//        val result = scope.async {
-//            viewModel.updateDeadlineUiViewState()
-//        }
-//        result.onAwait
-//        viewModel.updateIsInputDatePickerState(true)
-//    }
-//
-//    val updateDatePickerState: (selectedDateMillis: Long?) -> Unit = { selectedDateMillis ->
-//        scope.async {
-//            viewModel.updateDatePickerState(selectedDateMillis)
-//        }.onAwait
-//    }
-//
-//    DatePickerDialog(
-//        onDismissRequest = {
-//            closePicker()
-//        },
-//        confirmButton = {
-//            Row {
-//                TextButton(
-//                    onClick = {
-//                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
-//                        datePickerStateSet()
-//                        closePicker()
-//                    },
-//                ) {
-//                    Text(text = "OK")
-//                }
-//                TextButton(
-//                    onClick = {
-//                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
-//                        showTimePicker()
-//                        closePicker()
-//                        datePickerStateSet()
-//                    },
-//                ) {
-//                    Text(text = "set time")
-//                }
-//            }
-//        },
-//        dismissButton = {
-//            TextButton(
-//                onClick = {
-//                    closePicker()
-//                },
-//            ) {
-//                Text(text = "CANCEL")
-//            }
-//        },
-//        modifier = modifier,
-//    ) {
-//        DatePicker(state = rememberDatePickerState)
-//    }
-//}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Material3DatePickerDialogComponent(
     deadlineUiState: DeadlineUiState,
-    updateDeadlineUiViewState: () -> Unit,
+    updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState,
     modifier: Modifier = Modifier,
 ) {
