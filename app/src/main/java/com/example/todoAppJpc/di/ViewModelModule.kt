@@ -14,11 +14,11 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 //class TodoRepositoryModule {
-class ViewModelModule {
+class TodoRepositoryModule {
     @Provides
     @Singleton
 //    fun provideTodoRepository(@ApplicationContext context: Context): TodoRepository {
-    fun provideViewModel(@ApplicationContext context: Context): TodoRepository {
+    fun provideTodoRepository(@ApplicationContext context: Context): TodoRepository {
         return OfflineTodoRepository(TodoListDatabase.getDatabase(context = context).todoDao())
     }
 }
