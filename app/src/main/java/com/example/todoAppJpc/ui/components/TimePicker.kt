@@ -16,7 +16,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -29,10 +32,14 @@ import kotlinx.coroutines.async
 fun TimePickerComponent(
 //    viewModel: TodoEntryViewModel,
     deadlineUiState: DeadlineUiState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
     updateDeadlineUiViewState: suspend () -> Unit,
 ) {
     Material3TimePickerDialogComponent(
         deadlineUiState = deadlineUiState,
+        showDatePickerMutableState = showDatePickerMutableState,
+        showTimePickerMutableState = showTimePickerMutableState,
         updateDeadlineUiViewState = { updateDeadlineUiViewState() },
     )
 }
@@ -43,12 +50,16 @@ fun Material3TimePickerDialogComponent(
     title: String = "Select Time",
 //    viewModel: TodoEntryViewModel,
     deadlineUiState: DeadlineUiState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
     updateDeadlineUiViewState: suspend () -> Unit,
     toggle: @Composable () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
-    val closePicker = { deadlineUiState.setShowTimePicker(false) }
-    val showDatePicker = { deadlineUiState.setShowDatePicker(true) }
+    var showDatePickerState by showDatePickerMutableState
+    var showTimePickerState by showTimePickerMutableState
+    val closePicker = { showTimePickerState = false }
+    val showDatePicker = { showDatePickerState = true }
     val timePickerState = deadlineUiState.deadlineState.timePickerState
     val timePickerStateSet = {
         val result = scope.async {

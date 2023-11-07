@@ -9,7 +9,10 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.example.todoAppJpc.utils.DeadlineUiState
 import kotlinx.coroutines.async
@@ -19,6 +22,8 @@ import kotlinx.coroutines.async
 fun DatePickerComponent(
 //    viewModel: TodoEntryViewModel,
     deadlineUiState: DeadlineUiState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
     updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
@@ -26,6 +31,8 @@ fun DatePickerComponent(
 //        viewModel = viewModel,
         deadlineUiState = deadlineUiState,
         updateDeadlineUiViewState = updateDeadlineUiViewState,
+        showDatePickerMutableState = showDatePickerMutableState,
+        showTimePickerMutableState = showTimePickerMutableState,
         rememberDatePickerState = rememberDatePickerState,
     )
 }
@@ -36,11 +43,16 @@ fun Material3DatePickerDialogComponent(
     deadlineUiState: DeadlineUiState,
     updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
     modifier: Modifier = Modifier,
 ) {
+
     val scope = rememberCoroutineScope()
-    val closePicker = { deadlineUiState.setShowDatePicker(false) }
-    val showTimePicker = { deadlineUiState.setShowTimePicker(true) }
+    var showDatePickerState by showDatePickerMutableState
+    var showTimePickerState by showTimePickerMutableState
+    val closePicker = { showDatePickerState = false }
+    val showTimePicker = { }
     val datePickerStateSet = {
         val result = scope.async {
             updateDeadlineUiViewState()
