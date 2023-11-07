@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.todo
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,8 +19,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -37,6 +42,10 @@ fun TodoEntryBody(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+
+    var showDatePickerMutableState = remember { mutableStateOf(false) }
+    var showDatePickerState by showDatePickerMutableState
+    Log.d("debug-----", "2: $showDatePickerState")
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -46,10 +55,12 @@ fun TodoEntryBody(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(20.dp),
         ) {
+
             TodoInputForm(
                 viewModel = viewModel,
                 onValueChange = onTodoValueChange,
                 modifier = Modifier.fillMaxWidth(),
+                showDatePickerMutableState = showDatePickerMutableState,
             )
 
             Button(
@@ -80,7 +91,7 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { }) {
+                IconButton(onClick = { showDatePickerState = !showDatePickerState }) {
                     Icon(
                         painterResource(id = R.drawable.round_more_horiz_24),
                         contentDescription = "Localized description",
@@ -97,11 +108,14 @@ fun TodoInputForm(
     viewModel: TodoEntryViewModel,
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
+    showDatePickerMutableState: MutableState<Boolean>,
 ) {
     val rememberDatePickerState = rememberDatePickerState()
     val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
     val todoState = viewModel.todoUiState.todoState
     val deadlineUiState = viewModel.deadlineUiState
+    var showDatePickerState by showDatePickerMutableState
+    Log.d("debug-----", "3: $showDatePickerState")
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -125,6 +139,7 @@ fun TodoInputForm(
                 singleLine = false,
             )
         }
+
         if (isInputDeadlineState) {
             InputChip(
                 label = { Text(deadlineUiViewState) },
@@ -145,6 +160,7 @@ fun TodoInputForm(
                 },
             )
         }
+
         if (deadlineUiState.showDatePicker) {
             DatePickerComponent(
                 deadlineUiState = deadlineUiState,
