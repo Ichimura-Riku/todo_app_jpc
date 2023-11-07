@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.todo
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -45,7 +44,6 @@ fun TodoEntryBody(
 
     var showDatePickerMutableState = remember { mutableStateOf(false) }
     var showDatePickerState by showDatePickerMutableState
-    Log.d("debug-----", "2: $showDatePickerState")
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -115,7 +113,6 @@ fun TodoInputForm(
     val todoState = viewModel.todoUiState.todoState
     val deadlineUiState = viewModel.deadlineUiState
     var showDatePickerState by showDatePickerMutableState
-    Log.d("debug-----", "3: $showDatePickerState")
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
