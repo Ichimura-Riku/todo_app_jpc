@@ -3,7 +3,6 @@ package com.example.todoAppJpc.data
 import kotlinx.coroutines.flow.Flow
 
 interface TodoRepository {
-
     fun getAllTodoStream(): Flow<List<TodoEntity>>
 
     fun getAttentionTodo(): Flow<List<TodoEntity>>

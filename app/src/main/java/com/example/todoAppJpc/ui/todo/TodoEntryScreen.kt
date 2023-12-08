@@ -86,7 +86,7 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { viewModel.deadlineUiState.setShowDatePicker(!viewModel.deadlineUiState.showDatePicker) }) {
+                IconButton(onClick = { showDatePickerState = true }) {
                     Icon(
                         painterResource(id = R.drawable.baseline_access_time_24),
                         contentDescription = "Localized description",
@@ -163,7 +163,7 @@ fun TodoInputForm(
             )
         }
 
-        if (deadlineUiState.showDatePicker) {
+        if (showDatePickerState) {
             DatePickerComponent(
                 deadlineUiState = deadlineUiState,
                 showDatePickerMutableState = showDatePickerMutableState,
@@ -172,7 +172,7 @@ fun TodoInputForm(
                 updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
             )
         }
-        if (deadlineUiState.showTimePicker) {
+        if (showTimePickerState) {
             TimePickerComponent(
                 deadlineUiState = deadlineUiState,
                 showDatePickerMutableState = showDatePickerMutableState,

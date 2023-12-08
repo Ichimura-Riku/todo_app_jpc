@@ -584,6 +584,21 @@ flowは連続的にデータが変化して、それをUIに反映させたい�
 						- もう一度、dataclassの実装で問題ないか確認したい
 						  あとで
 				- rememberを上の階層でもつ
+  
+- datePicker系のエラー解決
+  - エラー内容
+    - OKしたらフリーズする
+  - ここまでの経緯
+    - 引数に分けて、entryでも使えるようにしたかった
+    - viewModelでまとめていた引数を全て細かく分けて指定
+    - 引数を参照渡しにするためにクラス指定で呼び出し
+  - 試したこと
+    - デバッグプリント
+      - updateDeadlineUiViewStateまでは実行されていそう
+      - この関数内でフリーズが起こっていそう
+      - viewModelまでは動いている 
+      - `val inputDeadlineDate = deadlineState.datePickerState.selectedDateMillis!!`でエラーが発生していた
+      - 
 
 - タイル長押しで削除も追加
 - 登録する時の他の要素も追加できるようにする

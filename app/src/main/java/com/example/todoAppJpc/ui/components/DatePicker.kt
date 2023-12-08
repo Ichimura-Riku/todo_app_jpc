@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
@@ -48,13 +49,15 @@ fun Material3DatePickerDialogComponent(
     modifier: Modifier = Modifier,
 ) {
 
+
     val scope = rememberCoroutineScope()
     var showDatePickerState by showDatePickerMutableState
     var showTimePickerState by showTimePickerMutableState
     val closePicker = { showDatePickerState = false }
-    val showTimePicker = { }
+    val showTimePicker = { showTimePickerState = true}
     val datePickerStateSet = {
         val result = scope.async {
+
             updateDeadlineUiViewState()
         }
         result.onAwait
@@ -69,6 +72,9 @@ fun Material3DatePickerDialogComponent(
 
     DatePickerDialog(
         onDismissRequest = {
+            Log.d("debug-----", "closePicker" +
+                    "")
+
             closePicker()
         },
         confirmButton = {

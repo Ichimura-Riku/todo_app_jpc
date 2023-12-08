@@ -97,9 +97,15 @@ class TodoEntryViewModel @Inject constructor(
     }
 
     private fun setDeadlineTodoState(deadlineState: DeadlineState) {
+
+        Log.d("debug-----", "dateUpdateTodoState")
         val inputDeadlineTimeHour = 10000 + deadlineState.timePickerState.hour * 100
+        Log.d("debug-----", "dateUpdateTodoState")
         val inputDeadlineTimeMinute = deadlineState.timePickerState.minute
+        Log.d("debug-----", "dateUpdateTodoState")
         val inputDeadlineDate = deadlineState.datePickerState.selectedDateMillis!!
+
+        Log.d("debug-----", "dateUpdateTodoState")
 
         updateTodoState(
             todoUiState.todoState.copy(
