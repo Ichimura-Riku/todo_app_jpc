@@ -181,6 +181,7 @@ fun MainScreen(
                             // and the item may not be saved in the Database. This is because when config
                             // change occurs, the Activity will be recreated and the rememberCoroutineScope will
                             // be cancelled - since the scope is bound to composition.
+                            // coroutineScope -> ViewModelScope (ViewModelの中で書いた方がいい)
                             coroutineScope.launch {
                                 todoEntryViewModel.adventTodo()
                             }

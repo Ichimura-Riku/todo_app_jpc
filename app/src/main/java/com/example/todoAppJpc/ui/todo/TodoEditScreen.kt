@@ -147,6 +147,7 @@ fun TodoEditBody(
 
         ) {
         TodoEdit(
+            viewModel = viewModel,
             todoState = viewModel.todoUiState.todoState,
             onValueChange = viewModel::updateTodoState,
 
@@ -169,12 +170,17 @@ fun TodoEditBody(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEdit(
+    viewModel: TodoEditViewModel,
     todoState: TodoState,
     onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
+//    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
+//    val isInputDeadlineState =
+//        viewModel.isInputTimePickerState || viewModel.isInputDatePickerState
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -196,6 +202,35 @@ fun TodoEdit(
             onValueChange = { onValueChange(todoState.copy(content = it)) },
         )
         Divider()
+//        InputChip(
+//            label = { Text(deadlineUiViewState) },
+//            onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) },
+//            selected = false,
+//            trailingIcon = {
+//                IconButton(onClick = {
+//                    viewModel.updateIsInputTimePickerState(false)
+//                    viewModel.updateIsInputDatePickerState(false)
+//                    viewModel.resetTimePickerState()
+//                    viewModel.resetDatePickerState()
+//                }) {
+//                    Icon(
+//                        painterResource(id = R.drawable.round_close_24),
+//                        contentDescription = "Localized description",
+//                    )
+//                }
+//            },
+//        )
+//
+//        if (viewModel.getShowDatePicker()) {
+//            DatePickerComponent(
+//                viewModel = viewModel,
+//                rememberDatePickerState = rememberDatePickerState,
+//            )
+//        }
+//        if (viewModel.getShowTimePicker()) {
+//            TimePickerComponent(viewModel = viewModel)
+//        }
+
     }
 }
 

@@ -10,6 +10,7 @@ class MainApplication : Application() {
     // 他のクラスが依存関係を取得するために使用するAppContainerインスタンス
 
     //    lateinit var container: AppContainer
+    // イラン
     lateinit var todoContainer: TodoAppContainer
     override fun onCreate() {
         super.onCreate()

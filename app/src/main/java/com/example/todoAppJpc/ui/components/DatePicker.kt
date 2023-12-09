@@ -9,19 +9,28 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+import com.example.todoAppJpc.utils.DeadlineUiState
 import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
-    viewModel: TodoEntryViewModel,
+    deadlineUiState: DeadlineUiState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
+    updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
     Material3DatePickerDialogComponent(
-        viewModel = viewModel,
+        deadlineUiState = deadlineUiState,
+        updateDeadlineUiViewState = updateDeadlineUiViewState,
+        showDatePickerMutableState = showDatePickerMutableState,
+        showTimePickerMutableState = showTimePickerMutableState,
         rememberDatePickerState = rememberDatePickerState,
     )
 }
@@ -29,24 +38,29 @@ fun DatePickerComponent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Material3DatePickerDialogComponent(
-    viewModel: TodoEntryViewModel,
+    deadlineUiState: DeadlineUiState,
+    updateDeadlineUiViewState: suspend () -> Unit,
     rememberDatePickerState: DatePickerState,
+    showDatePickerMutableState: MutableState<Boolean>,
+    showTimePickerMutableState: MutableState<Boolean>,
     modifier: Modifier = Modifier,
 ) {
     val scope = rememberCoroutineScope()
-    val closePicker = { viewModel.setShowDatePicker(false) }
-    val showTimePicker = { viewModel.setShowTimePicker(true) }
+    var showDatePickerState by showDatePickerMutableState
+    var showTimePickerState by showTimePickerMutableState
+    val closePicker = { showDatePickerState = false }
+    val showTimePicker = { showTimePickerState = true }
     val datePickerStateSet = {
         val result = scope.async {
-            viewModel.updateDeadlineUiViewState()
+            updateDeadlineUiViewState()
         }
         result.onAwait
-        viewModel.updateIsInputDatePickerState(true)
+        deadlineUiState.updateIsInputDatePickerState(true)
     }
 
     val updateDatePickerState: (selectedDateMillis: Long?) -> Unit = { selectedDateMillis ->
         scope.async {
-            viewModel.updateDatePickerState(selectedDateMillis)
+            deadlineUiState.updateDatePickerState(selectedDateMillis)
         }.onAwait
     }
 
@@ -58,7 +72,6 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
                         closePicker()
                     },
@@ -67,7 +80,6 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
-                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
                         closePicker()
                         datePickerStateSet()
