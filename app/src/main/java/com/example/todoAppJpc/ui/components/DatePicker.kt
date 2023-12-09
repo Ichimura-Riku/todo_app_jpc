@@ -20,7 +20,6 @@ import kotlinx.coroutines.async
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
-//    viewModel: TodoEntryViewModel,
     deadlineUiState: DeadlineUiState,
     showDatePickerMutableState: MutableState<Boolean>,
     showTimePickerMutableState: MutableState<Boolean>,
@@ -28,7 +27,6 @@ fun DatePickerComponent(
     rememberDatePickerState: DatePickerState = rememberDatePickerState(),
 ) {
     Material3DatePickerDialogComponent(
-//        viewModel = viewModel,
         deadlineUiState = deadlineUiState,
         updateDeadlineUiViewState = updateDeadlineUiViewState,
         showDatePickerMutableState = showDatePickerMutableState,
@@ -47,12 +45,11 @@ fun Material3DatePickerDialogComponent(
     showTimePickerMutableState: MutableState<Boolean>,
     modifier: Modifier = Modifier,
 ) {
-
     val scope = rememberCoroutineScope()
     var showDatePickerState by showDatePickerMutableState
     var showTimePickerState by showTimePickerMutableState
     val closePicker = { showDatePickerState = false }
-    val showTimePicker = { }
+    val showTimePicker = { showTimePickerState = true }
     val datePickerStateSet = {
         val result = scope.async {
             updateDeadlineUiViewState()
@@ -75,7 +72,6 @@ fun Material3DatePickerDialogComponent(
             Row {
                 TextButton(
                     onClick = {
-                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         datePickerStateSet()
                         closePicker()
                     },
@@ -84,7 +80,6 @@ fun Material3DatePickerDialogComponent(
                 }
                 TextButton(
                     onClick = {
-                        updateDatePickerState(rememberDatePickerState.selectedDateMillis)
                         showTimePicker()
                         closePicker()
                         datePickerStateSet()
