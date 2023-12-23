@@ -1,4 +1,4 @@
-package com.example.todoAppJpc.ui.home
+package com.example.todoAppJpc.ui.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle

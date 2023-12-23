@@ -1,4 +1,4 @@
-package com.example.todoAppJpc.ui.todo
+package com.example.todoAppJpc.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -33,6 +33,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
+import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
+import com.example.todoAppJpc.ui.viewmodel.TodoState
 
 @Composable
 fun TodoEntryBody(

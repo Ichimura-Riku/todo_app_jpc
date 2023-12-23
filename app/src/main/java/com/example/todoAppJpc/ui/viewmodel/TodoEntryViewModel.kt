@@ -1,4 +1,4 @@
-package com.example.todoAppJpc.ui.todo
+package com.example.todoAppJpc.ui.viewmodel
 
 import android.util.Log
 import androidx.compose.material3.ExperimentalMaterial3Api
