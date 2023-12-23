@@ -7,10 +7,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 interface DatePickerViewModel {
 
     // 日付の値を取得する
-    fun datePickerState(): DatePickerState
+    val datePickerState: DatePickerState
 
     // 日付選択ダイアログを表示するかどうかを取得する
-    fun showDatePicker(): Boolean
+    val showDatePicker: Boolean
 
     // 日付の値をセットする
     fun setDatePickerState(value: DatePickerState)
