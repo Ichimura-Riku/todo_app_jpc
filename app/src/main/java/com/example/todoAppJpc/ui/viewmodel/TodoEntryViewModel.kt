@@ -12,8 +12,8 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
-import com.example.todoAppJpc.utils.DeadlineState
-import com.example.todoAppJpc.utils.DeadlineUiState
+import com.example.todoAppJpc.utils.deadline.DeadlineState
+import com.example.todoAppJpc.utils.deadline.DeadlineUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
