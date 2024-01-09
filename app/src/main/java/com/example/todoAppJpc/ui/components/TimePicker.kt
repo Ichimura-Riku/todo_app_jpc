@@ -29,15 +29,16 @@ import kotlinx.coroutines.async
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerComponent(
-    title: String = "Select Time",
+    title: String = "Set Time",
     deadlinePickerViewModel: DeadlinePickerViewModel,
+    setChipView: suspend () -> Unit,
     toggle: @Composable () -> Unit = {},
 ) {
+    val scope = rememberCoroutineScope()
     val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
     val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
-    val scope = rememberCoroutineScope()
     val showDatePickerState = datePickerViewModel.showDatePicker
-    val closePicker = { timePickerViewModel.setShowTimePicker(false) }
+    val hideTimePicker = { timePickerViewModel.setShowTimePicker(false) }
     val showDatePicker = { datePickerViewModel.setShowDatePicker(true) }
     val timePickerState = timePickerViewModel.timePickerState
 
@@ -48,15 +49,12 @@ fun TimePickerComponent(
              * Chipの値表示はEntryにもEditにもいるのでdeadlineViewModelに入れる
              * Todoの値の更新はdeadlineの範囲を超えているんで、各ViewModelで適宜入れる
              */
-//            updateDeadlineUiViewState()
-
+            setChipView()
         }
         result.onAwait
-        // 値が入力されたかどうかも、初期値によって見分けるようにする
-//        deadlineUiState.updateIsInputTimePickerState(true)
     }
     Dialog(
-        onDismissRequest = closePicker,
+        onDismissRequest = hideTimePicker,
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
         ),
@@ -92,17 +90,17 @@ fun TimePickerComponent(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
-                        onClick = closePicker,
+                        onClick = hideTimePicker,
                     ) { Text("Cancel") }
                     TextButton(
                         onClick = {
-                            closePicker()
+                            hideTimePicker()
                             timePickerStateSet()
                         },
                     ) { Text("OK") }
                     TextButton(
                         onClick = {
-                            closePicker()
+                            hideTimePicker()
                             timePickerStateSet()
                             showDatePicker()
                         },
