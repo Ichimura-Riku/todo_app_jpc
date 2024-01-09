@@ -117,16 +117,15 @@ fun TodoInputForm(
     val rememberDatePickerState = rememberDatePickerState()
     val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
     val todoState = viewModel.todoUiState.todoState
-    val deadlineUiState = viewModel.deadlineUiState
     val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
+    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
     var showDatePickerState by showDatePickerMutableState
     var showTimePickerState by showTimePickerMutableState
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        val isInputDeadlineState =
-            deadlineUiState.isInputTimePickerState || deadlineUiState.isInputDatePickerState
         TextField(
             value = todoState.title,
             onValueChange = { onValueChange(todoState.copy(title = it)) },
@@ -145,17 +144,17 @@ fun TodoInputForm(
             )
         }
 
-        if (isInputDeadlineState) {
+        if (viewModel.deadlinePickerViewModel.isShowChip()) { // todo(attention): mutable化できてないことに注意する
             InputChip(
                 label = { Text(deadlineUiViewState) },
-                onClick = { deadlineUiState.setShowDatePicker(!deadlineUiState.showDatePicker) },
+                onClick = { datePickerViewModel.setShowDatePicker(!datePickerViewModel.showDatePicker) },
                 selected = false,
                 trailingIcon = {
-                    IconButton(onClick = {
-                        deadlineUiState.updateIsInputTimePickerState(false)
-                        deadlineUiState.updateIsInputDatePickerState(false)
-                        deadlineUiState.resetTimePickerState()
-                        deadlineUiState.resetDatePickerState()
+                    IconButton(onClick = { // Todo: reset処理
+//                        deadlineUiState.updateIsInputTimePickerState(false)
+//                        deadlineUiState.updateIsInputDatePickerState(false)
+//                        deadlineUiState.resetTimePickerState()
+//                        deadlineUiState.resetDatePickerState()
                     }) {
                         Icon(
                             painterResource(id = R.drawable.round_close_24),
@@ -166,25 +165,20 @@ fun TodoInputForm(
             )
         }
 
+        // Todo: setChipViewを完成させる
         if (showDatePickerState) {
             DatePickerComponent(
-                deadlineUiState = deadlineUiState,
-                showDatePickerMutableState = showDatePickerMutableState,
-                showTimePickerMutableState = showDatePickerMutableState,
-                rememberDatePickerState = rememberDatePickerState,
-                updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = {},
+                modifier = modifier,
             )
         }
         if (showTimePickerState) {
-//            TimePickerComponent(
-//                deadlineUiState = deadlineUiState,
-//                showDatePickerMutableState = showDatePickerMutableState,
-//                showTimePickerMutableState = showDatePickerMutableState,
-//                updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
-//            )
             TimePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel
-            )
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = {},
+
+                )
         }
     }
 }

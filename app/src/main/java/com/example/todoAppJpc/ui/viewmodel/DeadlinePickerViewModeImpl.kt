@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 class DeadlinePickerViewModelImpl(
     private var _datePickerViewModel: DatePickerViewModel,
     private var _timePickerViewModel: TimePickerViewModel,
@@ -20,7 +21,7 @@ class DeadlinePickerViewModelImpl(
     override val datePickerViewModel get() = _datePickerViewModel
     override val timePickerViewModel get() = _timePickerViewModel
 
-    @OptIn(ExperimentalMaterial3Api::class)
+    //        override suspend fun getChipText(): String { //Todo 変更予定の関数名
     override suspend fun updateDeadlineUiState(): String {
         /**
          * Chipを表示させるかどうかを判定する
@@ -39,7 +40,7 @@ class DeadlinePickerViewModelImpl(
         cal.set(Calendar.MINUTE, timeState.minute)
         cal.isLenient = false
         val timeUiState =
-            if (_datePickerViewModel.datePickerState.selectedDateMillis!! > 0L) timeFormatter.format(
+            if (isShowChip()) timeFormatter.format(
                 cal.time
             ) else ""
         val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
@@ -57,12 +58,17 @@ class DeadlinePickerViewModelImpl(
         }
 
         val dateUiState =
-            if (_datePickerViewModel.datePickerState.selectedDateMillis!! > 0L) dateFormatter.format(
+            if (isShowChip()) dateFormatter.format(
                 cal.time
             ) else ""
 
         return "$dateUiState $timeUiState"
 
     }
+
+    override fun isShowChip(): Boolean {
+        return _datePickerViewModel.datePickerState.selectedDateMillis!! > 0L
+    }
+
 
 }
