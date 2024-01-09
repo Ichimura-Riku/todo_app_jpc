@@ -118,6 +118,7 @@ fun TodoInputForm(
     val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
     val todoState = viewModel.todoUiState.todoState
     val deadlineUiState = viewModel.deadlineUiState
+    val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
     var showDatePickerState by showDatePickerMutableState
     var showTimePickerState by showTimePickerMutableState
     Column(
@@ -176,10 +177,7 @@ fun TodoInputForm(
         }
         if (showTimePickerState) {
             TimePickerComponent(
-                deadlineUiState = deadlineUiState,
-                showDatePickerMutableState = showDatePickerMutableState,
-                showTimePickerMutableState = showDatePickerMutableState,
-                updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
+                deadlinePickerViewModel = deadlinePickerViewModel
             )
         }
     }
