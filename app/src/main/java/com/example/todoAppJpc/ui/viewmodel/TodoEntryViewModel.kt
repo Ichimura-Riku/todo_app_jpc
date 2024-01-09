@@ -9,21 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
-import com.example.todoAppJpc.utils.deadline.DeadlineUiState
 import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
@@ -51,13 +44,6 @@ class TodoEntryViewModel @Inject constructor(
 
     // ---------------- [deadlineState] ----------------
     val deadlinePickerViewModel get() = _deadlinePickerViewModel
-
-    // deadlineUiState
-    private var _deadlineUiState: DeadlineUiState by savedStateHandle.saveable {
-        mutableStateOf(DeadlineUiState())
-    }
-
-    val deadlineUiState: DeadlineUiState get() = _deadlineUiState
 
     private var _deadlineUiViewState: MutableStateFlow<String> = MutableStateFlow("")
 
