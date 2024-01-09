@@ -73,38 +73,6 @@ class TodoEntryViewModel @Inject constructor(
         ) //　Todo(attention): まだmutableではないことに注意する。　
     }
 
-    // 設定した日時をChipに表示する文字列を取得する
-    private suspend fun getDeadlineUiViewState(): String {
-        val userLocale = Locale.getDefault()
-        val cal = Calendar.getInstance()
-
-        val timeFormatter = SimpleDateFormat("HH:mm", userLocale)
-        val timeState = _deadlineUiState.deadlineState.timePickerState
-        cal.set(Calendar.HOUR_OF_DAY, timeState.hour)
-        cal.set(Calendar.MINUTE, timeState.minute)
-        cal.isLenient = false
-        val timeUiState =
-            if (_deadlineUiState.isInputTimePickerState) timeFormatter.format(cal.time) else ""
-        val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
-
-        try {
-            val setCalApply = viewModelScope.async(Dispatchers.IO) {
-                val dateState = _deadlineUiState.deadlineState.datePickerState
-                cal.apply {
-                    timeInMillis = dateState.selectedDateMillis!!
-                }
-            }.await()
-            setCalApply
-        } catch (e: Exception) {
-            Log.e("getDeadlineUiState() is error", "$e")
-        }
-
-        val dateUiState =
-            if (_deadlineUiState.isInputDatePickerState) dateFormatter.format(cal.time) else ""
-
-        return "$dateUiState $timeUiState"
-    }
-
     //    private fun setDeadlineStateToTodoState(deadlineState: DeadlineState) {
     private fun setDeadlineStateToTodoState(
         datePickerState: DatePickerState, timePickerState: TimePickerState
