@@ -184,7 +184,7 @@ fun MainScreen(
                              * change occurs, the Activity will be recreated and the rememberCoroutineScope will
                              * be cancelled - since the scope is bound to composition.
                              * coroutineScope -> ViewModelScope (ViewModelの中で書いた方がいい)
-                             * ここに、
+                             * この関数が実行される時、deadlinePickerViewModelの値をTodoStateに代入する処理も一緒に行う。
                              */
                             coroutineScope.launch {
                                 todoEntryViewModel.adventTodo()

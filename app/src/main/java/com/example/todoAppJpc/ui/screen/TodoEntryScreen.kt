@@ -145,7 +145,7 @@ fun TodoInputForm(
             )
         }
 
-        if (isInputDeadlineState) {
+        if (viewModel.deadlinePickerViewModel.isShowChip()) { // todo(attention): mutable化できてないことに注意する
             InputChip(
                 label = { Text(deadlineUiViewState) },
                 onClick = { deadlineUiState.setShowDatePicker(!deadlineUiState.showDatePicker) },
