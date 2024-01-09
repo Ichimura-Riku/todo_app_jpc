@@ -16,57 +16,44 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.todoAppJpc.utils.deadline.DeadlineUiState
+import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import kotlinx.coroutines.async
 
-@Composable
-fun TimePickerComponent(
-//    viewModel: TodoEntryViewModel,
-    deadlineUiState: DeadlineUiState,
-    showDatePickerMutableState: MutableState<Boolean>,
-    showTimePickerMutableState: MutableState<Boolean>,
-    updateDeadlineUiViewState: suspend () -> Unit,
-) {
-    Material3TimePickerDialogComponent(
-        deadlineUiState = deadlineUiState,
-        showDatePickerMutableState = showDatePickerMutableState,
-        showTimePickerMutableState = showTimePickerMutableState,
-        updateDeadlineUiViewState = { updateDeadlineUiViewState() },
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Material3TimePickerDialogComponent(
+fun TimePickerComponent(
     title: String = "Select Time",
-//    viewModel: TodoEntryViewModel,
-    deadlineUiState: DeadlineUiState,
-    showDatePickerMutableState: MutableState<Boolean>,
-    showTimePickerMutableState: MutableState<Boolean>,
-    updateDeadlineUiViewState: suspend () -> Unit,
+    deadlinePickerViewModel: DeadlinePickerViewModel,
     toggle: @Composable () -> Unit = {},
 ) {
+    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
     val scope = rememberCoroutineScope()
-    var showDatePickerState by showDatePickerMutableState
-    var showTimePickerState by showTimePickerMutableState
-    val closePicker = { showTimePickerState = false }
-    val showDatePicker = { showDatePickerState = true }
-    val timePickerState = deadlineUiState.deadlineState.timePickerState
+    val showDatePickerState = datePickerViewModel.showDatePicker
+    val closePicker = { timePickerViewModel.setShowTimePicker(false) }
+    val showDatePicker = { datePickerViewModel.setShowDatePicker(true) }
+    val timePickerState = timePickerViewModel.timePickerState
+
     val timePickerStateSet = {
         val result = scope.async {
-            updateDeadlineUiViewState()
+            /**
+             * 設定した日時をChipに表示して、ViewModelで保持しているTodoの値を更新する
+             * Chipの値表示はEntryにもEditにもいるのでdeadlineViewModelに入れる
+             * Todoの値の更新はdeadlineの範囲を超えているんで、各ViewModelで適宜入れる
+             */
+//            updateDeadlineUiViewState()
+
         }
         result.onAwait
-        deadlineUiState.updateIsInputTimePickerState(true)
+        // 値が入力されたかどうかも、初期値によって見分けるようにする
+//        deadlineUiState.updateIsInputTimePickerState(true)
     }
     Dialog(
         onDismissRequest = closePicker,
