@@ -10,5 +10,8 @@ interface DeadlinePickerViewModel {
     // 設定した日時をChipに表示する関数
     suspend fun updateDeadlineUiState(): String
 
+    // Chipを表示させるかどうかを判定する関数
+    fun isShowChip(): Boolean
+
 
 }
