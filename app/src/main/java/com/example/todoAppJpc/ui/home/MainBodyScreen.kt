@@ -43,8 +43,8 @@ import com.example.todoAppJpc.R
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 import com.example.todoAppJpc.ui.screen.TodoEntryBody
-import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
 import com.example.todoAppJpc.ui.viewmodel.MainBodyViewModel
+import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -178,11 +178,14 @@ fun MainScreen(
                     TodoEntryBody(
                         // これもいらない説
                         onSaveClick = {
-                            // Note: If the user rotates the screen very fast, the operation may get cancelled
-                            // and the item may not be saved in the Database. This is because when config
-                            // change occurs, the Activity will be recreated and the rememberCoroutineScope will
-                            // be cancelled - since the scope is bound to composition.
-                            // coroutineScope -> ViewModelScope (ViewModelの中で書いた方がいい)
+                            /**
+                             * Note: If the user rotates the screen very fast, the operation may get cancelled
+                             * and the item may not be saved in the Database. This is because when config
+                             * change occurs, the Activity will be recreated and the rememberCoroutineScope will
+                             * be cancelled - since the scope is bound to composition.
+                             * coroutineScope -> ViewModelScope (ViewModelの中で書いた方がいい)
+                             * ここに、
+                             */
                             coroutineScope.launch {
                                 todoEntryViewModel.adventTodo()
                             }
