@@ -25,7 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.todoAppJpc.utils.DeadlineUiState
+import com.example.todoAppJpc.utils.deadline.DeadlineUiState
 import kotlinx.coroutines.async
 
 @Composable

@@ -42,8 +42,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
-import com.example.todoAppJpc.ui.todo.TodoEntryBody
-import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+import com.example.todoAppJpc.ui.screen.TodoEntryBody
+import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
+import com.example.todoAppJpc.ui.viewmodel.MainBodyViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

@@ -14,7 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import com.example.todoAppJpc.utils.DeadlineUiState
+import com.example.todoAppJpc.utils.deadline.DeadlineUiState
 import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)

@@ -10,8 +10,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.example.todoAppJpc.ui.home.HomeDestination
 import com.example.todoAppJpc.ui.home.MyAppView
-import com.example.todoAppJpc.ui.todo.EditScreen
-import com.example.todoAppJpc.ui.todo.TodoEditDestination
+import com.example.todoAppJpc.ui.screen.EditScreen
+import com.example.todoAppJpc.ui.screen.TodoEditDestination
 
 // ここではnavigationで画面遷移させるcomposeをそれぞれ設定する
 

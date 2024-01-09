@@ -1,4 +1,4 @@
-package com.example.todoAppJpc.ui.todo
+package com.example.todoAppJpc.ui.screen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,6 +34,8 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.example.todoAppJpc.R
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
+import com.example.todoAppJpc.ui.viewmodel.TodoEditViewModel
+import com.example.todoAppJpc.ui.viewmodel.TodoState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

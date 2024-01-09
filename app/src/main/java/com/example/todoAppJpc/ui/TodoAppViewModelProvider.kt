@@ -6,9 +6,9 @@ import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.todoAppJpc.MainApplication
-import com.example.todoAppJpc.ui.home.MainBodyViewModel
-import com.example.todoAppJpc.ui.todo.TodoEditViewModel
-import com.example.todoAppJpc.ui.todo.TodoEntryViewModel
+import com.example.todoAppJpc.ui.viewmodel.MainBodyViewModel
+import com.example.todoAppJpc.ui.viewmodel.TodoEditViewModel
+import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
 
 object TodoAppViewModelProvider {
     val Factory = viewModelFactory {
