@@ -165,19 +165,20 @@ fun TodoInputForm(
             )
         }
 
+        // Todo: setChipViewを完成させる
         if (showDatePickerState) {
             DatePickerComponent(
-                deadlineUiState = deadlineUiState, // Todo: TimePickerComponentと同様の実装に変更する
-                showDatePickerMutableState = showDatePickerMutableState,
-                showTimePickerMutableState = showDatePickerMutableState,
-                rememberDatePickerState = rememberDatePickerState,
-                updateDeadlineUiViewState = { viewModel.updateDeadlineUiViewState() },
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = {},
+                modifier = modifier,
             )
         }
         if (showTimePickerState) {
             TimePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel
-            )
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = {},
+
+                )
         }
     }
 }
