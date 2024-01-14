@@ -1,5 +1,6 @@
 package com.example.todoAppJpc.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.Button
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -16,6 +18,7 @@ import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -35,6 +38,9 @@ import com.example.todoAppJpc.ui.components.DatePickerComponent
 import com.example.todoAppJpc.ui.components.TimePickerComponent
 import com.example.todoAppJpc.ui.viewmodel.TodoEntryViewModel
 import com.example.todoAppJpc.ui.viewmodel.TodoState
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 @Composable
 fun TodoEntryBody(
@@ -50,7 +56,7 @@ fun TodoEntryBody(
     var showTimePickerState by showTimePickerMutableState
     val showDatePicker =
         viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
-
+    val isShowChip = remember { mutableStateOf(false) }
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -67,10 +73,14 @@ fun TodoEntryBody(
                 modifier = Modifier.fillMaxWidth(),
                 showDatePickerMutableState = showDatePickerMutableState,
                 showTimePickerMutableState = showTimePickerMutableState,
+                isShowChip = isShowChip,
             )
 
             Button(
-                onClick = onSaveClick,
+                onClick = {
+                    onSaveClick()
+                    isShowChip.value = false
+                },
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier.fillMaxWidth(),
             ) {
@@ -124,6 +134,7 @@ fun TodoInputForm(
     onValueChange: (TodoState) -> Unit = {},
     showDatePickerMutableState: MutableState<Boolean>,
     showTimePickerMutableState: MutableState<Boolean>,
+    isShowChip: MutableState<Boolean>
 ) {
     val rememberDatePickerState = rememberDatePickerState()
     val todoState = viewModel.todoUiState.todoState
@@ -157,7 +168,7 @@ fun TodoInputForm(
             )
         }
 
-        if (viewModel.deadlinePickerViewModel.isShowChip()) { // todo(attention): mutable化できてないことに注意する
+        if (isShowChip.value) {
             InputChip(
                 label = {
                     ChipText(
@@ -169,10 +180,7 @@ fun TodoInputForm(
                 selected = false,
                 trailingIcon = {
                     IconButton(onClick = { // Todo: reset処理
-//                        deadlineUiState.updateIsInputTimePickerState(false)
-//                        deadlineUiState.updateIsInputDatePickerState(false)
-//                        deadlineUiState.resetTimePickerState()
-//                        deadlineUiState.resetDatePickerState()
+                        isShowChip.value = false
                     }) {
                         Icon(
                             painterResource(id = R.drawable.round_close_24),
@@ -187,14 +195,14 @@ fun TodoInputForm(
         if (showDatePicker.value) {
             DatePickerComponent(
                 deadlinePickerViewModel = deadlinePickerViewModel,
-                setChipView = {},
+                setChipView = { isShowChip.value = true },
                 modifier = modifier,
             )
         }
         if (showTimePicker.value) {
             TimePickerComponent(
                 deadlinePickerViewModel = deadlinePickerViewModel,
-                setChipView = {},
+                setChipView = { isShowChip.value = true },
 
                 )
         }
