@@ -19,14 +19,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TimePickerState
-import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -49,11 +46,6 @@ fun TodoEntryBody(
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-
-    val showDatePickerMutableState = remember { mutableStateOf(false) }
-    var showDatePickerState by showDatePickerMutableState
-    val showTimePickerMutableState = remember { mutableStateOf(false) }
-    var showTimePickerState by showTimePickerMutableState
     val showDatePicker =
         viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
     val isShowChip = remember { mutableStateOf(false) }
@@ -71,8 +63,6 @@ fun TodoEntryBody(
                 viewModel = viewModel,
                 onValueChange = onTodoValueChange,
                 modifier = Modifier.fillMaxWidth(),
-                showDatePickerMutableState = showDatePickerMutableState,
-                showTimePickerMutableState = showTimePickerMutableState,
                 isShowChip = isShowChip,
             )
 
@@ -132,11 +122,8 @@ fun TodoInputForm(
     viewModel: TodoEntryViewModel,
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
-    showDatePickerMutableState: MutableState<Boolean>,
-    showTimePickerMutableState: MutableState<Boolean>,
     isShowChip: MutableState<Boolean>
 ) {
-    val rememberDatePickerState = rememberDatePickerState()
     val todoState = viewModel.todoUiState.todoState
     val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
     val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
