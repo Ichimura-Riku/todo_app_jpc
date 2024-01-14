@@ -49,19 +49,9 @@ class TodoEntryViewModel @Inject constructor(
 
     val deadlineUiViewState: StateFlow<String> get() = _deadlineUiViewState
 
-
-    suspend fun updateDeadlineUiViewState() {
-        val newUiState = deadlinePickerViewModel.updateDeadlineUiState() //　ここで非同期処理を行う関数を呼び出す
-        _deadlineUiViewState.value = newUiState
-        setDeadlineStateToTodoState(
-            datePickerState = _deadlinePickerViewModel.datePickerViewModel.datePickerState,
-            timePickerState = _deadlinePickerViewModel.timePickerViewModel.timePickerState
-        ) //　Todo(attention): まだmutableではないことに注意する。　
-    }
-
-    //    private fun setDeadlineStateToTodoState(deadlineState: DeadlineState) {
     private fun setDeadlineStateToTodoState(
-        datePickerState: DatePickerState, timePickerState: TimePickerState
+        datePickerState: DatePickerState,
+        timePickerState: TimePickerState,
     ) {
         val inputDeadlineTimeHour = 10000 + timePickerState.hour * 100
         val inputDeadlineTimeMinute = timePickerState.minute
