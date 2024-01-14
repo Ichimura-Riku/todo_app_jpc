@@ -48,6 +48,9 @@ fun TodoEntryBody(
     var showDatePickerState by showDatePickerMutableState
     val showTimePickerMutableState = remember { mutableStateOf(false) }
     var showTimePickerState by showTimePickerMutableState
+    val showDatePicker =
+        viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
+
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -88,13 +91,21 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { showDatePickerState = true }) {
+                IconButton(onClick = {
+                    viewModel.deadlinePickerViewModel.datePickerViewModel.setShowDatePicker(
+                        !showDatePicker.value
+                    )
+                }) {
                     Icon(
                         painterResource(id = R.drawable.baseline_access_time_24),
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = { showDatePickerState = !showDatePickerState }) {
+                IconButton(onClick = {
+                    viewModel.deadlinePickerViewModel.datePickerViewModel.setShowDatePicker(
+                        !showDatePicker.value
+                    )
+                }) {
                     Icon(
                         painterResource(id = R.drawable.round_more_horiz_24),
                         contentDescription = "Localized description",
@@ -115,13 +126,15 @@ fun TodoInputForm(
     showTimePickerMutableState: MutableState<Boolean>,
 ) {
     val rememberDatePickerState = rememberDatePickerState()
-    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
     val todoState = viewModel.todoUiState.todoState
     val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
     val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
     val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
-    var showDatePickerState by showDatePickerMutableState
-    var showTimePickerState by showTimePickerMutableState
+    val showDatePicker = datePickerViewModel.showDatePicker.collectAsState()
+    val showTimePicker = timePickerViewModel.showTimePicker.collectAsState()
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -146,8 +159,13 @@ fun TodoInputForm(
 
         if (viewModel.deadlinePickerViewModel.isShowChip()) { // todo(attention): mutable化できてないことに注意する
             InputChip(
-                label = { Text(deadlineUiViewState) },
-                onClick = { datePickerViewModel.setShowDatePicker(!datePickerViewModel.showDatePicker) },
+                label = {
+                    ChipText(
+                        datePickerState = datePickerState.value,
+                        timePickerState = timePickerState.value
+                    )
+                },
+                onClick = { datePickerViewModel.setShowDatePicker(!datePickerViewModel.showDatePicker.value) },
                 selected = false,
                 trailingIcon = {
                     IconButton(onClick = { // Todo: reset処理
@@ -166,14 +184,14 @@ fun TodoInputForm(
         }
 
         // Todo: setChipViewを完成させる
-        if (showDatePickerState) {
+        if (showDatePicker.value) {
             DatePickerComponent(
                 deadlinePickerViewModel = deadlinePickerViewModel,
                 setChipView = {},
                 modifier = modifier,
             )
         }
-        if (showTimePickerState) {
+        if (showTimePicker.value) {
             TimePickerComponent(
                 deadlinePickerViewModel = deadlinePickerViewModel,
                 setChipView = {},
@@ -181,4 +199,36 @@ fun TodoInputForm(
                 )
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ChipText(
+    datePickerState: DatePickerState,
+    timePickerState: TimePickerState,
+) {
+    val userLocale = Locale.getDefault()
+    val cal = Calendar.getInstance()
+
+    val timeFormatter = SimpleDateFormat("HH:mm", userLocale)
+    cal.set(Calendar.HOUR_OF_DAY, timePickerState.hour)
+    cal.set(Calendar.MINUTE, timePickerState.minute)
+    cal.isLenient = false
+    val timeUiState = timeFormatter.format(
+        cal.time
+    )
+    val dateFormatter = SimpleDateFormat("MM/dd(EEE)", userLocale)
+
+    try {
+        cal.apply { timeInMillis = datePickerState.selectedDateMillis!! }
+    } catch (e: Exception) {
+        Log.e("getDeadlineUiState() is error", "$e")
+    }
+
+    val dateUiState =
+        dateFormatter.format(
+            cal.time
+        )
+
+    Text("$dateUiState $timeUiState")
 }
