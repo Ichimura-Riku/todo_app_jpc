@@ -16,6 +16,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -29,7 +30,7 @@ import kotlinx.coroutines.async
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TimePickerComponent(
-    title: String = "Set Time",
+    title: String = "select time",
     deadlinePickerViewModel: DeadlinePickerViewModel,
     setChipView: suspend () -> Unit,
     toggle: @Composable () -> Unit = {},
@@ -37,11 +38,9 @@ fun TimePickerComponent(
     val scope = rememberCoroutineScope()
     val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
     val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
-    val showDatePickerState = datePickerViewModel.showDatePicker
     val hideTimePicker = { timePickerViewModel.setShowTimePicker(false) }
     val showDatePicker = { datePickerViewModel.setShowDatePicker(true) }
-    val timePickerState = timePickerViewModel.timePickerState
-
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val timePickerStateSet = {
         val result = scope.async {
             /**
@@ -82,7 +81,7 @@ fun TimePickerComponent(
                     text = title,
                     style = MaterialTheme.typography.labelMedium,
                 )
-                TimePicker(state = timePickerState)
+                TimePicker(state = timePickerState.value)
                 Row(
                     modifier = Modifier
                         .height(40.dp)
