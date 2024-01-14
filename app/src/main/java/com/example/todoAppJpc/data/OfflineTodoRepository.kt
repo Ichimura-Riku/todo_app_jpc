@@ -4,8 +4,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class OfflineTodoRepository(private val todoDao: TodoDao) : TodoRepository {
+class OfflineTodoRepository @Inject constructor(private val todoDao: TodoDao) : TodoRepository {
 
     override fun getAllTodoStream(): Flow<List<TodoEntity>> =
         todoDao.getAllTodo().flowOn(Dispatchers.IO)
