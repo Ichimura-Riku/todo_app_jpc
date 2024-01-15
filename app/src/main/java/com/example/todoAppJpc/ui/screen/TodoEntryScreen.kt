@@ -24,6 +24,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -39,16 +40,22 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEntryBody(
     viewModel: TodoEntryViewModel = hiltViewModel(),
     onTodoValueChange: (TodoState) -> Unit = viewModel::updateTodoState,
-    onSaveClick: () -> Unit,
+    closeBottomSheet: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val showDatePicker =
         viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
     val isShowChip = remember { mutableStateOf(false) }
+    val scope = rememberCoroutineScope()
+    val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     Column(
         modifier = modifier.fillMaxWidth(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -78,6 +85,8 @@ fun TodoEntryBody(
                     )
                     closeBottomSheet()
                     isShowChip.value = false
+                    datePickerViewModel.resetDatePickerState()
+                    timePickerViewModel.resetTimePickerState()
                 },
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier.fillMaxWidth(),
@@ -176,6 +185,8 @@ fun TodoInputForm(
                 trailingIcon = {
                     IconButton(onClick = { // Todo: reset処理
                         isShowChip.value = false
+                        datePickerViewModel.resetDatePickerState()
+                        timePickerViewModel.resetTimePickerState()
                     }) {
                         Icon(
                             painterResource(id = R.drawable.round_close_24),

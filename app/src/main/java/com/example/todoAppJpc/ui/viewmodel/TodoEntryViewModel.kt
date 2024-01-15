@@ -130,9 +130,9 @@ fun TodoEntity.toTodoState(): TodoState = TodoState(
     content = content,
 //    多分日時系は型変換する必要がある
     date = date,
-    deadlineDate = deadline / 100000,
-    deadlineTimeHour = ((deadline % 100000) / 100).toInt(),
-    deadlineTimeMinute = (deadline % 100).toInt(),
+    deadlineDate = deadline / 100000 * 100000,
+    deadlineTimeHour = ((deadline % 100000) / 100).toInt() * 100,
+    deadlineTimeMinute = (deadline % 100).toInt() + 100,
     isAttention = isAttention,
     category = category,
     isFinished = isFinished,
