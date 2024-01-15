@@ -68,7 +68,15 @@ fun TodoEntryBody(
 
             Button(
                 onClick = {
-                    onSaveClick()
+                    /**
+                     * この関数が実行される時、deadlinePickerViewModelの値をTodoStateに代入する処理も一緒に行う。
+                     */
+
+                    viewModel.adventTodo(
+                        datePickerState = datePickerState.value,
+                        timePickerState = timePickerState.value,
+                    )
+                    closeBottomSheet()
                     isShowChip.value = false
                 },
                 shape = MaterialTheme.shapes.small,

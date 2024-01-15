@@ -1,6 +1,5 @@
 package com.example.todoAppJpc.ui.viewmodel
 
-import android.util.Log
 import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.TimePickerState
@@ -9,14 +8,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
@@ -64,9 +67,6 @@ class TodoEntryViewModel @Inject constructor(
                 deadlineTimeMinute = inputDeadlineTimeMinute,
             )
         )
-        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineDate}")
-        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeHour}")
-        Log.d("updateTodoState-----", "${todoUiState.todoState.deadlineTimeMinute}")
     }
 
 
@@ -74,10 +74,16 @@ class TodoEntryViewModel @Inject constructor(
         todoUiState = TodoUiState(todoState = todoState)
     }
 
-    //   　fun adventTodo() {　
-    suspend fun adventTodo() {
-        //  viewModelScope.launch{}
-        _todoRepository.insertTodo(todoUiState.todoState.toTodo())
+    fun adventTodo(
+        datePickerState: DatePickerState,
+        timePickerState: TimePickerState,
+    ) {
+        viewModelScope.launch {
+            setDeadlineStateToTodoState(datePickerState, timePickerState)
+            withContext(Dispatchers.IO) {
+                _todoRepository.insertTodo(todoUiState.todoState.toTodo())
+            }
+        }
     }
 }
 
