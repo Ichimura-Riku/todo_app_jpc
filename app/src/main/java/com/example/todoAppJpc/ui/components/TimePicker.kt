@@ -16,60 +16,44 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.todoAppJpc.utils.deadline.DeadlineUiState
+import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import kotlinx.coroutines.async
 
-@Composable
-fun TimePickerComponent(
-//    viewModel: TodoEntryViewModel,
-    deadlineUiState: DeadlineUiState,
-    showDatePickerMutableState: MutableState<Boolean>,
-    showTimePickerMutableState: MutableState<Boolean>,
-    updateDeadlineUiViewState: suspend () -> Unit,
-) {
-    Material3TimePickerDialogComponent(
-        deadlineUiState = deadlineUiState,
-        showDatePickerMutableState = showDatePickerMutableState,
-        showTimePickerMutableState = showTimePickerMutableState,
-        updateDeadlineUiViewState = { updateDeadlineUiViewState() },
-    )
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Material3TimePickerDialogComponent(
-    title: String = "Select Time",
-//    viewModel: TodoEntryViewModel,
-    deadlineUiState: DeadlineUiState,
-    showDatePickerMutableState: MutableState<Boolean>,
-    showTimePickerMutableState: MutableState<Boolean>,
-    updateDeadlineUiViewState: suspend () -> Unit,
+fun TimePickerComponent(
+    title: String = "select time",
+    deadlinePickerViewModel: DeadlinePickerViewModel,
+    setChipView: suspend () -> Unit,
     toggle: @Composable () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
-    var showDatePickerState by showDatePickerMutableState
-    var showTimePickerState by showTimePickerMutableState
-    val closePicker = { showTimePickerState = false }
-    val showDatePicker = { showDatePickerState = true }
-    val timePickerState = deadlineUiState.deadlineState.timePickerState
+    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
+    val hideTimePicker = { timePickerViewModel.setShowTimePicker(false) }
+    val showDatePicker = { datePickerViewModel.setShowDatePicker(true) }
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val timePickerStateSet = {
         val result = scope.async {
-            updateDeadlineUiViewState()
+            /**
+             * 設定した日時をChipに表示して、ViewModelで保持しているTodoの値を更新する
+             * Chipの値表示はEntryにもEditにもいるのでdeadlineViewModelに入れる
+             * Todoの値の更新はdeadlineの範囲を超えているんで、各ViewModelで適宜入れる
+             */
+            setChipView()
         }
         result.onAwait
-        deadlineUiState.updateIsInputTimePickerState(true)
     }
     Dialog(
-        onDismissRequest = closePicker,
+        onDismissRequest = hideTimePicker,
         properties = DialogProperties(
             usePlatformDefaultWidth = false,
         ),
@@ -97,7 +81,7 @@ fun Material3TimePickerDialogComponent(
                     text = title,
                     style = MaterialTheme.typography.labelMedium,
                 )
-                TimePicker(state = timePickerState)
+                TimePicker(state = timePickerState.value)
                 Row(
                     modifier = Modifier
                         .height(40.dp)
@@ -105,17 +89,17 @@ fun Material3TimePickerDialogComponent(
                 ) {
                     Spacer(modifier = Modifier.weight(1f))
                     TextButton(
-                        onClick = closePicker,
+                        onClick = hideTimePicker,
                     ) { Text("Cancel") }
                     TextButton(
                         onClick = {
-                            closePicker()
+                            hideTimePicker()
                             timePickerStateSet()
                         },
                     ) { Text("OK") }
                     TextButton(
                         onClick = {
-                            closePicker()
+                            hideTimePicker()
                             timePickerStateSet()
                             showDatePicker()
                         },
