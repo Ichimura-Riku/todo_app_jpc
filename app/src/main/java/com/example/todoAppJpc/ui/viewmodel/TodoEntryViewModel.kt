@@ -32,19 +32,6 @@ class TodoEntryViewModel @Inject constructor(
     var todoUiState by mutableStateOf(TodoUiState())
         private set
 
-    // ---------------- [contextTextField] ----------------
-    private var _showContentTextField by savedStateHandle.saveable {
-        mutableStateOf(false)
-    }
-
-    fun getShowContentTextField(): Boolean {
-        return _showContentTextField
-    }
-
-    fun setShowContentTextField(showContentTextField: Boolean) {
-        _showContentTextField = showContentTextField
-    }
-
     // ---------------- [deadlineState] ----------------
     val deadlinePickerViewModel get() = _deadlinePickerViewModel
 

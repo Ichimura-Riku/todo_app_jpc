@@ -23,8 +23,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -50,7 +50,8 @@ fun TodoEntryBody(
 ) {
     val showDatePicker =
         viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
-    val isShowChip = remember { mutableStateOf(false) }
+    val isShowChip = rememberSaveable { mutableStateOf(false) }
+    val isShowContentTextField = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
     val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
     val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
@@ -71,6 +72,7 @@ fun TodoEntryBody(
                 onValueChange = onTodoValueChange,
                 modifier = Modifier.fillMaxWidth(),
                 isShowChip = isShowChip,
+                isShowContentTextField = isShowContentTextField,
             )
 
             Button(
@@ -85,8 +87,7 @@ fun TodoEntryBody(
                     )
                     closeBottomSheet()
                     isShowChip.value = false
-                    datePickerViewModel.resetDatePickerState()
-                    timePickerViewModel.resetTimePickerState()
+                    isShowContentTextField.value = false
                 },
                 shape = MaterialTheme.shapes.small,
                 modifier = Modifier.fillMaxWidth(),
@@ -102,9 +103,11 @@ fun TodoEntryBody(
                 verticalAlignment = Alignment.CenterVertically,
 
                 ) {
-                IconButton(onClick = { viewModel.setShowContentTextField(!viewModel.getShowContentTextField()) }) {
+                IconButton(onClick = {
+                    isShowContentTextField.value = !isShowContentTextField.value
+                }) {
                     Icon(
-                        painterResource(id = if (viewModel.getShowContentTextField()) R.drawable.baseline_edit_note_24 else R.drawable.baseline_notes_24),
+                        painterResource(id = if (isShowContentTextField.value) R.drawable.baseline_edit_note_24 else R.drawable.baseline_notes_24),
                         contentDescription = "Localized description",
                     )
                 }
@@ -139,7 +142,8 @@ fun TodoInputForm(
     viewModel: TodoEntryViewModel,
     modifier: Modifier = Modifier,
     onValueChange: (TodoState) -> Unit = {},
-    isShowChip: MutableState<Boolean>
+    isShowChip: MutableState<Boolean>,
+    isShowContentTextField: MutableState<Boolean>,
 ) {
     val todoState = viewModel.todoUiState.todoState
     val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
@@ -162,7 +166,7 @@ fun TodoInputForm(
             singleLine = false,
         )
 
-        if (viewModel.getShowContentTextField()) {
+        if (isShowContentTextField.value) {
             TextField(
                 value = todoState.content,
                 onValueChange = { onValueChange(todoState.copy(content = it)) },
