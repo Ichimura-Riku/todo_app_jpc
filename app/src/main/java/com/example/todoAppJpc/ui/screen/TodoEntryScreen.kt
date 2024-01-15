@@ -200,8 +200,7 @@ fun TodoInputForm(
                 },
             )
         }
-
-        // Todo: setChipViewを完成させる
+        
         if (showDatePicker.value) {
             DatePickerComponent(
                 deadlinePickerViewModel = deadlinePickerViewModel,
