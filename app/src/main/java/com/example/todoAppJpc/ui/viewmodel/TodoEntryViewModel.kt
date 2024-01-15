@@ -10,7 +10,6 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
-import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
@@ -61,6 +60,12 @@ class TodoEntryViewModel @Inject constructor(
         todoUiState = TodoUiState(todoState = todoState)
     }
 
+    private fun resetTodoState() {
+        todoUiState = TodoUiState()
+        _deadlinePickerViewModel.datePickerViewModel.resetDatePickerState()
+        _deadlinePickerViewModel.timePickerViewModel.resetTimePickerState()
+    }
+
     fun adventTodo(
         datePickerState: DatePickerState,
         timePickerState: TimePickerState,
@@ -70,6 +75,7 @@ class TodoEntryViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 _todoRepository.insertTodo(todoUiState.todoState.toTodo())
             }
+            resetTodoState()
         }
     }
 }
