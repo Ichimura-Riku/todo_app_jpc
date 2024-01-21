@@ -11,6 +11,7 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.ui.screen.TodoEditDestination
+import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
@@ -22,6 +23,7 @@ import javax.inject.Inject
 class TodoEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val todoRepository: TodoRepository,
+    private val _deadlinePickerViewModel: DeadlinePickerViewModel,
 ) : ViewModel() {
     private val itemId: Int = checkNotNull(savedStateHandle[TodoEditDestination.todoIdArg])
     var todoUiState by mutableStateOf(TodoUiState())
@@ -29,6 +31,8 @@ class TodoEditViewModel @Inject constructor(
     private var _deleteConfirmationRequired by savedStateHandle.saveable {
         mutableStateOf(false)
     }
+
+    val deadlinePickerViewModel get() = _deadlinePickerViewModel
 
     init {
         viewModelScope.launch {
