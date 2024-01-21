@@ -14,6 +14,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -22,10 +23,14 @@ import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,6 +38,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.example.todoAppJpc.R
+import com.example.todoAppJpc.ui.components.DatePickerComponent
+import com.example.todoAppJpc.ui.components.TimePickerComponent
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 import com.example.todoAppJpc.ui.viewmodel.TodoEditViewModel
 import com.example.todoAppJpc.ui.viewmodel.TodoState
@@ -180,9 +187,14 @@ fun TodoEdit(
     onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-//    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
-//    val isInputDeadlineState =
-//        viewModel.isInputTimePickerState || viewModel.isInputDatePickerState
+    val isShowChip = rememberSaveable { mutableStateOf(false) }
+    val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
+    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
+    val showDatePicker = datePickerViewModel.showDatePicker.collectAsState()
+    val showTimePicker = timePickerViewModel.showTimePicker.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -198,41 +210,47 @@ fun TodoEdit(
             value = todoState.content,
             onValueChange = { onValueChange(todoState.copy(content = it)) },
         )
-        Divider()
-        TextField(
-            value = "${todoState.deadlineTimeMinute}",
-            onValueChange = { onValueChange(todoState.copy(content = it)) },
-        )
-        Divider()
-//        InputChip(
-//            label = { Text(deadlineUiViewState) },
-//            onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) },
-//            selected = false,
-//            trailingIcon = {
-//                IconButton(onClick = {
-//                    viewModel.updateIsInputTimePickerState(false)
-//                    viewModel.updateIsInputDatePickerState(false)
-//                    viewModel.resetTimePickerState()
-//                    viewModel.resetDatePickerState()
-//                }) {
-//                    Icon(
-//                        painterResource(id = R.drawable.round_close_24),
-//                        contentDescription = "Localized description",
-//                    )
-//                }
-//            },
-//        )
-//
-//        if (viewModel.getShowDatePicker()) {
-//            DatePickerComponent(
-//                viewModel = viewModel,
-//                rememberDatePickerState = rememberDatePickerState,
-//            )
-//        }
-//        if (viewModel.getShowTimePicker()) {
-//            TimePickerComponent(viewModel = viewModel)
-//        }
 
+        Divider()
+        InputChip(
+            label = {
+                ChipText(
+                    datePickerState = datePickerState.value,
+                    timePickerState = timePickerState.value,
+                )
+            },
+            onClick = {
+                datePickerViewModel.setShowDatePicker(!showDatePicker.value)
+            },
+            selected = false,
+            trailingIcon = {
+                IconButton(onClick = {
+                    isShowChip.value = false
+                    datePickerViewModel.resetDatePickerState()
+                    timePickerViewModel.resetTimePickerState()
+                }) {
+                    Icon(
+                        painterResource(id = R.drawable.round_close_24),
+                        contentDescription = "Localized description",
+                    )
+                }
+            },
+        )
+
+        if (showDatePicker.value) {
+            DatePickerComponent(
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = { isShowChip.value = true },
+                modifier = modifier,
+            )
+        }
+        if (showTimePicker.value) {
+            TimePickerComponent(
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = { isShowChip.value = true },
+
+                )
+        }
     }
 }
 
