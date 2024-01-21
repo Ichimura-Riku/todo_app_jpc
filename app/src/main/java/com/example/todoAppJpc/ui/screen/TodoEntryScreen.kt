@@ -184,7 +184,7 @@ fun TodoInputForm(
                         timePickerState = timePickerState.value
                     )
                 },
-                onClick = { datePickerViewModel.setShowDatePicker(!datePickerViewModel.showDatePicker.value) },
+                onClick = { datePickerViewModel.setShowDatePicker(showDatePicker.value) },
                 selected = false,
                 trailingIcon = {
                     IconButton(onClick = { // Todo: reset処理
