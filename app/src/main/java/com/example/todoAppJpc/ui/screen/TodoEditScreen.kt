@@ -53,6 +53,7 @@ object TodoEditDestination : NavigationDestination {
     val routeWithArgs = "$route/{$todoIdArg}"
 }
 
+// EditScreenの最上位コンポーネント
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditScreen(
@@ -85,6 +86,7 @@ fun EditScreen(
     }
 }
 
+// EditScreenのAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEditTopAppBar(
@@ -142,6 +144,8 @@ fun TodoEditTopAppBar(
     }
 }
 
+
+// EditScreenのmainBody
 @Composable
 fun TodoEditBody(
     viewModel: TodoEditViewModel,
@@ -155,12 +159,15 @@ fun TodoEditBody(
         verticalArrangement = Arrangement.Top,
 
         ) {
+
+
         TodoEdit(
             viewModel = viewModel,
             todoState = viewModel.todoUiState.todoState,
             onValueChange = viewModel::updateTodoState,
 
             )
+
         if (viewModel.getDeleteConfirmationRequired()) {
             EliminateConfirmationDialog(
                 onDeleteConfirm = {
@@ -179,6 +186,7 @@ fun TodoEditBody(
     }
 }
 
+// 編集するtodoのTextフィールドなんかがある
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEdit(
@@ -254,6 +262,8 @@ fun TodoEdit(
     }
 }
 
+
+// 削除をする時のダイアログ
 @Composable
 private fun EliminateConfirmationDialog(
     onDeleteConfirm: () -> Unit,
@@ -278,6 +288,8 @@ private fun EliminateConfirmationDialog(
     )
 }
 
+
+// MainScreenに戻るバックキーの処理
 fun navBackEntry(
     viewModel: TodoEditViewModel,
     navController: NavController,
@@ -289,6 +301,8 @@ fun navBackEntry(
     navController.popBackStack()
 }
 
+// 削除ボタンを押した時の処理
+// todo: ViewModelScopeにするべきでは？
 fun onClickEliminate(
     viewModel: TodoEditViewModel,
     navController: NavController,
