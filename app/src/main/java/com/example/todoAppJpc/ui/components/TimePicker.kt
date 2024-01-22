@@ -23,7 +23,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.DatePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.TimePickerViewModel
 import kotlinx.coroutines.async
 
 
@@ -31,13 +32,12 @@ import kotlinx.coroutines.async
 @Composable
 fun TimePickerComponent(
     title: String = "select time",
-    deadlinePickerViewModel: DeadlinePickerViewModel,
+    datePickerViewModel: DatePickerViewModel,
+    timePickerViewModel: TimePickerViewModel,
     setChipView: suspend () -> Unit,
     toggle: @Composable () -> Unit = {},
 ) {
     val scope = rememberCoroutineScope()
-    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
-    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
     val hideTimePicker = { timePickerViewModel.setShowTimePicker(false) }
     val showDatePicker = { datePickerViewModel.setShowDatePicker(true) }
     val timePickerState = timePickerViewModel.timePickerState.collectAsState()
