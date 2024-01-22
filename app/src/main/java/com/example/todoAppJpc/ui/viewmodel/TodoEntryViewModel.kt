@@ -12,7 +12,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import com.example.todoAppJpc.data.TodoEntity
 import com.example.todoAppJpc.data.TodoRepository
-import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.DatePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.TimePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,13 +27,16 @@ import javax.inject.Inject
 class TodoEntryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val _todoRepository: TodoRepository,
-    private val _deadlinePickerViewModel: DeadlinePickerViewModel,
+    private val _datePickerViewModel: DatePickerViewModel,
+    private val _timePickerViewModel: TimePickerViewModel,
 ) : ViewModel() {
     var todoUiState by mutableStateOf(TodoUiState())
         private set
 
     // ---------------- [deadlineState] ----------------
-    val deadlinePickerViewModel get() = _deadlinePickerViewModel
+
+    val datePickerViewModel get() = _datePickerViewModel
+    val timePickerViewModel get() = _timePickerViewModel
 
     private var _deadlineUiViewState: MutableStateFlow<String> = MutableStateFlow("")
 
@@ -62,8 +66,8 @@ class TodoEntryViewModel @Inject constructor(
 
     private fun resetTodoState() {
         todoUiState = TodoUiState()
-        _deadlinePickerViewModel.datePickerViewModel.resetDatePickerState()
-        _deadlinePickerViewModel.timePickerViewModel.resetTimePickerState()
+        _datePickerViewModel.resetDatePickerState()
+        _timePickerViewModel.resetTimePickerState()
     }
 
     fun adventTodo(

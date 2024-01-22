@@ -1,10 +1,8 @@
 package com.example.todoAppJpc.di
 
 import com.example.todoAppJpc.ui.viewmodel.DatePickerViewModelImpl
-import com.example.todoAppJpc.ui.viewmodel.DeadlinePickerViewModelImpl
 import com.example.todoAppJpc.ui.viewmodel.TimePickerViewModelImpl
 import com.example.todoAppJpc.utils.deadline.viewModel.DatePickerViewModel
-import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import com.example.todoAppJpc.utils.deadline.viewModel.TimePickerViewModel
 import dagger.Module
 import dagger.Provides
@@ -15,20 +13,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 @Module
 class DeadlinePickerViewModelProvider {
-
-    @Provides
-    @Singleton
-    fun deadlinePickerViewModelProvider(
-        datePickerViewModel: DatePickerViewModel,
-        timePickerViewModel: TimePickerViewModel,
-
-        ): DeadlinePickerViewModel {
-        return DeadlinePickerViewModelImpl(
-            _datePickerViewModel = datePickerViewModel,
-            _timePickerViewModel = timePickerViewModel
-        )
-    }
-
     @Provides
     @Singleton
     fun datePickerViewModelProvider(): DatePickerViewModel {

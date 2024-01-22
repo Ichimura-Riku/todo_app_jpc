@@ -49,12 +49,12 @@ fun TodoEntryBody(
     modifier: Modifier = Modifier,
 ) {
     val showDatePicker =
-        viewModel.deadlinePickerViewModel.datePickerViewModel.showDatePicker.collectAsState()
+        viewModel.datePickerViewModel.showDatePicker.collectAsState()
     val isShowChip = rememberSaveable { mutableStateOf(false) }
     val isShowContentTextField = rememberSaveable { mutableStateOf(false) }
     val scope = rememberCoroutineScope()
-    val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
-    val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = viewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.timePickerViewModel
     val datePickerState = datePickerViewModel.datePickerState.collectAsState()
     val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     Column(
@@ -112,7 +112,7 @@ fun TodoEntryBody(
                     )
                 }
                 IconButton(onClick = {
-                    viewModel.deadlinePickerViewModel.datePickerViewModel.setShowDatePicker(
+                    viewModel.datePickerViewModel.setShowDatePicker(
                         !showDatePicker.value
                     )
                 }) {
@@ -122,7 +122,7 @@ fun TodoEntryBody(
                     )
                 }
                 IconButton(onClick = {
-                    viewModel.deadlinePickerViewModel.datePickerViewModel.setShowDatePicker(
+                    viewModel.datePickerViewModel.setShowDatePicker(
                         !showDatePicker.value
                     )
                 }) {
@@ -146,9 +146,8 @@ fun TodoInputForm(
     isShowContentTextField: MutableState<Boolean>,
 ) {
     val todoState = viewModel.todoUiState.todoState
-    val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
-    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
-    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = viewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.timePickerViewModel
     val showDatePicker = datePickerViewModel.showDatePicker.collectAsState()
     val showTimePicker = timePickerViewModel.showTimePicker.collectAsState()
     val datePickerState = datePickerViewModel.datePickerState.collectAsState()
@@ -203,14 +202,16 @@ fun TodoInputForm(
         
         if (showDatePicker.value) {
             DatePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel,
+                datePickerViewModel = datePickerViewModel,
+                timePickerViewModel = timePickerViewModel,
                 setChipView = { isShowChip.value = true },
                 modifier = modifier,
             )
         }
         if (showTimePicker.value) {
             TimePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel,
+                datePickerViewModel = datePickerViewModel,
+                timePickerViewModel = timePickerViewModel,
                 setChipView = { isShowChip.value = true },
 
                 )
