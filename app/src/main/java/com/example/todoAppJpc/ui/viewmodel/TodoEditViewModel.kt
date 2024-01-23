@@ -1,6 +1,8 @@
 package com.example.todoAppJpc.ui.viewmodel
 
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.TimePickerState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -13,9 +15,11 @@ import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.ui.screen.TodoEditDestination
 import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @OptIn(ExperimentalMaterial3Api::class, SavedStateHandleSaveableApi::class)
@@ -40,10 +44,18 @@ class TodoEditViewModel @Inject constructor(
                 .filterNotNull()
                 .first()
                 .toTodoUiState()
+            _deadlinePickerViewModel.datePickerViewModel.datePickerState.value.setSelection(
+                todoUiState.todoState.deadlineDate
+            )
+            _deadlinePickerViewModel.timePickerViewModel.setTimePickerState(
+                TimePickerState(
+                    (todoUiState.todoState.deadlineTimeHour % 10000) / 100,
+                    todoUiState.todoState.deadlineTimeMinute % 100,
+                    true
+                )
+            )
         }
     }
-
-
 
     // ---------------- [deleteAction] ----------------
     fun getDeleteConfirmationRequired(): Boolean {
@@ -58,8 +70,40 @@ class TodoEditViewModel @Inject constructor(
         todoUiState = TodoUiState(todoState = todoState)
     }
 
-    suspend fun adventTodo() {
-        todoRepository.updateTodo(todoUiState.todoState.toTodo())
+    private fun resetTodoState() {
+        todoUiState = TodoUiState()
+        _deadlinePickerViewModel.datePickerViewModel.resetDatePickerState()
+        _deadlinePickerViewModel.timePickerViewModel.resetTimePickerState()
+    }
+
+    private fun setDeadlineStateToTodoState(
+        datePickerState: DatePickerState,
+        timePickerState: TimePickerState,
+    ) {
+        val inputDeadlineTimeHour = 10000 + timePickerState.hour * 100
+        val inputDeadlineTimeMinute = timePickerState.minute
+        val inputDeadlineDate = datePickerState.selectedDateMillis!!
+
+        updateTodoState(
+            todoUiState.todoState.copy(
+                deadlineDate = inputDeadlineDate,
+                deadlineTimeHour = inputDeadlineTimeHour,
+                deadlineTimeMinute = inputDeadlineTimeMinute,
+            )
+        )
+    }
+
+    fun adventTodo(
+        datePickerState: DatePickerState,
+        timePickerState: TimePickerState,
+    ) {
+        viewModelScope.launch {
+            setDeadlineStateToTodoState(datePickerState, timePickerState)
+            withContext(Dispatchers.IO) {
+                todoRepository.updateTodo(todoUiState.todoState.toTodo())
+            }
+            resetTodoState()
+        }
     }
 
     suspend fun eliminateTodo() {

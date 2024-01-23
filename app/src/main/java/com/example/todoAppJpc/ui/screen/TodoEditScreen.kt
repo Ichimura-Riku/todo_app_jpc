@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -95,6 +97,10 @@ fun TodoEditTopAppBar(
     coroutineScope: CoroutineScope,
     navBackStackEntry: NavBackStackEntry?,
 ) {
+    val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
@@ -103,8 +109,10 @@ fun TodoEditTopAppBar(
                     navBackEntry(
                         viewModel = viewModel,
                         navController = navController,
-                        coroutineScope = coroutineScope,
-                    )
+                        datePickerState = datePickerState.value,
+                        timePickerState = timePickerState.value,
+
+                        )
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.ArrowBack,
@@ -290,14 +298,15 @@ private fun EliminateConfirmationDialog(
 
 
 // MainScreenに戻るバックキーの処理
+@OptIn(ExperimentalMaterial3Api::class)
 fun navBackEntry(
     viewModel: TodoEditViewModel,
     navController: NavController,
-    coroutineScope: CoroutineScope,
+    datePickerState: DatePickerState,
+    timePickerState: TimePickerState,
 ) {
-    coroutineScope.launch {
-        viewModel.adventTodo()
-    }
+    viewModel.adventTodo(datePickerState, timePickerState)
+
     navController.popBackStack()
 }
 
