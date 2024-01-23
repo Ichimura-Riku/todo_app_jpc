@@ -97,8 +97,8 @@ fun TodoEditTopAppBar(
     coroutineScope: CoroutineScope,
     navBackStackEntry: NavBackStackEntry?,
 ) {
-    val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
-    val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = viewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.timePickerViewModel
     val datePickerState = datePickerViewModel.datePickerState.collectAsState()
     val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val navigationIcon: (@Composable () -> Unit)? =
@@ -204,9 +204,8 @@ fun TodoEdit(
     modifier: Modifier = Modifier,
 ) {
     val isShowChip = rememberSaveable { mutableStateOf(false) }
-    val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
-    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
-    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerViewModel = viewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.timePickerViewModel
     val datePickerState = datePickerViewModel.datePickerState.collectAsState()
     val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val showDatePicker = datePickerViewModel.showDatePicker.collectAsState()
@@ -255,14 +254,16 @@ fun TodoEdit(
 
         if (showDatePicker.value) {
             DatePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel,
+                datePickerViewModel = datePickerViewModel,
+                timePickerViewModel = timePickerViewModel,
                 setChipView = { isShowChip.value = true },
                 modifier = modifier,
             )
         }
         if (showTimePicker.value) {
             TimePickerComponent(
-                deadlinePickerViewModel = deadlinePickerViewModel,
+                datePickerViewModel = datePickerViewModel,
+                timePickerViewModel = timePickerViewModel,
                 setChipView = { isShowChip.value = true },
 
                 )

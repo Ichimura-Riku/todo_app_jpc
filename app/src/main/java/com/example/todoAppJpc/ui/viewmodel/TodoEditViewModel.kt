@@ -13,7 +13,8 @@ import androidx.lifecycle.viewmodel.compose.SavedStateHandleSaveableApi
 import androidx.lifecycle.viewmodel.compose.saveable
 import com.example.todoAppJpc.data.TodoRepository
 import com.example.todoAppJpc.ui.screen.TodoEditDestination
-import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.DatePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.TimePickerViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.filterNotNull
@@ -27,7 +28,8 @@ import javax.inject.Inject
 class TodoEditViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val todoRepository: TodoRepository,
-    private val _deadlinePickerViewModel: DeadlinePickerViewModel,
+    private val _datePickerViewModel: DatePickerViewModel,
+    private val _timePickerViewModel: TimePickerViewModel,
 ) : ViewModel() {
     private val itemId: Int = checkNotNull(savedStateHandle[TodoEditDestination.todoIdArg])
     var todoUiState by mutableStateOf(TodoUiState())
@@ -36,7 +38,8 @@ class TodoEditViewModel @Inject constructor(
         mutableStateOf(false)
     }
 
-    val deadlinePickerViewModel get() = _deadlinePickerViewModel
+    val datePickerViewModel get() = _datePickerViewModel
+    val timePickerViewModel get() = _timePickerViewModel
 
     init {
         viewModelScope.launch {
@@ -44,10 +47,10 @@ class TodoEditViewModel @Inject constructor(
                 .filterNotNull()
                 .first()
                 .toTodoUiState()
-            _deadlinePickerViewModel.datePickerViewModel.datePickerState.value.setSelection(
+            _datePickerViewModel.datePickerState.value.setSelection(
                 todoUiState.todoState.deadlineDate
             )
-            _deadlinePickerViewModel.timePickerViewModel.setTimePickerState(
+            _timePickerViewModel.setTimePickerState(
                 TimePickerState(
                     (todoUiState.todoState.deadlineTimeHour % 10000) / 100,
                     todoUiState.todoState.deadlineTimeMinute % 100,
@@ -72,8 +75,8 @@ class TodoEditViewModel @Inject constructor(
 
     private fun resetTodoState() {
         todoUiState = TodoUiState()
-        _deadlinePickerViewModel.datePickerViewModel.resetDatePickerState()
-        _deadlinePickerViewModel.timePickerViewModel.resetTimePickerState()
+        _datePickerViewModel.resetDatePickerState()
+        _timePickerViewModel.resetTimePickerState()
     }
 
     private fun setDeadlineStateToTodoState(
