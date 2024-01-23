@@ -10,19 +10,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.example.todoAppJpc.utils.deadline.viewModel.DeadlinePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.DatePickerViewModel
+import com.example.todoAppJpc.utils.deadline.viewModel.TimePickerViewModel
 import kotlinx.coroutines.async
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DatePickerComponent(
-    deadlinePickerViewModel: DeadlinePickerViewModel,
+    datePickerViewModel: DatePickerViewModel,
+    timePickerViewModel: TimePickerViewModel,
     setChipView: suspend () -> Unit = {},
     modifier: Modifier
 ) {
     val scope = rememberCoroutineScope()
-    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
-    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
     val hideDatePicker = { datePickerViewModel.setShowDatePicker(false) }
     val showTimePicker = { timePickerViewModel.setShowTimePicker(true) }
     val datePickerState = datePickerViewModel.datePickerState.collectAsState()
