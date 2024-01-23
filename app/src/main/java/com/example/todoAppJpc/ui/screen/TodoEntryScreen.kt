@@ -121,16 +121,6 @@ fun TodoEntryBody(
                         contentDescription = "Localized description",
                     )
                 }
-                IconButton(onClick = {
-                    viewModel.datePickerViewModel.setShowDatePicker(
-                        !showDatePicker.value
-                    )
-                }) {
-                    Icon(
-                        painterResource(id = R.drawable.round_more_horiz_24),
-                        contentDescription = "Localized description",
-                    )
-                }
             }
         }
     }
