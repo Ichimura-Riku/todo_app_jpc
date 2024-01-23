@@ -9,7 +9,7 @@
     <string name="back_button">Back</string>
     <string name="delete">Delete</string>
     <string name="delete_question">削除しますか？</string>
-    <string name="no_item_description">Oops!\nNo items in the inventory.\nTap + to add.</string>
+    <string name="no_item_description">新しくTodoを追加してください。</string>
     <string name="edit_item_title">Edit Item</string>
     <string name="item">Item</string>
     <string name="title">Title</string>
