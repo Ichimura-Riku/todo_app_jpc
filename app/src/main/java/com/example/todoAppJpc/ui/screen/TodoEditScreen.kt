@@ -10,22 +10,29 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DatePickerState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.InputChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -33,6 +40,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavController
 import com.example.todoAppJpc.R
+import com.example.todoAppJpc.ui.components.DatePickerComponent
+import com.example.todoAppJpc.ui.components.TimePickerComponent
 import com.example.todoAppJpc.ui.navigation.NavigationDestination
 import com.example.todoAppJpc.ui.viewmodel.TodoEditViewModel
 import com.example.todoAppJpc.ui.viewmodel.TodoState
@@ -46,6 +55,7 @@ object TodoEditDestination : NavigationDestination {
     val routeWithArgs = "$route/{$todoIdArg}"
 }
 
+// EditScreenの最上位コンポーネント
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EditScreen(
@@ -78,6 +88,7 @@ fun EditScreen(
     }
 }
 
+// EditScreenのAppBar
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEditTopAppBar(
@@ -86,6 +97,10 @@ fun TodoEditTopAppBar(
     coroutineScope: CoroutineScope,
     navBackStackEntry: NavBackStackEntry?,
 ) {
+    val datePickerViewModel = viewModel.deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = viewModel.deadlinePickerViewModel.timePickerViewModel
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
     val navigationIcon: (@Composable () -> Unit)? =
 //        rmv navBackStackEntryはEditcreenか、navGraphで値を持つ
         if (navBackStackEntry?.destination?.route != "main") {
@@ -94,8 +109,10 @@ fun TodoEditTopAppBar(
                     navBackEntry(
                         viewModel = viewModel,
                         navController = navController,
-                        coroutineScope = coroutineScope,
-                    )
+                        datePickerState = datePickerState.value,
+                        timePickerState = timePickerState.value,
+
+                        )
                 }) {
                     Icon(
                         imageVector = Icons.Outlined.ArrowBack,
@@ -135,6 +152,8 @@ fun TodoEditTopAppBar(
     }
 }
 
+
+// EditScreenのmainBody
 @Composable
 fun TodoEditBody(
     viewModel: TodoEditViewModel,
@@ -148,12 +167,15 @@ fun TodoEditBody(
         verticalArrangement = Arrangement.Top,
 
         ) {
+
+
         TodoEdit(
             viewModel = viewModel,
             todoState = viewModel.todoUiState.todoState,
             onValueChange = viewModel::updateTodoState,
 
             )
+
         if (viewModel.getDeleteConfirmationRequired()) {
             EliminateConfirmationDialog(
                 onDeleteConfirm = {
@@ -172,6 +194,7 @@ fun TodoEditBody(
     }
 }
 
+// 編集するtodoのTextフィールドなんかがある
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TodoEdit(
@@ -180,9 +203,14 @@ fun TodoEdit(
     onValueChange: (TodoState) -> Unit = {},
     modifier: Modifier = Modifier,
 ) {
-//    val deadlineUiViewState by viewModel.deadlineUiViewState.collectAsState()
-//    val isInputDeadlineState =
-//        viewModel.isInputTimePickerState || viewModel.isInputDatePickerState
+    val isShowChip = rememberSaveable { mutableStateOf(false) }
+    val deadlinePickerViewModel = viewModel.deadlinePickerViewModel
+    val datePickerViewModel = deadlinePickerViewModel.datePickerViewModel
+    val timePickerViewModel = deadlinePickerViewModel.timePickerViewModel
+    val datePickerState = datePickerViewModel.datePickerState.collectAsState()
+    val timePickerState = timePickerViewModel.timePickerState.collectAsState()
+    val showDatePicker = datePickerViewModel.showDatePicker.collectAsState()
+    val showTimePicker = timePickerViewModel.showTimePicker.collectAsState()
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -198,44 +226,52 @@ fun TodoEdit(
             value = todoState.content,
             onValueChange = { onValueChange(todoState.copy(content = it)) },
         )
-        Divider()
-        TextField(
-            value = "${todoState.deadlineTimeMinute}",
-            onValueChange = { onValueChange(todoState.copy(content = it)) },
-        )
-        Divider()
-//        InputChip(
-//            label = { Text(deadlineUiViewState) },
-//            onClick = { viewModel.setShowDatePicker(!viewModel.getShowDatePicker()) },
-//            selected = false,
-//            trailingIcon = {
-//                IconButton(onClick = {
-//                    viewModel.updateIsInputTimePickerState(false)
-//                    viewModel.updateIsInputDatePickerState(false)
-//                    viewModel.resetTimePickerState()
-//                    viewModel.resetDatePickerState()
-//                }) {
-//                    Icon(
-//                        painterResource(id = R.drawable.round_close_24),
-//                        contentDescription = "Localized description",
-//                    )
-//                }
-//            },
-//        )
-//
-//        if (viewModel.getShowDatePicker()) {
-//            DatePickerComponent(
-//                viewModel = viewModel,
-//                rememberDatePickerState = rememberDatePickerState,
-//            )
-//        }
-//        if (viewModel.getShowTimePicker()) {
-//            TimePickerComponent(viewModel = viewModel)
-//        }
 
+        Divider()
+        InputChip(
+            label = {
+                ChipText(
+                    datePickerState = datePickerState.value,
+                    timePickerState = timePickerState.value,
+                )
+            },
+            onClick = {
+                datePickerViewModel.setShowDatePicker(!showDatePicker.value)
+            },
+            selected = false,
+            trailingIcon = {
+                IconButton(onClick = {
+                    isShowChip.value = false
+                    datePickerViewModel.resetDatePickerState()
+                    timePickerViewModel.resetTimePickerState()
+                }) {
+                    Icon(
+                        painterResource(id = R.drawable.round_close_24),
+                        contentDescription = "Localized description",
+                    )
+                }
+            },
+        )
+
+        if (showDatePicker.value) {
+            DatePickerComponent(
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = { isShowChip.value = true },
+                modifier = modifier,
+            )
+        }
+        if (showTimePicker.value) {
+            TimePickerComponent(
+                deadlinePickerViewModel = deadlinePickerViewModel,
+                setChipView = { isShowChip.value = true },
+
+                )
+        }
     }
 }
 
+
+// 削除をする時のダイアログ
 @Composable
 private fun EliminateConfirmationDialog(
     onDeleteConfirm: () -> Unit,
@@ -260,17 +296,22 @@ private fun EliminateConfirmationDialog(
     )
 }
 
+
+// MainScreenに戻るバックキーの処理
+@OptIn(ExperimentalMaterial3Api::class)
 fun navBackEntry(
     viewModel: TodoEditViewModel,
     navController: NavController,
-    coroutineScope: CoroutineScope,
+    datePickerState: DatePickerState,
+    timePickerState: TimePickerState,
 ) {
-    coroutineScope.launch {
-        viewModel.adventTodo()
-    }
+    viewModel.adventTodo(datePickerState, timePickerState)
+
     navController.popBackStack()
 }
 
+// 削除ボタンを押した時の処理
+// todo: ViewModelScopeにするべきでは？
 fun onClickEliminate(
     viewModel: TodoEditViewModel,
     navController: NavController,

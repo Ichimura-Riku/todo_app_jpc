@@ -30,6 +30,7 @@ class TodoEntryViewModel @Inject constructor(
     private val _datePickerViewModel: DatePickerViewModel,
     private val _timePickerViewModel: TimePickerViewModel,
 ) : ViewModel() {
+
     var todoUiState by mutableStateOf(TodoUiState())
         private set
 
@@ -47,7 +48,7 @@ class TodoEntryViewModel @Inject constructor(
         timePickerState: TimePickerState,
     ) {
         val inputDeadlineTimeHour = 10000 + timePickerState.hour * 100
-        val inputDeadlineTimeMinute = timePickerState.minute
+        val inputDeadlineTimeMinute = 100 + timePickerState.minute
         val inputDeadlineDate = datePickerState.selectedDateMillis!!
 
         updateTodoState(
@@ -79,8 +80,12 @@ class TodoEntryViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 _todoRepository.insertTodo(todoUiState.todoState.toTodo())
             }
-            resetTodoState()
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        resetTodoState()
     }
 }
 
@@ -95,7 +100,7 @@ data class TodoState(
     val title: String = "",
     val content: String = "",
     val date: String = "",
-    var deadlineDate: Long = -1000000000000,
+    var deadlineDate: Long = -1_000_000_000_000,
     val deadlineTimeHour: Int = 10000,
     val deadlineTimeMinute: Int = 100,
     val isAttention: Int = 0,
