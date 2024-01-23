@@ -2,6 +2,7 @@ package com.example.todoAppJpc.ui.home
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +19,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
@@ -34,7 +34,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -84,26 +83,8 @@ fun MyAppView(
                     verticalAlignment = Alignment.CenterVertically,
 
                     ) {
-                    Row {
-                        IconButton(onClick = { /* doSomething() */ }) {
-                            Icon(
-                                painterResource(id = R.drawable.round_format_list_bulleted_24),
-                                contentDescription = "Localized description",
-                            )
-                        }
-                        IconButton(onClick = { /* doSomething() */ }) {
-                            Icon(
-                                painterResource(id = R.drawable.round_swap_vert_24),
-                                contentDescription = "Localized description",
-                            )
-                        }
-                        IconButton(onClick = { /* doSomething() */ }) {
-                            Icon(
-                                painterResource(id = R.drawable.round_more_horiz_24),
-                                contentDescription = "Localized description",
-                            )
-                        }
-                    }
+                    Box(modifier = modifier)
+
                     FloatingActionButton(
                         onClick = { viewModel.setShowBottomSheet(true) },
                         modifier = Modifier.padding(10.dp),
