@@ -8,22 +8,18 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
 class DeadlinePickerViewModelProvider {
     @Provides
-    @Singleton
     fun datePickerViewModelProvider(): DatePickerViewModel {
         return DatePickerViewModelImpl()
     }
 
     @Provides
-    @Singleton
     fun timePickerViewModelProvider(): TimePickerViewModel {
         return TimePickerViewModelImpl()
     }
-
 
 }

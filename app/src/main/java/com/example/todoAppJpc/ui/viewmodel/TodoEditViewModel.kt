@@ -105,7 +105,7 @@ class TodoEditViewModel @Inject constructor(
             withContext(Dispatchers.IO) {
                 todoRepository.updateTodo(todoUiState.todoState.toTodo())
             }
-            resetTodoState()
+//            resetTodoState()
         }
     }
 
